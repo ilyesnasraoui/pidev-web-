@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avis{% endblock %}
+
+{% block body %}
+    <h1>Avis</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdAvis</th>
+                <td>{{ avi.idAvis }}</td>
+            </tr>
+            <tr>
+                <th>IdProduit</th>
+                <td>{{ avi.idProduit }}</td>
+            </tr>
+            <tr>
+                <th>TypeAvis</th>
+                <td>{{ avi.typeAvis }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('avis_index') }}">back to list</a>
+
+    <a href="{{ path('avis_edit', {'idAvis': avi.idAvis}) }}">edit</a>
+
+    {{ include('avis/_delete_form.html.twig') }}
+{% endblock %}

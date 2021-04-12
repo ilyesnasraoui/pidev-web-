@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Films index{% endblock %}
+
+{% block body %}
+    <h1>Films index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdFilm</th>
+                <th>IdCategorie</th>
+                <th>Language</th>
+                <th>NomFilm</th>
+                <th>DureeFilm</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Utube</th>
+                <th>Rated</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for film in films %}
+            <tr>
+                <td>{{ film.idFilm }}</td>
+                <td>{{ film.idCategorie }}</td>
+                <td>{{ film.language }}</td>
+                <td>{{ film.nomFilm }}</td>
+                <td>{{ film.dureeFilm }}</td>
+                <td>{{ film.image }}</td>
+                <td>{{ film.description }}</td>
+                <td>{{ film.utube }}</td>
+                <td>{{ film.rated }}</td>
+                <td>{{ film.date ? film.date|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('films_show', {'idFilm': film.idFilm}) }}">show</a>
+                    <a href="{{ path('films_edit', {'idFilm': film.idFilm}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('films_new') }}">Create new</a>
+{% endblock %}

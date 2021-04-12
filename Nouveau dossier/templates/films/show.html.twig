@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Films{% endblock %}
+
+{% block body %}
+    <h1>Films</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdFilm</th>
+                <td>{{ film.idFilm }}</td>
+            </tr>
+            <tr>
+                <th>IdCategorie</th>
+                <td>{{ film.idCategorie }}</td>
+            </tr>
+            <tr>
+                <th>Language</th>
+                <td>{{ film.language }}</td>
+            </tr>
+            <tr>
+                <th>NomFilm</th>
+                <td>{{ film.nomFilm }}</td>
+            </tr>
+            <tr>
+                <th>DureeFilm</th>
+                <td>{{ film.dureeFilm }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ film.image }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ film.description }}</td>
+            </tr>
+            <tr>
+                <th>Utube</th>
+                <td>{{ film.utube }}</td>
+            </tr>
+            <tr>
+                <th>Rated</th>
+                <td>{{ film.rated }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ film.date ? film.date|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('films_index') }}">back to list</a>
+
+    <a href="{{ path('films_edit', {'idFilm': film.idFilm}) }}">edit</a>
+
+    {{ include('films/_delete_form.html.twig') }}
+{% endblock %}

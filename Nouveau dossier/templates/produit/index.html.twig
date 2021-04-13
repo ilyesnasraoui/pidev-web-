@@ -26,7 +26,7 @@
                 <td>{{ produit.couleur }}</td>
                 <td>{{ produit.nomProduit }}</td>
                 <td>{{ produit.prix }}</td>
-                <td>{{ produit.image }}</td>
+                <td><img style="height: 100px; width: 100px" src="{{ asset('images/produit/'~produit.image) }}" ></td>
                 <td>{{ produit.description }}</td>
                 <td>
                     <a href="{{ path('produit_show', {'idProduit': produit.idProduit}) }}">show</a>

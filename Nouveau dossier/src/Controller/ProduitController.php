@@ -39,13 +39,27 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ImageFile = $form->get('image')->getData();
+            if ($ImageFile) {
 
-            /**
-             * @var UploadedFile
-             */
-            $file = $form->get('image')->getData();
-            $filename=md5(uniqid()).'.'.$file->guessExtension();
-            $produit->setImage($filename);
+                // this is needed to safely include the file name as part of the URL
+
+                $newFilename = md5(uniqid()).'.'.$ImageFile->guessExtension();
+                $destination = $this->getParameter('kernel.project_dir').'/public/images/produit';
+                // Move the file to the directory where brochures are stored
+                try {
+                    $ImageFile->move(
+                        $destination,
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'ImageFilename' property to store the PDF file name
+                // instead of its contents
+                $produit->setImage($newFilename);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($produit);
             $entityManager->flush();
@@ -54,7 +68,7 @@ class ProduitController extends AbstractController
         }
 
         return $this->render('produit/new.html.twig', [
-            'produit' => $produit,
+            'service' => $produit,
             'form' => $form->createView(),
         ]);
     }
@@ -78,6 +92,26 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ImageFile = $form->get('image')->getData();
+            if ($ImageFile) {
+
+                // this is needed to safely include the file name as part of the URL
+
+                $newFilename = md5(uniqid()).'.'.$ImageFile->guessExtension();
+                $destination = $this->getParameter('kernel.project_dir').'/public/images/produit';
+                // Move the file to the directory where brochures are stored
+                try {
+                    $ImageFile->move(
+                        $destination,
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'ImageFilename' property to store the PDF file name
+                // instead of its contents
+                $produit->setImage($newFilename);}
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('produit_index');

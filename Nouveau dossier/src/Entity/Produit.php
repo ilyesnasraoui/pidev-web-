@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Produit
@@ -39,6 +41,14 @@ class Produit
      * @var string
      *
      * @ORM\Column(name="nom_produit", type="string", length=255, nullable=false)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
+     * @Assert\NotBlank(message="this fiels is required")
      */
     private $nomProduit;
 
@@ -46,6 +56,8 @@ class Produit
      * @var int
      *
      * @ORM\Column(name="prix", type="integer", nullable=false)
+     * @Assert\NotBlank(message="this fiels is required")
+     * @Assert\Positive(message="Price could not be negative")
      */
     private $prix;
 
@@ -53,6 +65,7 @@ class Produit
      * @var string
      *
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
+
      */
     private $image;
 
@@ -60,6 +73,8 @@ class Produit
      * @var string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     * @Assert\NotBlank(message="this fiels is required")
+
      */
     private $description;
 

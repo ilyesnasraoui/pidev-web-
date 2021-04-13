@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CategorieProduit
@@ -25,6 +27,9 @@ class CategorieProduit
      * @var string
      *
      * @ORM\Column(name="nom_categorie", type="string", length=20, nullable=false)
+     * @Assert\Unique(message="Category Already Existes")
+     * @Assert\Length(min="3",max="12")
+     * @Assert\NotBlank(message="this fiels is required")
      */
     private $nomCategorie;
 

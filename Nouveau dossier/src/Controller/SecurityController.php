@@ -35,9 +35,7 @@ class SecurityController extends AbstractController
     public function home(Request  $request ,AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
     {
 
-        return $this->render('index.html.twig',[
-
-            $this->getUser()->getUsername()]);
+        return $this->render('index.html.twig');
 
     }
 

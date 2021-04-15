@@ -217,7 +217,7 @@ class Users implements UserInterface
     {
         return ['ROLE_USER'];
     }
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }

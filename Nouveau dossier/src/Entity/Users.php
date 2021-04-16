@@ -5,12 +5,16 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 /**
  * Users
  *
  * @ORM\Table(name="users")
  * @ORM\Entity
  */
+
+
+
 class Users implements UserInterface
 {
     /**

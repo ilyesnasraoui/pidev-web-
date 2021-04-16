@@ -2,16 +2,22 @@
 
 namespace App\Form;
 
+use App\Controller\UsersController;
 use App\Entity\Users;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+
 class UsersType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    {$choice = array();
+     $choice["admin"]="admin";
+     $choice["client"]="client";
+
         $builder
             ->add('username')
             ->add('password')
@@ -21,13 +27,9 @@ class UsersType extends AbstractType
             ->add('lname')
             ->add('idcard')
             ->add('phone')
+
             ->add('role',ChoiceType::class,
-                [
-                'choices'=>[
-                    'admin'=>'admin',
-                    'client'=>'client'
-                ],
-                ])
+                array('choices'=>$choice))
             ->add('blocked')
         ;
     }

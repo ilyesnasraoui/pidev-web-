@@ -38,6 +38,7 @@ class SecurityController extends AbstractController
         //$user->getUsername();
         if($user->getRole()=="client")
         return $this->render('index.html.twig');
+
         return $this->render('base.html.twig');
 
     }

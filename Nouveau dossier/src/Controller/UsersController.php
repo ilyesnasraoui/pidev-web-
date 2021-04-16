@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\UsersType;
+use http\Url;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,12 @@ class UsersController extends AbstractController
      * @Route("/", name="users_index", methods={"GET"})
      */
     public function index(): Response
-    {
+    {           $user = $this->get('security.token_storage')->getToken()->getUser();
+      if($user=="anon.")
+          return $this->render('error.html.twig');
+
+        if($user->getRole()=="client")
+          return $this->render('error.html.twig');
         $users = $this->getDoctrine()
             ->getRepository(Users::class)
             ->findAll();
@@ -44,6 +50,7 @@ class UsersController extends AbstractController
 
             return $this->redirectToRoute('users_index');
         }
+
 
         return $this->render('users/new.html.twig', [
             'user' => $user,

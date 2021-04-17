@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Users
  *
  * @ORM\Table(name="users")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
  */
 
 
@@ -109,6 +109,8 @@ class Users implements UserInterface
 
         return $this;
     }
+
+
 
     public function getPassword(): ?string
     {

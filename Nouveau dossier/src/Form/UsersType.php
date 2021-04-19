@@ -12,22 +12,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-
-
-
-
 class UsersType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {$choice = array();
-
-
-
-
-
      $choice["admin"]="admin";
      $choice["client"]="client";
-
         $builder
             ->add('username')
             ->add('password')

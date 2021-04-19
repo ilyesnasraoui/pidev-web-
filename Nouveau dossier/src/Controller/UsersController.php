@@ -18,13 +18,32 @@ use Symfony\Component\Routing\Annotation\Route;
 class UsersController extends AbstractController
 {
     /**
+     * @Route("/{idUser}", name="users_block", methods={"POST"})
+     */
+    public function block(Request $request, Users $user): Response
+    {
+
+         if ($this->isCsrfTokenValid('block'.$user->getIdUser(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $user = $entityManager->getRepository(Users::class)->find(7);
+
+            $user->setBlocked(1);
+            $entityManager->flush();
+        }
+
+            return $this->redirectToRoute('users_index');
+
+
+    }
+
+
+    /**
      * @Route("/", name="users_index", methods={"GET"})
      */
-    public function index(UsersRepository $ur): Response
+    public function index(): Response
     {
-        $ru = $ur->test();
 
-        var_dump($ru);
+
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
       if($user=="anon.")
@@ -109,6 +128,9 @@ class UsersController extends AbstractController
 
         return $this->redirectToRoute('users_index');
     }
+
+
+
 
 
 }

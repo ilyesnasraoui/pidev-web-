@@ -19,11 +19,11 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/test2", name="test")
+     * @Route("/front", name="front")
      */
     public function indeex(): Response
     {
-        return $this->render('users/signup.html.twig', [
+        return $this->render('indexfront.html.twig', [
             'controller_name' => 'TestController',
         ]);
 

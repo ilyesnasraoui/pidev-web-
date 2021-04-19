@@ -17,4 +17,15 @@ class TestController extends AbstractController
             'controller_name' => 'TestController',
         ]);
     }
+
+    /**
+     * @Route("/test2", name="test")
+     */
+    public function indeex(): Response
+    {
+        return $this->render('users/signup.html.twig', [
+            'controller_name' => 'TestController',
+        ]);
+
+    }
 }

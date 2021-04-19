@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UsersController extends AbstractController
 {
     /**
-     * @Route("/{idUser}", name="users_block", methods={"POST"})
+     * @Route("/block/{idUser}", name="users_block", methods={"POST"})
      */
     public function block(Request $request, Users $user): Response
     {
@@ -69,7 +69,6 @@ class UsersController extends AbstractController
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -83,6 +82,30 @@ class UsersController extends AbstractController
             'user' => $user,
             'form' => $form->createView(),
         ]);
+    }
+
+
+    /**
+     * @Route("/signup", name="signup", methods={"GET","POST"})
+     */
+    public function signup(Request $request): Response
+    {
+       // return new Response($request->get('username'));
+        $user= new Users();
+        $user->setBlocked(0);
+        $user->setRole("client");
+        $user->setEmail($request->get('email'));
+        $user->setPhone($request->get('phone'));
+        $user->setUsername($request->get('username'));
+        $user->setPassword($request->get('password'));
+        $user->setFname($request->get('firstname'));
+        $user->setLname($request->get('lastname'));
+        $user->setIdcard($request->get('idcard'));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->render("basefront.html.twig");
     }
 
     /**

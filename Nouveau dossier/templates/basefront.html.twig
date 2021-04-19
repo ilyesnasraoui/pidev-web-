@@ -44,18 +44,18 @@
     <div class="login-content">
         <a href="#" class="close">x</a>
         <h3>Login</h3>
-        <form method="post" action="#">
+        <form action="{{ path('login') }}" method="post" >
             <div class="row">
                 <label for="username">
                     Username:
-                    <input type="text" name="username" id="username" placeholder="Hugh Jackman" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{8,20}$" required="required" />
+                    <input type="text" name="_username" id="username" placeholder="Hugh Jackman" required="required" />
                 </label>
             </div>
 
             <div class="row">
                 <label for="password">
                     Password:
-                    <input type="password" name="password" id="password" placeholder="******" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required="required" />
+                    <input type="password" name="_password" id="password" placeholder="******"  required="required" />
                 </label>
             </div>
             <div class="row">
@@ -79,38 +79,52 @@
         </div>
     </div>
 </div>
+
 <!--end of login form popup-->
 <!--signup form popup-->
 <div class="login-wrapper"  id="signup-content">
     <div class="login-content">
         <a href="#" class="close">x</a>
         <h3>sign up</h3>
-        <form method="post" action="#">
+        <form method="post" action="/users/signup">
             <div class="row">
                 <label for="username-2">
                     Username:
-                    <input type="text" name="username" id="username-2" placeholder="Hugh Jackman" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{8,20}$" required="required" />
+                    <input type="text" name="username" id="username-2" placeholder="Hugh Jackman"  required="required" />
                 </label>
             </div>
 
             <div class="row">
                 <label for="email-2">
                     your email:
-                    <input type="password" name="email" id="email-2" placeholder="" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required="required" />
+                    <input type="email" name="email" id="email-2" placeholder=""  required="required" />
                 </label>
             </div>
             <div class="row">
                 <label for="password-2">
                     Password:
-                    <input type="password" name="password" id="password-2" placeholder="" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required="required" />
+                    <input type="password" name="password" id="password-2" placeholder=""  required="required" />
                 </label>
             </div>
             <div class="row">
-                <label for="repassword-2">
-                    re-type Password:
-                    <input type="password" name="password" id="repassword-2" placeholder="" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required="required" />
+                <label for="first-name">
+                    first name
+                    <input type="text" name="firstname" id="first-name" placeholder=""  required="required" />
                 </label>
             </div>
+            <div class="row">
+                <label for="last-name">
+                    last name
+                    <input type="text" name="lastname" id="last-name" placeholder=""  required="required" />
+                </label>
+            </div>
+            <div class="row">
+                <label for="id-card">
+                    id card
+                    <input type="text" name="idcard" id="id-card" placeholder=""  required="required" />
+                </label>
+            </div>
+
             <div class="row">
                 <button type="submit">sign up</button>
             </div>
@@ -213,8 +227,14 @@
                         </ul>
                     </li>
                     <li><a href="#">Help</a></li>
-                    <li class="loginLink"><a href="#">LOG In</a></li>
-                    <li class="btn signupLink"><a href="#">sign up</a></li>
+                    {% if app.user %}
+                        <li ><a href="/logout">LOG out</a></li>
+                    {% else %}
+
+                        <li class="loginLink"><a href="#">LOG In</a></li>
+                        <li class="btn signupLink"><a href="#">sign up</a></li>
+                    {% endif %}
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

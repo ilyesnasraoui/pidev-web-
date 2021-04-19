@@ -89,6 +89,13 @@ class Films
         return $this->idFilm;
     }
 
+
+    public function setIdFilm(int $idFilm): self
+    {
+        $this->idFilm = $idFilm;
+
+        return $this;
+    }
     public function getIdCategorie(): ?int
     {
         return $this->idCategorie;

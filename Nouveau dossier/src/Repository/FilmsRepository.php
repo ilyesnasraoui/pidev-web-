@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Films;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method Films|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +48,16 @@ class FilmsRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function findEntitiesByString($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT f
+                FROM AppBundle:Entity f
+                WHERE f.nom_film LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
+    }
 }

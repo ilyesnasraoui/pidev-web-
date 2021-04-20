@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Planning;
+use App\Entity\Salle;
+use App\Entity\Films;
 use App\Form\PlanningType;
+use App\Repository\FilmsRepository;
+use App\Repository\SalleRepository;
 use App\Repository\PlanningRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,25 +32,34 @@ class PlanningController extends AbstractController
     /**
      * @Route("/new", name="planning_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(FilmsRepository  $FilmRepository, SalleRepository  $SalleRepository): Response
     {
-        $planning = new Planning();
-        $form = $this->createForm(PlanningType::class, $planning);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($planning);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('planning_index');
-        }
-
-        return $this->render('planning/new.html.twig', [
-            'planning' => $planning,
-            'form' => $form->createView(),
+        $films =new Films();
+        return $this->render('planning/new.html.twig',[
+            'films' => $FilmRepository->findAll(),
+            'salles' => $SalleRepository->findAll(),
         ]);
     }
+
+    /**
+     * @Route("/add", name="planning_add", methods={"GET","POST"})
+     */
+    public function add(Request $request): Response{
+        $planning = new Planning();
+        $planning->setIdFilm($request->get('filmname'));
+        $planning->setIdSalle($request->get('sallename'));
+        $planning->setProjectionTime($request->get('projectiontime'));
+        $planning->setPlaces($request->get('places'));
+        $newdate =  (\DateTime::createFromFormat('Y-m-d',$request->get('projectiondate') ));
+        $result = $newdate->format('Y-m-d');
+        $planning->setDate(\DateTime::createFromFormat('Y-m-d', $result));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($planning);
+        $entityManager->flush();
+        return new Response("a");
+    }
+
 
     /**
      * @Route("/{idPlanning}", name="planning_show", methods={"GET"})

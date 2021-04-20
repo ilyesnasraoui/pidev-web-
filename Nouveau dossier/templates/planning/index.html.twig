@@ -8,12 +8,10 @@
     <table class="table">
         <thead>
             <tr>
-                <th>IdPlanning</th>
+               
                 <th>IdFilm</th>
                 <th>IdSalle</th>
-                <th>Day</th>
-                <th>Month</th>
-                <th>Year</th>
+
                 <th>ProjectionTime</th>
                 <th>Places</th>
                 <th>Date</th>
@@ -23,12 +21,10 @@
         <tbody>
         {% for planning in plannings %}
             <tr>
-                <td>{{ planning.idPlanning }}</td>
+
                 <td>{{ planning.idFilm }}</td>
                 <td>{{ planning.idSalle }}</td>
-                <td>{{ planning.day }}</td>
-                <td>{{ planning.month }}</td>
-                <td>{{ planning.year }}</td>
+
                 <td>{{ planning.projectionTime }}</td>
                 <td>{{ planning.places }}</td>
                 <td>{{ planning.date ? planning.date|date('Y-m-d') : '' }}</td>

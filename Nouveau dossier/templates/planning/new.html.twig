@@ -3,9 +3,56 @@
 {% block title %}New Planning{% endblock %}
 
 {% block body %}
-    <h1>Create new Planning</h1>
+    <form method="post" action="/planning/add">
 
-    {{ include('planning/_form.html.twig') }}
+        <div class="row">
+        <label for="filmname">
 
-    <a href="{{ path('planning_index') }}">back to list</a>
+            <select name="filmname">
+                {%  for film in films %}
+                <option value="{{ film.idfilm }}">
+                     {{ film.NomFilm}}
+                </option>
+                {% endfor %}
+            </select>
+
+        </label>
+        </div>
+
+        <div class="row">
+            <label for="Sallename">
+
+                <select name="sallename">
+                    {%  for salle in salles %}
+                        <option value="{{ salle.idSalle }}">
+                            {{ salle.name}}
+                        </option>
+                    {% endfor %}
+                </select>
+
+            </label>
+        </div>
+
+        <div class="row">
+            <label for="projectiontime">
+
+                <input type="text" name="projectiontime" id="projectiontime" placeholder="projectiontime"  required="required" />
+            </label>
+        </div>
+        <div class="row">
+            <label for="projectiondate">
+
+                <input type="date" name="projectiondate" id="projectiondate" placeholder="projectiondate"  required="required" />
+            </label>
+        </div>
+        <div class="row">
+            <label for="places">
+
+                <input type="number" name="places" id="palces" placeholder="places"  required="required" />
+            </label>
+        </div>
+        <div class="row">
+            <button type="submit">sign up</button>
+        </div>
+    </form>
 {% endblock %}

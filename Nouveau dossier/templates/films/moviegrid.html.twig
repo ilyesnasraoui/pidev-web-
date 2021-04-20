@@ -37,7 +37,7 @@
                     <div class="flex-wrap-movielist">
                         {% for film in films %}
                         <div class="movie-item-style-2 movie-item-style-1">
-                            <img src="{{ asset('public/images/produit/image1.jpg')  }}" alt="">
+                            <img src="{{ asset('/images/produit/' ~ film.getImage()) }}" alt="">
 
                             <img src="{{ asset('public/img/404.png') }}" />
                             <div class="hvr-inner">
@@ -93,11 +93,11 @@
                     <div class="sidebar">
                         <div class="searh-form">
                             <h4 class="sb-title">Search for movie</h4>
-                            <form class="form-style-1" action="#">
+                            <form class="form-style-1" method="post" action="{{ path('_search') }}">>
                                 <div class="row">
                                     <div class="col-md-12 form-it">
                                         <label>Movie name</label>
-                                        <input type="text" id="search" placeholder="Enter keywords">
+                                        <input name="search" type="text" id="search" placeholder="Enter keywords">
                                     </div>
                                     ///////////ajax
 

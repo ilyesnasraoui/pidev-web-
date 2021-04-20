@@ -22,10 +22,12 @@ class PlanningController extends AbstractController
     /**
      * @Route("/", name="planning_index", methods={"GET"})
      */
-    public function index(PlanningRepository $planningRepository): Response
+    public function index(PlanningRepository $pr,SalleRepository $sr, FilmsRepository $fr): Response
     {
         return $this->render('planning/index.html.twig', [
-            'plannings' => $planningRepository->findAll(),
+            'plannings' => $pr->findAll(),
+            'salles' => $sr->findAll(),
+            'films' => $fr->findAll(),
         ]);
     }
 

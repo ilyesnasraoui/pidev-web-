@@ -22,9 +22,16 @@
         {% for planning in plannings %}
             <tr>
 
-                <td>{{ planning.idFilm }}</td>
-                <td>{{ planning.idSalle }}</td>
-
+                {% for film in films %}
+                    {% if (film.IdFilm == planning.idFilm) %}
+                        <td>{{ film.nomFilm}}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for salle in salles %}
+                {% if (salle.idSalle == planning.idSalle) %}
+                <td>{{ salle.name}}</td>
+                {% endif %}
+                {% endfor %}
                 <td>{{ planning.projectionTime }}</td>
                 <td>{{ planning.places }}</td>
                 <td>{{ planning.date ? planning.date|date('Y-m-d') : '' }}</td>

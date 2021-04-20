@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Films;
 use App\Form\FilmsType;
+use App\Repository\FilmsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,21 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FilmsController extends AbstractController
 {
+
+    /**
+     * @Route("/showmov", name="showmov", methods={"GET"})
+     */
+    public function showmovies(): Response
+    {
+        $films = $this->getDoctrine()
+            ->getRepository(Films::class)
+            ->findAll();
+
+        return $this->render('films/moviegrid.html.twig', [
+            'films' => $films,
+        ]);
+    }
+
     /**
      * @Route("/", name="films_index", methods={"GET"})
      */
@@ -94,4 +110,12 @@ class FilmsController extends AbstractController
 
         return $this->redirectToRoute('films_index');
     }
+
+
+
+
+
+
+
+
 }

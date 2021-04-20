@@ -28,4 +28,15 @@ class TestController extends AbstractController
         ]);
 
     }
+
+
+    /**
+     * @Route("/testlyes", name="testlyes")
+     */
+    public function testlyes(): Response
+    {
+        return $this->render('films/moviegrid.html.twig', [
+            'controller_name' => 'TestController',
+        ]);
+    }
 }

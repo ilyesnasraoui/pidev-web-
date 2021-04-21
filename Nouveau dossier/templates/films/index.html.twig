@@ -25,11 +25,13 @@
         {% for film in films %}
             <tr>
                 <td>{{ film.idFilm }}</td>
-                <td><select  name="cat" multiple="" class="ui fluid dropdown">
+                <td>
                         {% for categoriefilm in CategorieFilms %}
-                            <option value="{{categoriefilm.getNomCategorie() }}">{{categoriefilm.getNomCategorie() }}</option>
+                            {% if (film.idCategorie==categoriefilm.idCategorie) %}
+                            {{ categoriefilm.nomCategorie }}
+                            {% endif %}
                         {% endfor %}
-                    </select></td>
+                    </td>
                 <td>{{ film.language }}</td>
                 <td>{{ film.nomFilm }}</td>
                 <td>{{ film.dureeFilm }}</td>

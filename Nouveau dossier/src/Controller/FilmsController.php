@@ -107,12 +107,17 @@ class FilmsController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/new", name="films_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param CategorieFilmRepository $categorieFilmRepository
+     * @param $CategorieFilmRespository
+     * @return Response
      */
-    public function new(Request $request,CategorieFilmRepository $categorieFilmRepository): Response
+    public function new(Request $request, CategorieFilmRepository $categorieFilmRepository): Response
     {
-        $film = new Films();
+      /*  $film = new Films();
         $form = $this->createForm(FilmsType::class, $film);
         $form->handleRequest($request);
 
@@ -137,14 +142,42 @@ class FilmsController extends AbstractController
 
             return $this->redirectToRoute('films_index');
         }
+  */
 
         return $this->render('films/new.html.twig', [
-            'film' => $film,
-            'form' => $form->createView(),
+            'categoriefilms' => $categorieFilmRepository->findAll(),
 
-            'CategorieFilms' => $categorieFilmRepository->findAll(),
         ]);
     }
+
+    /**
+     * @Route("/addnew", name="add_new", methods={"GET","POST"})
+     */
+    public function addnew(Request $request): Response
+    {
+
+        $film= new Films();
+        $film->setIdCategorie($request->get('cat'));
+        $film->setLanguage($request->get('lang'));
+        $film->setNomFilm($request->get('nomfilm'));
+        $film->setDureeFilm($request->get('duree'));
+        $film->setImage($request->get('image'));
+        $film->setDescription($request->get('desc'));
+        $film->setUtube($request->get('utube'));
+        $film->setRated($request->get('rated'));
+        $newdate =  (\DateTime::createFromFormat('Y-m-d',$request->get('date') ));
+        $result = $newdate->format('Y-m-d');
+        $film->setDate(\DateTime::createFromFormat('Y-m-d', $result));
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($film);
+        $entityManager->flush();
+
+          return $this->redirectToRoute('films_index');
+
+
+    }
+
 
     /**
      * @Route("/{idFilm}", name="films_show", methods={"GET"})

@@ -36,6 +36,16 @@ class UsersController extends AbstractController
 
     }
 
+    /**
+     * @Route("/profile", name="users_profile", methods={"GET"})
+     */
+    public function profile(): Response
+    {
+
+        return $this->render('users/profile.html.twig');
+
+    }
+
 
     /**
      * @Route("/", name="users_index", methods={"GET"})
@@ -83,7 +93,29 @@ class UsersController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    /**
+     * @Route("/changepd", name="changepersonaldata", methods={"GET","POST"})
+     */
+    public function changepersonaldata(Request $request): Response
+    {  $user = $this->get('security.token_storage')->getToken()->getUser();
+        //return new Response($user->getPassword());
+        $user->setRole($user->getRole());
+        $user->setEmail($request->get('email'));
+        $user->setPhone($request->get('phone'));
+        $user->setUsername($request->get('username'));
+        $user->setFname($request->get('firstname'));
+        $user->setLname($request->get('lastname'));
+        $user->setIdcard($request->get('idcard'));
+        $user->setBlocked($user->getBlocked());
+        $user->setPassword($user->getPassword());
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
 
+        return $this->redirectToRoute('users_profile');
+
+
+    }
 
     /**
      * @Route("/signup", name="signup", methods={"GET","POST"})

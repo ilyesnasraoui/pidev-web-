@@ -226,8 +226,10 @@
                             <li class="it-last"><a href="comingsoon.html">Coming soon</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Help</a></li>
+
+
                     {% if app.user %}
+                        <li><a href="{{'users/profile' }}">Profile</a></li>
                         <li ><a href="/logout">LOG out</a></li>
                     {% else %}
 

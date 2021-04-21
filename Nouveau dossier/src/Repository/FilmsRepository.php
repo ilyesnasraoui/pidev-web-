@@ -37,27 +37,36 @@ class FilmsRepository extends ServiceEntityRepository
     }
     */
 
-    /*
+
     public function findOneBySomeField($value): ?Films
     {
         return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
+            ->andWhere('f.nomFilm = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
+    public function searchAction()
+    {
+        $request = $this->getRequest();
+        $data = $request->request->get('search');
 
 
-    public function findEntitiesByString($str){
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT f
-                FROM AppBundle:Entity f
-                WHERE f.nom_film LIKE :str'
-            )
-            ->setParameter('str', '%'.$str.'%')
-            ->getResult();
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT p FROM FooTransBundle:Suplier p
+    WHERE p.name LIKE :data')
+            ->setParameter('data', $data);
+
+
+        $res = $query->getResult();
+
+        return $this->render('FooTransBundle:Default:search.html.twig', array(
+            'res' => $res));
+
     }
+
+
 }

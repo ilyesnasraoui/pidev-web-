@@ -6,7 +6,7 @@ use App\Entity\Planning;
 use App\Entity\Salle;
 use App\Entity\Films;
 use App\Form\PlanningType;
-use App\Repository\FilmsRepository;
+    use App\Repository\FilmsRepository;
 use App\Repository\SalleRepository;
 use App\Repository\PlanningRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -25,11 +25,16 @@
         {% for film in films %}
             <tr>
                 <td>{{ film.idFilm }}</td>
-                <td>{{ film.idCategorie }}</td>
+                <td><select  name="cat" multiple="" class="ui fluid dropdown">
+                        {% for categoriefilm in CategorieFilms %}
+                            <option value="{{categoriefilm.getNomCategorie() }}">{{categoriefilm.getNomCategorie() }}</option>
+                        {% endfor %}
+                    </select></td>
                 <td>{{ film.language }}</td>
                 <td>{{ film.nomFilm }}</td>
                 <td>{{ film.dureeFilm }}</td>
-                <td>{{ film.image }}</td>
+
+                <td> <img src="{{ asset('/images/produit/' ~ film.getImage()) }}" alt=""></td>
                 <td>{{ film.description }}</td>
                 <td>{{ film.utube }}</td>
                 <td>{{ film.rated }}</td>

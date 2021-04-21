@@ -97,8 +97,7 @@ class UsersController extends AbstractController
      * @Route("/changepd", name="changepersonaldata", methods={"GET","POST"})
      */
     public function changepersonaldata(Request $request): Response
-    {  $user = $this->get('security.token_storage')->getToken()->getUser();
-        //return new Response($user->getPassword());
+    {   $user = $this->get('security.token_storage')->getToken()->getUser();
         $user->setRole($user->getRole());
         $user->setEmail($request->get('email'));
         $user->setPhone($request->get('phone'));

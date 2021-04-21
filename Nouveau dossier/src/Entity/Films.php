@@ -52,7 +52,7 @@ class Films
     /**
      * @var string
      *
-     * @ORM\Column(name="image", type="string", length=255, nullable=false)
+         * @ORM\Column(name="image", type="string", length=255, nullable=false)
      */
     private $image;
 
@@ -144,12 +144,12 @@ class Films
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage()
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage( $image)
     {
         $this->image = $image;
 

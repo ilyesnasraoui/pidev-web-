@@ -15,6 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SalleController extends AbstractController
 {
+
+    /**
+     * @Route("/all", name="allrooms", methods={"GET"})
+     */
+    public function showall(SalleRepository $salleRepository): Response
+    {
+        return $this->render('salle/showall.html.twig', [
+            'salles' => $salleRepository->findAll(),
+        ]);
+    }
     /**
      * @Route("/", name="salle_index", methods={"GET"})
      */

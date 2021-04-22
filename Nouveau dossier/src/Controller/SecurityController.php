@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -18,7 +19,9 @@ class SecurityController extends AbstractController
      */
     public function login(Request  $request ,AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
     {
-
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        if($user!="anon.")
+        {$this->redirectToRoute('home');}
         $error =$utils->getLastAuthenticationError();
         $lastUsername=$utils->getLastUsername();
         return $this->render('security/login.html.twig', [
@@ -37,7 +40,7 @@ class SecurityController extends AbstractController
         $user = $this->get('security.token_storage')->getToken()->getUser();
         if($user->getBlocked()==0) {
             if ($user->getRole() == "client")
-                return $this->render('index.html.twig');
+                return $this->render('indexfront.html.twig');
 
             return $this->render('base.html.twig');
         }
@@ -52,10 +55,6 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-
-
-
-
     }
 
 

@@ -59,7 +59,7 @@ class PlanningController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($planning);
         $entityManager->flush();
-        return new Response("a");
+        return $this->redirectToRoute('planning_index');
     }
 
 

@@ -28,6 +28,16 @@ class TestController extends AbstractController
         ]);
 
     }
+    /**
+     * @Route("/dashboard", name="dashboard")
+     */
+    public function dashboard(): Response
+    {
+        return $this->render('index.html.twig', [
+            'controller_name' => 'TestController',
+        ]);
+
+    }
 
 
     /**

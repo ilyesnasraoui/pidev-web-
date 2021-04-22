@@ -22,12 +22,8 @@
                 <div class="col-md-8 col-sm-12 col-xs-12">
                     <div class="topbar-filter">
                         <p>Found <span>1,608 movies</span> in total</p>
-                        <label>Sort by:</label>
-                        <select  name="cat" multiple="" class="ui fluid dropdown">
-                            {% for categoriefilm in CategorieFilms %}
-                                <option value="{{categoriefilm.getNomCategorie() }}">{{categoriefilm.getNomCategorie() }}</option>
-                            {% endfor %}
-                        </select>
+
+
 
                         <a href="movielist.html" class="list"><i class="ion-ios-list-outline "></i></a>
                         <a  href="moviegrid.html" class="grid"><i class="ion-grid active"></i></a>
@@ -105,6 +101,7 @@
                                         <label>Genres & Subgenres</label>
                                         <div class="group-ip">
                                             <select  name="cat" multiple="" class="ui fluid dropdown">
+
                                                 {% for categoriefilm in CategorieFilms %}
                                                 <option value="{{categoriefilm.getidCategorie() }}">{{categoriefilm.getNomCategorie() }}</option>
                                                 {% endfor %}

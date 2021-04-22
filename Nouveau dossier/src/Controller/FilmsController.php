@@ -38,7 +38,7 @@ class FilmsController extends AbstractController
     /**
      * @Route("/ssearch", name="films_ssearch", methods={"POST","GET"})
      */
-    public function searchAAction(Request $request,CategorieFilmRepository $categorieFilmRepository)
+    public function searchAAction(Request $request,CategorieFilmRepository $categorieFilmRepository,FilmsRepository $filmrepository)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -187,6 +187,8 @@ class FilmsController extends AbstractController
 
 
     }
+
+
 
 
     /**

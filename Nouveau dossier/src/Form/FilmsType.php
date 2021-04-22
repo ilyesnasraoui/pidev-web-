@@ -20,7 +20,11 @@ class FilmsType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    {$choice = array();
+        $choice["romance"]="2";
+        $choice["thriller"]="1";
+        $choice["Action"]="3";
+        $choice["Horror"]="4";
         $builder
             ->add('idCategorie',ChoiceType::class,
                 array('choices'=>$choice))

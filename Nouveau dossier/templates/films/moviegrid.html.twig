@@ -23,14 +23,12 @@
                     <div class="topbar-filter">
                         <p>Found <span>1,608 movies</span> in total</p>
                         <label>Sort by:</label>
-                        <select>
-                            <option value="popularity">Popularity Descending</option>
-                            <option value="popularity">Popularity Ascending</option>
-                            <option value="rating">Rating Descending</option>
-                            <option value="rating">Rating Ascending</option>
-                            <option value="date">Release date Descending</option>
-                            <option value="date">Release date Ascending</option>
+                        <select  name="cat" multiple="" class="ui fluid dropdown">
+                            {% for categoriefilm in CategorieFilms %}
+                                <option value="{{categoriefilm.getNomCategorie() }}">{{categoriefilm.getNomCategorie() }}</option>
+                            {% endfor %}
                         </select>
+
                         <a href="movielist.html" class="list"><i class="ion-ios-list-outline "></i></a>
                         <a  href="moviegrid.html" class="grid"><i class="ion-grid active"></i></a>
                     </div>
@@ -108,7 +106,7 @@
                                         <div class="group-ip">
                                             <select  name="cat" multiple="" class="ui fluid dropdown">
                                                 {% for categoriefilm in CategorieFilms %}
-                                                <option value="{{categoriefilm.getNomCategorie() }}">{{categoriefilm.getNomCategorie() }}</option>
+                                                <option value="{{categoriefilm.getidCategorie() }}">{{categoriefilm.getNomCategorie() }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>

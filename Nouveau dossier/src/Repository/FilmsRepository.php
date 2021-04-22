@@ -69,4 +69,15 @@ class FilmsRepository extends ServiceEntityRepository
     }
 
 
+    public function findBycat($value)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.idCategorie = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
 }

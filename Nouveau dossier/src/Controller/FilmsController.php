@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Films;
 use App\Entity\CategorieFilm;
 use App\Repository\CategorieEventRepository;
+use App\Repository\FilmsRepository;
 use App\Form\FilmsType;
 use App\Repository\CategorieFilmRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,27 +33,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class FilmsController extends AbstractController
 {
 
-    /**
-     * @Route("/search", name="films_search", methods={"POST","GET"})
-     */
-    public function searchAction(){
 
-
-
-        $films = $this->getDoctrine()
-            ->getRepository(Films::class)
-            ->findBy(array('nomFilm' => 'new'),array('nomFilm' => 'ASC'),1 ,0);
-
-        var_dump($films);
-        return $this->render('films/moviegrid.html.twig', [
-            'films' => $films,
-        ]);
-    }
 
     /**
      * @Route("/ssearch", name="films_ssearch", methods={"POST","GET"})
      */
-    public function searchAAction(Request $request)
+    public function searchAAction(Request $request,CategorieFilmRepository $categorieFilmRepository)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -60,16 +46,20 @@ class FilmsController extends AbstractController
          $cat=$request->get("cat");
 
 
-
         $query = $entityManager->createQuery(
             'SELECT p
             FROM App\Entity\Films p
-            WHERE p.nomFilm LIKE :data '
+            WHERE (p.nomFilm LIKE :data )
+            AND (p.idCategorie = :param)'
         )
-            ->setParameter('data', "%".$ch."%");
+            ->setParameters(array('data'=> "%".$ch."%", 'param' => $cat));
 
-        return $this->render('films/moviegrid.html.twig', array(
-            'films' => $query->getResult()));
+
+
+        return $this->render('films/moviegrid.html.twig', [
+            'films' => $query->getResult(),
+            'CategorieFilms' => $categorieFilmRepository->findAll(),
+        ]);
     }
 
     /**
@@ -88,6 +78,8 @@ class FilmsController extends AbstractController
             'CategorieFilms' => $categorieFilmRepository->findAll(),
         ]);
     }
+
+
 
     /**
      * @Route("/", name="films_index", methods={"GET"})
@@ -149,6 +141,24 @@ class FilmsController extends AbstractController
 
         ]);
     }
+
+    /**
+     * @Route("/filmtri/{id}", name="film_trie")
+     */
+    public function tri(FilmsRepository $filmRepository,$id)
+    {
+
+        $categorie = $this->getDoctrine()->getRepository(CategorieFilm::class)->find($id);
+        
+        $film = $filmRepository->findBycat($categorie);
+
+        return $this->render('films/moviegrid.html.twig', [
+            "films" => $film,
+            "categorie" => $categorie,
+
+        ]);
+    }
+
 
     /**
      * @Route("/addnew", name="add_new", methods={"GET","POST"})

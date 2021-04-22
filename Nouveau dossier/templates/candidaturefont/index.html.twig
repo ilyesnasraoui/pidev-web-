@@ -1,0 +1,43 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Candidature index{% endblock %}
+
+{% block body %}
+    <h1>Candidature index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdCandidature</th>
+                <th>IdUser</th>
+                <th>IdOffre</th>
+                <th>Cvpath</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for candidature in candidatures %}
+            <tr>
+                <td>{{ candidature.idCandidature }}</td>
+                <td>{{ candidature.idUser }}</td>
+                <td>{{ candidature.idOffre }}</td>
+                <td>{{ candidature.cvpath }}</td>
+                <td>{{ candidature.date ? candidature.date|date('Y-m-d') : '' }}</td>
+                <td>{{ candidature.description }}</td>
+                <td>
+                    <a href="{{ path('candidaturefont_show', {'idCandidature': candidature.idCandidature}) }}">show</a>
+                    <a href="{{ path('candidaturefont_edit', {'idCandidature': candidature.idCandidature}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('candidaturefont_new') }}">Create new</a>
+{% endblock %}

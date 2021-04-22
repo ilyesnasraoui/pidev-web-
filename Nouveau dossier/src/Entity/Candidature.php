@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Candidature
@@ -38,6 +39,7 @@ class Candidature
     /**
      * @var string|null
      *
+     *  @Assert\NotBlank(message="a cv is required")
      * @ORM\Column(name="cvpath", type="string", length=150, nullable=true)
      */
     private $cvpath;
@@ -51,7 +53,13 @@ class Candidature
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="A description is required")
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 80,
+     *      minMessage = "Your Description must be at least 10 characters long",
+     *      maxMessage = "Your Description is too long "
+     * )
      * @ORM\Column(name="description", type="string", length=100, nullable=false)
      */
     private $description;

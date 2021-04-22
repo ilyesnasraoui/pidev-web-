@@ -1,11 +1,34 @@
 {% extends 'base.html.twig' %}
 
+
+
 {% block title %}New Films{% endblock %}
 
 {% block body %}
-    <h1>Create new Films</h1>
+    <form method="post" action="/films/addnew">
 
-    {{ include('films/_form.html.twig') }}
-
-    <a href="{{ path('films_index') }}">back to list</a>
+        <div class="row">
+            <label for="filmname">
+                <input type="text" name="nomfilm"  required="required" />
+                <select name="cat">
+                    {%  for CategorieFilm in categoriefilms %}
+                        <option value="{{ CategorieFilm.idCategorie }}">
+                            {{ CategorieFilm.nomCategorie}}
+                        </option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="lang"  required="required" />
+                <input type="text" name="duree" required="required" />
+                <input type="file" name="image" required="required" />
+                <input type="text" name="desc" required="required" />
+                <input type="text" name="utube" required="required" />
+                <input type="text" name="rated" required="required" />
+                <input type="date" name="date" required="required" />
+            </label>
+        </div>
+        <div class="row">
+            <button type="submit">sign up</button>
+        </div>
+    </form>
 {% endblock %}
+

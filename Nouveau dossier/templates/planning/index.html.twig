@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planning index{% endblock %}
+
+{% block body %}
+    <h1>Planning index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+               
+                <th>Film name</th>
+                <th>Room name</th>
+                <th>ProjectionTime</th>
+                <th>Places</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for planning in plannings %}
+            <tr>
+
+                {% for film in films %}
+                    {% if (film.IdFilm == planning.idFilm) %}
+                        <td>{{ film.nomFilm}}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for salle in salles %}
+                {% if (salle.idSalle == planning.idSalle) %}
+                <td>{{ salle.name}}</td>
+                {% endif %}
+                {% endfor %}
+                <td>{{ planning.projectionTime }}</td>
+                <td>{{ planning.places }}</td>
+                <td>{{ planning.date ? planning.date|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('planning_show', {'idPlanning': planning.idPlanning}) }}">show</a>
+                    <a href="{{ path('planning_edit', {'idPlanning': planning.idPlanning}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('planning_new') }}">Create new</a>
+{% endblock %}

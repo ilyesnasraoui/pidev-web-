@@ -34,20 +34,27 @@ class SecurityController extends AbstractController
      */
     public function home(Request  $request ,AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        if($user->getBlocked()==0) {
+            if ($user->getRole() == "client")
+                return $this->render('index.html.twig');
 
-        return $this->render('index.html.twig',[
-
-            $this->getUser()->getUsername()]);
+            return $this->render('base.html.twig');
+        }
+        return $this->redirectToRoute("logout");
 
     }
 
 
 
     /**
-     * @Route("/logout", name="logout")
+     * @Route("/logout", name="logout" )
      */
     public function logout()
     {
+
+
+
 
     }
 

@@ -1,3 +1,4 @@
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Users index{% endblock %}
@@ -39,6 +40,7 @@
                 <td>
                     <a href="{{ path('users_show', {'idUser': user.idUser}) }}">show</a>
                     <a href="{{ path('users_edit', {'idUser': user.idUser}) }}">edit</a>
+
                 </td>
             </tr>
         {% else %}
@@ -51,3 +53,6 @@
 
     <a href="{{ path('users_new') }}">Create new</a>
 {% endblock %}
+
+
+

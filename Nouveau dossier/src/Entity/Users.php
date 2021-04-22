@@ -5,12 +5,16 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 /**
  * Users
  *
  * @ORM\Table(name="users")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
  */
+
+
+
 class Users implements UserInterface
 {
     /**
@@ -105,6 +109,8 @@ class Users implements UserInterface
 
         return $this;
     }
+
+
 
     public function getPassword(): ?string
     {
@@ -217,7 +223,7 @@ class Users implements UserInterface
     {
         return ['ROLE_USER'];
     }
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }

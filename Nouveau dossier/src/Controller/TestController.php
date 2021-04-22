@@ -17,4 +17,26 @@ class TestController extends AbstractController
             'controller_name' => 'TestController',
         ]);
     }
+
+    /**
+     * @Route("/front", name="front")
+     */
+    public function indeex(): Response
+    {
+        return $this->render('indexfront.html.twig', [
+            'controller_name' => 'TestController',
+        ]);
+
+    }
+
+
+    /**
+     * @Route("/testlyes", name="testlyes")
+     */
+    public function testlyes(): Response
+    {
+        return $this->render('films/moviegrid.html.twig', [
+            'controller_name' => 'TestController',
+        ]);
+    }
 }

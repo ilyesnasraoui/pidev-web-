@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Films
  *
  * @ORM\Table(name="films")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\FilmsRepository")
  */
 class Films
 {
@@ -52,7 +52,7 @@ class Films
     /**
      * @var string
      *
-     * @ORM\Column(name="image", type="string", length=255, nullable=false)
+         * @ORM\Column(name="image", type="string", length=255, nullable=false)
      */
     private $image;
 
@@ -89,6 +89,13 @@ class Films
         return $this->idFilm;
     }
 
+
+    public function setIdFilm(int $idFilm): self
+    {
+        $this->idFilm = $idFilm;
+
+        return $this;
+    }
     public function getIdCategorie(): ?int
     {
         return $this->idCategorie;
@@ -137,12 +144,12 @@ class Films
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage()
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage( $image)
     {
         $this->image = $image;
 

@@ -117,6 +117,33 @@ class UsersController extends AbstractController
     }
 
     /**
+     * @Route("/changepwd", name="changepassword", methods={"GET","POST"})
+     */
+    public function changepassword(Request $request): Response
+    {   $user = $this->get('security.token_storage')->getToken()->getUser();
+        if ($user->getPassword()==$request->get('oldpwd')) {
+           if($request->get('newpwd')==$request->get('confirmpwd'))
+           {
+               // password confirmed & oldpassword true
+               $user->setPassword($request->get('newpwd'));
+               $entityManager = $this->getDoctrine()->getManager();
+               $entityManager->persist($user);
+               $entityManager->flush();
+               return $this->redirectToRoute('users_profile');
+           }
+          // confirmation ghalta mte3 lpassword
+            return $this->redirectToRoute('users_profile');
+        }
+       // return new Response("don't match");
+
+        /* */
+
+        return $this->redirectToRoute('users_profile');
+
+
+    }
+
+    /**
      * @Route("/signup", name="signup", methods={"GET","POST"})
      */
     public function signup(Request $request): Response

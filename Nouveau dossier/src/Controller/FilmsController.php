@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Films;
 use App\Entity\CategorieFilm;
 use App\Repository\CategorieEventRepository;
+use App\Repository\FilmsRepository;
 use App\Form\FilmsType;
 use App\Repository\CategorieFilmRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,27 +33,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class FilmsController extends AbstractController
 {
 
-    /**
-     * @Route("/search", name="films_search", methods={"POST","GET"})
-     */
-    public function searchAction(){
 
-
-
-        $films = $this->getDoctrine()
-            ->getRepository(Films::class)
-            ->findBy(array('nomFilm' => 'new'),array('nomFilm' => 'ASC'),1 ,0);
-
-        var_dump($films);
-        return $this->render('films/moviegrid.html.twig', [
-            'films' => $films,
-        ]);
-    }
 
     /**
      * @Route("/ssearch", name="films_ssearch", methods={"POST","GET"})
      */
-    public function searchAAction(Request $request)
+    public function searchAAction(Request $request,CategorieFilmRepository $categorieFilmRepository,FilmsRepository $filmrepository)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -60,16 +46,20 @@ class FilmsController extends AbstractController
          $cat=$request->get("cat");
 
 
-
         $query = $entityManager->createQuery(
             'SELECT p
             FROM App\Entity\Films p
-            WHERE p.nomFilm LIKE :data '
+            WHERE (p.nomFilm LIKE :data )
+            AND (p.idCategorie = :param)'
         )
-            ->setParameter('data', "%".$ch."%");
+            ->setParameters(array('data'=> "%".$ch."%", 'param' => $cat));
 
-        return $this->render('films/moviegrid.html.twig', array(
-            'films' => $query->getResult()));
+
+
+        return $this->render('films/moviegrid.html.twig', [
+            'films' => $query->getResult(),
+            'CategorieFilms' => $categorieFilmRepository->findAll(),
+        ]);
     }
 
     /**
@@ -89,6 +79,8 @@ class FilmsController extends AbstractController
         ]);
     }
 
+
+
     /**
      * @Route("/", name="films_index", methods={"GET"})
      * @param $categorieFilmRepository
@@ -107,12 +99,17 @@ class FilmsController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/new", name="films_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param CategorieFilmRepository $categorieFilmRepository
+     * @param $CategorieFilmRespository
+     * @return Response
      */
-    public function new(Request $request,CategorieFilmRepository $categorieFilmRepository): Response
+    public function new(Request $request, CategorieFilmRepository $categorieFilmRepository): Response
     {
-        $film = new Films();
+      /*  $film = new Films();
         $form = $this->createForm(FilmsType::class, $film);
         $form->handleRequest($request);
 
@@ -137,14 +134,62 @@ class FilmsController extends AbstractController
 
             return $this->redirectToRoute('films_index');
         }
+  */
 
         return $this->render('films/new.html.twig', [
-            'film' => $film,
-            'form' => $form->createView(),
+            'categoriefilms' => $categorieFilmRepository->findAll(),
 
-            'CategorieFilms' => $categorieFilmRepository->findAll(),
         ]);
     }
+
+    /**
+     * @Route("/filmtri/{id}", name="film_trie")
+     */
+    public function tri(FilmsRepository $filmRepository,$id)
+    {
+
+        $categorie = $this->getDoctrine()->getRepository(CategorieFilm::class)->find($id);
+        
+        $film = $filmRepository->findBycat($categorie);
+
+        return $this->render('films/moviegrid.html.twig', [
+            "films" => $film,
+            "categorie" => $categorie,
+
+        ]);
+    }
+
+
+    /**
+     * @Route("/addnew", name="add_new", methods={"GET","POST"})
+     */
+    public function addnew(Request $request): Response
+    {
+
+        $film= new Films();
+        $film->setIdCategorie($request->get('cat'));
+        $film->setLanguage($request->get('lang'));
+        $film->setNomFilm($request->get('nomfilm'));
+        $film->setDureeFilm($request->get('duree'));
+        $film->setImage($request->get('image'));
+        $film->setDescription($request->get('desc'));
+        $film->setUtube($request->get('utube'));
+        $film->setRated($request->get('rated'));
+        $newdate =  (\DateTime::createFromFormat('Y-m-d',$request->get('date') ));
+        $result = $newdate->format('Y-m-d');
+        $film->setDate(\DateTime::createFromFormat('Y-m-d', $result));
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($film);
+        $entityManager->flush();
+
+          return $this->redirectToRoute('films_index');
+
+
+    }
+
+
+
 
     /**
      * @Route("/{idFilm}", name="films_show", methods={"GET"})

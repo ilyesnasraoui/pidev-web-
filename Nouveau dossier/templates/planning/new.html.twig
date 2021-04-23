@@ -3,25 +3,29 @@
 {% block title %}New Planning{% endblock %}
 
 {% block body %}
-    <form method="post" action="/planning/add">
 
-        <div class="row">
-        <label for="filmname">
+    <h3><i class="fa fa-angle-right"></i> Add a new planning</h3>
+<div class="row mt">
+    <div class="col-lg-12">
+<div class="form-panel">
+    <form class="form-horizontal  style-form" method="post"  action="/planning/add">
 
-            <select name="filmname">
-                {%  for film in films %}
-                <option value="{{ film.idfilm }}">
-                     {{ film.NomFilm}}
-                </option>
-                {% endfor %}
-            </select>
-
-        </label>
+        <div class="form-group">
+            <label class="control-label col-md-3">Film name</label>
+            <div class="col-md-3 col-xs-11">
+                <select name="filmname">
+                    {%  for film in films %}
+                        <option value="{{ film.idfilm }}">
+                            {{ film.NomFilm}}
+                        </option>
+                    {% endfor %}
+                </select>
+                <span class="help-block">Select a film</span>
+            </div>
         </div>
-
-        <div class="row">
-            <label for="Sallename">
-
+        <div class="form-group">
+            <label class="control-label col-md-3">Room name</label>
+            <div class="col-md-3 col-xs-11">
                 <select name="sallename">
                     {%  for salle in salles %}
                         <option value="{{ salle.idSalle }}">
@@ -29,30 +33,48 @@
                         </option>
                     {% endfor %}
                 </select>
-
-            </label>
+                <span class="help-block">Select a rooms</span>
+            </div>
         </div>
 
-        <div class="row">
-            <label for="projectiontime">
-
-                <input type="text" name="projectiontime" id="projectiontime" placeholder="projectiontime"  required="required" />
-            </label>
+        <div class="form-group">
+            <label class="control-label col-md-3">Default Timepicker</label>
+            <div class="col-md-4">
+                <div class="input-group bootstrap-timepicker">
+                    <input type="text" name="projectiontime" class="form-control timepicker-default">
+                    <span class="input-group-btn">
+                        <button class="btn btn-theme04" type="button"><i class="fa fa-clock-o"></i></button>
+                        </span>
+                </div>
+            </div>
         </div>
-        <div class="row">
-            <label for="projectiondate">
+
+
+        <div class="form-group">
+            <label class="control-label col-md-3">Default Datepicker</label>
+            <div class="col-md-4 col-xs-11 ">
 
                 <input type="date" name="projectiondate" id="projectiondate" placeholder="projectiondate"  required="required" />
             </label>
         </div>
-        <div class="row">
-            <label for="places">
-
-                <input type="number" name="places" id="palces" placeholder="places"  required="required" />
-            </label>
         </div>
-        <div class="row">
-            <button type="submit">sign up</button>
+
+        <div class="form-group">
+            <label class="col-sm-4 col-sm-3 control-label">Places</label>
+            <div class="col-sm-4">
+                <input type="number" min="0" class="form-control" name="places" id="palces" required="required">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-10">
+            <button type="submit" class="btn btn-theme">Submit</button>
+            </div>
         </div>
     </form>
+</div>
+    </div>
+</div>
+
+
 {% endblock %}

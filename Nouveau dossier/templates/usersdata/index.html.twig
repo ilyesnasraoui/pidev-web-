@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Usersdata index{% endblock %}
+
+{% block body %}
+    <h1>Usersdata index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdData</th>
+                <th>IdUser</th>
+                <th>AccountVerif</th>
+                <th>ForgetPwd</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for usersdatum in usersdatas %}
+            <tr>
+                <td>{{ usersdatum.idData }}</td>
+                <td>{{ usersdatum.idUser }}</td>
+                <td>{{ usersdatum.accountVerif }}</td>
+                <td>{{ usersdatum.forgetPwd }}</td>
+                <td>{{ usersdatum.image }}</td>
+                <td>
+                    <a href="{{ path('usersdata_show', {'idData': usersdatum.idData}) }}">show</a>
+                    <a href="{{ path('usersdata_edit', {'idData': usersdatum.idData}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('usersdata_new') }}">Create new</a>
+{% endblock %}

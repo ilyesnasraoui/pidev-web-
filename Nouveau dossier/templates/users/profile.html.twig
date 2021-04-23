@@ -21,8 +21,8 @@
                 <div class="col-md-3 col-sm-12 col-xs-12">
                     <div class="user-information">
                         <div class="user-img">
-                            <a href="#"><img src="{{ asset('front/images/uploads/avatar.p') }}" alt=""><br></a>
-                            <a href="#" class="redbtn">Change avatar</a>
+                            <a href="#"><img src="{{ asset('/images/users/' ~ userdata.getImage) }}" alt="" style="border-radius: 50% ; height:150px; width: 150px"><br></a>
+                            <a href="#change" class="redbtn">Change avatar</a>
                         </div>
                         <div class="user-fav" id="profile">
                             <p>Account Details</p>
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                         </form>
-                        <div >
+
                         <form action="changepwd" class="password">
                             <h4>02. Change password</h4>
                             <div class="row">
@@ -102,18 +102,35 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 form-it">
+                                <div class="col-md-6 form-it" id="change">
                                     <label>Confirm New Password</label>
                                     <input type="password" name="confirmpwd" placeholder="*************** ">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-2">
+                                <div class="col-md-2" >
                                     <input class="submit" type="submit" value="change">
                                 </div>
                             </div>
                         </form>
-                        </div>
+                       <div>
+                           <br>
+                            <form action="{{ asset('/usersdata/changeimg') }}" class="user" method="post" enctype="multipart/form-data">
+                                <h4>03. change avatar</h4>
+                                <div class="row" >
+                                    <div class="col-md-6 form-it">
+                                        <label>Select image</label>
+                                        <input type="file" name="img">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <input class="submit" type="submit" value="change">
+                                    </div>
+                                </div>
+                            </form>
+                       </div>
+
                     </div>
                 </div>
             </div>

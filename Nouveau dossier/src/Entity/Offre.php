@@ -56,6 +56,7 @@ class Offre
      */
     private $titre;
 
+
     public function getIdOffre(): ?int
     {
         return $this->idOffre;

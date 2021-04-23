@@ -40,7 +40,7 @@ class SalleRepository extends ServiceEntityRepository
     public function findOneBySomeField($value): ?Salle
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.id_salle = :val')
+            ->andWhere('s.idSalle = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

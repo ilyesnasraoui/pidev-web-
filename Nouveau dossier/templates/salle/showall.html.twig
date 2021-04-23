@@ -8,10 +8,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="hero-ct">
-                        <h1>celebrity listing - list</h1>
+                        <h1>Room listing - list</h1>
                         <ul class="breadcumb">
                             <li class="active"><a href="#">Home</a></li>
-                            <li> <span class="ion-ios-arrow-right"></span> celebrity listing</li>
+                            <li> <span class="ion-ios-arrow-right"></span> Room listing</li>
                         </ul>
                     </div>
                 </div>
@@ -34,91 +34,40 @@
                             <option value="date">Release date Descending</option>
                             <option value="date">Release date Ascending</option>
                         </select>
-                        <a href="celebritylist.html" class="list"><i class="ion-ios-list-outline active"></i></a>
-                        <a  href="celebritygrid01.html" class="grid"><i class="ion-grid "></i></a>
+                        <a href="#" class="list"><i class="ion-ios-list-outline active"></i></a>
+                        <a  href="#" class="grid"><i class="ion-grid "></i></a>
                     </div>
+                    {% for salle in salles %}
+                        
                     <div class="row">
                         <div class="col-md-12">
                             <div class="ceb-item-style-2">
-                                <img src="images/uploads/ceblist1.jpg" alt="">
+                                <img src="{{ asset('front/images/uploads/ceblist1.jpg') }}" alt="">
                                 <div class="ceb-infor">
-                                    <h2><a href="celebritysingle.html">Dan Stevens</a></h2>
-                                    <span>actor, usa</span>
-                                    <p>Dan Stevens was born at Croydon in Surrey on 10th October 1982. His parents are teachers. He was educated at Tonbridge School and trained in acting at the National Youth Theatre of Great Britain... </p>
+                                    <h2><a href="#">{{ salle.getName() }}</a></h2>
+                                    <span>{{ salle.getGovernorate() }}</span>
+                                    <p>adress:{{salle.getAdress()}}
+                                        {% for user in users %}
+                                            {% if user.getIdSalle()==salle.getIdSalle() %}
+                                             ,phone number:{{ user.getPhone() }} , email:{{ user.getEmail() }}
+                                            {% endif %}
+
+                                        {% endfor %}
+                                    </p>
+                                    <form method="post" action="{{ asset('salle/salleplanning') }}">
+                                    <div class="col-lg-offset-9">
+                                        <input type="hidden" name="idsalle"  value="{{ salle.getIdSalle() }}"  >
+                                        <input class="redbtn" type="submit" value="Show planning">
+                                    </div>
+                                    </form>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="ceb-item-style-2">
-                                <img src="images/uploads/ceblist2.jpg" alt="">
-                                <div class="ceb-infor">
-                                    <h2><a href="celebritysingle.html">Luke Evans</a></h2>
-                                    <span>actor, mexico</span>
-                                    <p>Luke George Evans was born in Pontypool, Wales, and grew up in Aberbargoed, in the south of Wales. He is the son of Yvonne (Lewis) and David Evans. He moved to Cardiff at the age 17...</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="ceb-item-style-2">
-                                <img src="images/uploads/ceblist3.jpg" alt="">
-                                <div class="ceb-infor">
-                                    <h2><a href="celebritysingle.html">Scarlett Johansson</a></h2>
-                                    <span>actress, france</span>
-                                    <p>Scarlett Ingrid Johansson was born in New York City. Her mother, Melanie Sloan, is from a Jewish family from the Bronx, and her father, Karsten Johansson, is a Danish-born architect, from Copenhagen...</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="ceb-item-style-2">
-                                <img src="images/uploads/ceblist4.jpg" alt="">
-                                <div class="ceb-infor">
-                                    <h2><a href="celebritysingle.html">Emma Watson</a></h2>
-                                    <span>actress, uk</span>
-                                    <p>Emma Charlotte Duerre Watson was born in Paris, France, to English parents, Jacqueline Luesby and Chris Watson, both lawyers. She moved to Oxfordshire when she was five...</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="ceb-item-style-2">
-                                <img src="images/uploads/ceblist5.jpg" alt="">
-                                <div class="ceb-infor">
-                                    <h2><a href="celebritysingle.html">Tom Hardy</a></h2>
-                                    <span>actor, italy	</span>
-                                    <p>Joan Crawford was born Lucille Fay LeSueur on March 23, 1905, in San Antonio, Texas, to Anna Belle (Johnson) and Thomas E. LeSueur, a laundry laborer. By the time she was born her parents had separated....</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="ceb-item-style-2">
-                                <img src="images/uploads/ceblist6.jpg" alt="">
-                                <div class="ceb-infor">
-                                    <h2><a href="celebritysingle.html">Joan Crawford</a></h2>
-                                    <span>director, sweden</span>
-                                    <p>Joan Crawford was born Lucille Fay LeSueur on March 23, 1905, in San Antonio, Texas, to Anna Belle (Johnson) and Thomas E. LeSueur, a laundry laborer. By the time she was born her parents had separated....</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="ceb-item-style-2">
-                                <img src="images/uploads/ceblist7.jpg" alt="">
-                                <div class="ceb-infor">
-                                    <h2><a href="celebritysingle.html">Margot Robbie</a></h2>
-                                    <span>actress, chile</span>
-                                    <p>Margot Robbie is an Australian actress born in Dalby, Queensland, and raised on the Gold Coast, spending much of her time at the farm belonging to her grandparents. Her mother, Sarie Kessler, is a physiotherapist....</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="ceb-item-style-2">
-                                <img src="images/uploads/ceblist8.jpg" alt="">
-                                <div class="ceb-infor">
-                                    <h2><a href="celebritysingle.html">Jason Momoa</a></h2>
-                                    <span>actor, usa</span>
-                                    <p>Joseph Jason Namakaeha Momoa was born on August 1, 1979 in Honolulu, Hawaii. He is the son of Coni (Lemke), a photographer, and Joseph Momoa, a painter...</p>
-                                </div>
+
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
+
+
                     <div class="topbar-filter">
                         <label>Reviews per page:</label>
                         <select>
@@ -141,43 +90,43 @@
                 <div class="col-md-3 col-xs-12 col-sm-12">
                     <div class="sidebar">
                         <div class="searh-form">
-                            <h4 class="sb-title">Search celebrity</h4>
-                            <form class="form-style-1 celebrity-form" action="#">
+                            <h4 class="sb-title">Search room</h4>
+                            <form class="form-style-1 celebrity-form" action="/salle/search" method="post">
                                 <div class="row">
                                     <div class="col-md-12 form-it">
-                                        <label>Celebrity name</label>
-                                        <input type="text" placeholder="Enter keywords">
+                                        <label>Room name</label>
+                                        <input type="text" name="roomname" placeholder="Enter keywords">
                                     </div>
+
                                     <div class="col-md-12 form-it">
-                                        <label>Celebrity Letter</label>
-                                        <select>
-                                            <option value="range">A</option>
-                                            <option value="saab">B</option>
+                                        <label>Governorate</label>
+                                        <select name="gov">
+                                            <option value=""></option>
+                                            <option value="ariana">Ariana</option>
+                                            <option value="beja">Béja</option>
+                                            <option value="Ben arous">Ben Arous</option>
+                                            <option value="bizerte">Bizerte</option>
+                                            <option value="gabes">Gabes</option>
+                                            <option value="gafsa">Gafsa</option>
+                                            <option value="jendouba">Jendouba</option>
+                                            <option value="kairouan">Kairouan</option>
+                                            <option value="kasserine">Kasserine</option>
+                                            <option value="kebili">Kebili</option>
+                                            <option value="kef">kef</option>
+                                            <option value="mahdia">Mahdia</option>
+                                            <option value="manouba">Manouba</option>
+                                            <option value="medenine">Medenine</option>
+                                            <option value="monastir">Monastir</option>
+                                            <option value="nabeul">Nabeul</option>
+                                            <option value="sfax">Sfax</option>
+                                            <option value="sidi bouzid">Sidi Bouzid</option>
+                                            <option value="siliana">Siliana</option>
+                                            <option value="sousse">Sousse</option>
+                                            <option value="tataouine">Tataouine</option>
+                                            <option value="tozeur">Tozeur</option>
+                                            <option value="tunis">Tunis</option>
+                                            <option value="zaghouan">Zaghouan</option>
                                         </select>
-                                    </div>
-                                    <div class="col-md-12 form-it">
-                                        <label>Category</label>
-                                        <select>
-                                            <option value="range">Actress</option>
-                                            <option value="saab">Others</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12 form-it">
-                                        <label>Year of birth</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <select>
-                                                    <option value="range">1970</option>
-                                                    <option value="number">Other</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <select>
-                                                    <option value="range">1990</option>
-                                                    <option value="number">others</option>
-                                                </select>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="col-md-12 ">
                                         <input class="submit" type="submit" value="submit">

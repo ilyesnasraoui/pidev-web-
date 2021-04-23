@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Planning;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +15,26 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ReservationController extends AbstractController
 {
+
+    /**
+     * @Route("/book", name="book", methods={"GET","POST"})
+     */
+    public function book(Request $request){
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $reservation= new Reservation();
+        $reservation->setIdPlanning($request->get('idplanning'));
+        $reservation->setIdUser($user->getIdUser());
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($reservation);
+        $entityManager->flush();
+
+        $em=$this->getDoctrine()->getManager();
+        $planning=$em->getRepository(Planning::class)->findOneBySomeField($request->get('idplanning'));
+        $planning->setPlaces($planning->getPlaces()-1);
+        $em->flush();
+        return $this->redirectToRoute('allrooms');
+
+    }
     /**
      * @Route("/", name="reservation_index", methods={"GET"})
      */

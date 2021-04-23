@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Usersdata{% endblock %}
+
+{% block body %}
+    <h1>Usersdata</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdData</th>
+                <td>{{ usersdatum.idData }}</td>
+            </tr>
+            <tr>
+                <th>IdUser</th>
+                <td>{{ usersdatum.idUser }}</td>
+            </tr>
+            <tr>
+                <th>AccountVerif</th>
+                <td>{{ usersdatum.accountVerif }}</td>
+            </tr>
+            <tr>
+                <th>ForgetPwd</th>
+                <td>{{ usersdatum.forgetPwd }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ usersdatum.image }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('usersdata_index') }}">back to list</a>
+
+    <a href="{{ path('usersdata_edit', {'idData': usersdatum.idData}) }}">edit</a>
+
+    {{ include('usersdata/_delete_form.html.twig') }}
+{% endblock %}

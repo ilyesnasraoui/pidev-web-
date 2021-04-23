@@ -12,9 +12,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
  */
-
-
-
 class Users implements UserInterface
 {
     /**
@@ -239,9 +236,6 @@ class Users implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
-
-
-
 
 
 }

@@ -36,23 +36,23 @@ class Planning
     private $idSalle;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="day", type="integer", nullable=false)
+     * @ORM\Column(name="day", type="integer", nullable=true)
      */
     private $day;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="month", type="integer", nullable=false)
+     * @ORM\Column(name="month", type="integer", nullable=true)
      */
     private $month;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="year", type="integer", nullable=false)
+     * @ORM\Column(name="year", type="integer", nullable=true)
      */
     private $year;
 

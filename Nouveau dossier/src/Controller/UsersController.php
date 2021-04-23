@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Users;
+use App\Entity\Usersdata;
 use App\Form\UsersType;
+use App\Repository\UsersdataRepository;
 use App\Repository\UsersRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use http\Url;
@@ -39,10 +41,13 @@ class UsersController extends AbstractController
     /**
      * @Route("/profile", name="users_profile", methods={"GET"})
      */
-    public function profile(): Response
-    {
+    public function profile(UsersdataRepository $udr): Response
+    {  $user = $this->get('security.token_storage')->getToken()->getUser();
+        $userdata=$udr->findOneByUserId($user->getIdUser());
 
-        return $this->render('users/profile.html.twig');
+        return $this->render('users/profile.html.twig',[
+            "userdata"=>$userdata
+        ]);
 
     }
 
@@ -87,7 +92,6 @@ class UsersController extends AbstractController
             return $this->redirectToRoute('users_index');
         }
 
-
         return $this->render('users/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
@@ -98,6 +102,7 @@ class UsersController extends AbstractController
      */
     public function changepersonaldata(Request $request): Response
     {   $user = $this->get('security.token_storage')->getToken()->getUser();
+
         $user->setRole($user->getRole());
         $user->setEmail($request->get('email'));
         $user->setPhone($request->get('phone'));
@@ -146,7 +151,7 @@ class UsersController extends AbstractController
     /**
      * @Route("/signup", name="signup", methods={"GET","POST"})
      */
-    public function signup(Request $request): Response
+    public function signup(Request $request,UsersRepository $u): Response
     {
        // return new Response($request->get('username'));
         $user= new Users();
@@ -159,8 +164,19 @@ class UsersController extends AbstractController
         $user->setFname($request->get('firstname'));
         $user->setLname($request->get('lastname'));
         $user->setIdcard($request->get('idcard'));
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
+        $entityManager->flush();
+
+        $usr=$u->findOneUsername($user->getUsername());
+
+        $userdata= new Usersdata();
+        $userdata->setImage("");
+        $userdata->setForgetPwd(0);
+        $userdata->setAccountVerif(0);
+        $userdata->setIdUser($usr->getIdUser());
+        $entityManager->persist($userdata);
         $entityManager->flush();
 
         return $this->render("basefront.html.twig");

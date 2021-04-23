@@ -35,6 +35,7 @@ class CategorieEvent
      */
     private $description;
 
+
     public function getIdCatEvent(): ?int
     {
         return $this->idCatEvent;

@@ -19,9 +19,26 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UsersController extends AbstractController
 {
+
+    /**
+     * @Route("/test", name="users_test", methods={"POST","GET"})
+     */
+    public function ttest(\Swift_Mailer $mailer){
+        $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('send@example.com')
+            ->setTo('ahmed.benhadjkhalifa@esprit.tn')
+            ->setBody("test",
+                       'text/plain'
+                );
+
+ $mailer->send($message);
+ return new Response("tawa");
+
+    }
     /**
      * @Route("/block/{idUser}", name="users_block", methods={"POST"})
      */
+
     public function block(Request $request, Users $user): Response
     {
 

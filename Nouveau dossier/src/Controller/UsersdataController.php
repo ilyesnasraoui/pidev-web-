@@ -31,6 +31,7 @@ class UsersdataController extends AbstractController
         $fileTmpName=$file['tmp_name'];
         $fileExt= explode('.',$fileName);
         $fileDest="images/users/".$user->getIdUser().".".end($fileExt);
+
         move_uploaded_file($fileTmpName,$fileDest);
         // image sent to the file
 

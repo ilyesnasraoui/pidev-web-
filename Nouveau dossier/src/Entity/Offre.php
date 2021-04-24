@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Offre
@@ -30,28 +32,39 @@ class Offre
 
     /**
      * @var string|null
-     *
+     *@Assert\NotBlank(message="Offre must have an image")
      * @ORM\Column(name="offreimgpath", type="string", length=150, nullable=true)
      */
     private $offreimgpath;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="date", type="date", nullable=false)
      */
     private $date;
 
     /**
      * @var string
-     *
+     *@Assert\Length(
+     *      min = 10,
+     *      max = 800,
+     *      minMessage = "Your Description must be at least 10 characters long",
+     *      maxMessage = "Your Description is too long "
+     * )
+     * @Assert\NotBlank(message="A description is required")
      * @ORM\Column(name="description", type="string", length=1000, nullable=false)
      */
     private $description;
 
     /**
      * @var string|null
-     *
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 30,
+     *      minMessage = "Your title must be at least 2 characters long",
+     *      maxMessage = "Your title cannot be longer than 30 characters"
+     * )
+      * @Assert\NotBlank(message="A Title is required")
      * @ORM\Column(name="titre", type="string", length=50, nullable=true)
      */
     private $titre;

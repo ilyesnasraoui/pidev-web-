@@ -5,20 +5,26 @@
 {% block body %}
     <h1>Evenement index</h1>
 
+
+
+
+
+
+
     <table class="table">
         <thead>
-            <tr>
-                <th>IdEvenement</th>
-                <th>IdCatEvenement</th>
-                <th>IdUser</th>
-                <th>NomEvenement</th>
-                <th>DateEvenement</th>
-                <th>DureeEvenement</th>
-                <th>ImageEvnement</th>
-                <th>Description</th>
-                <th>Validate</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>IdEvenement</th>
+            <th>IdCatEvenement</th>
+            <th>IdUser</th>
+            <th>NomEvenement</th>
+            <th>DateEvenement</th>
+            <th>DureeEvenement</th>
+            <th>ImageEvnement</th>
+            <th>Description</th>
+            <th>Validate</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for evenement in evenements %}
@@ -29,7 +35,7 @@
                 <td>{{ evenement.nomEvenement }}</td>
                 <td>{{ evenement.dateEvenement }}</td>
                 <td>{{ evenement.dureeEvenement }}</td>
-                <td>{{ evenement.imageEvnement }}</td>
+                <td> <img src="img/{{ evenement.imageEvnement }}"> </td>
                 <td>{{ evenement.description }}</td>
                 <td>{{ evenement.validate }}</td>
                 <td>

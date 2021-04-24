@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Article
@@ -30,7 +31,12 @@ class Article
 
     /**
      * @var string
-     *
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 20,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     * )
      * @ORM\Column(name="titre", type="string", length=100, nullable=false)
      */
     private $titre;

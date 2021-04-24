@@ -4,6 +4,13 @@
 
 {% block body %}
     <h1>Films index</h1>
+    <div class="col-md-12 form-it">
+        <label>Movie name</label>
+        <form class="form-style-1" method="post" action="/films/testapii">
+        <input name="search" type="text" id="search" placeholder="Enter keywords" >
+            <input class="submit" type="submit" value="submit">
+        </form>
+    </div>
 
     <table class="table">
         <thead>
@@ -36,7 +43,9 @@
                 <td>{{ film.nomFilm }}</td>
                 <td>{{ film.dureeFilm }}</td>
 
-                <td> <img class="movie-item-style-2 movie-item-style-1" src="{{ asset('/images/produit/' ~ film.getImage()) }}" alt=""></td>
+                <td> <img width="150" height="200" src="{{ film.getImage() }} " alt=""></td>
+
+
                 <td>{{ film.description }}</td>
                 <td>{{ film.utube }}</td>
                 <td>{{ film.rated }}</td>

@@ -8,28 +8,44 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\PropertySearch;
+use App\Form\PropertySearchType;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/article")
- */
+
 class ArticleController extends AbstractController
 {
-    /**
-     * @Route("/", name="article_index", methods={"GET"})
-     */
-    public function index(): Response
-    {
-        $articles = $this->getDoctrine()
-            ->getRepository(Article::class)
-            ->findAll();
 
-        return $this->render('article/index.html.twig', [
-            'articles' => $articles,
-        ]);
+
+    /**
+     *@Route("/article",name="article_index")
+     */
+    public function index(Request $request)
+    {
+
+        $propertySearch = new PropertySearch();
+        $form = $this->createForm(PropertySearchType::class,$propertySearch);
+        $form->handleRequest($request);
+        //initialement le tableau des articles est vide,
+        //c.a.d on affiche les articles que lorsque l'utilisateur clique sur le bouton rechercher
+        $articles= [];
+
+        if($form->isSubmitted() && $form->isValid()) {
+            //on récupère le nom d'article tapé dans le formulaire
+            $nom = $propertySearch->getNom();
+            if ($nom!="")
+                //si on a fourni un nom d'article on affiche tous les articles ayant ce nom
+                $articles= $this->getDoctrine()->getRepository(Article::class)->findBy(['contenu' => $nom] );
+            else
+                //si si aucun nom n'est fourni on affiche tous les articles
+                $articles= $this->getDoctrine()->getRepository(Article::class)->findAll();
+        }
+        return  $this->render('article/index.html.twig',[ 'form' =>$form->createView(), 'articles' => $articles]);
     }
 
+
     /**
-     * @Route("/new", name="article_new", methods={"GET","POST"})
+     * @Route("article/new", name="article_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -52,7 +68,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{idArticle}", name="article_show", methods={"GET"})
+     * @Route("/article/{idArticle}", name="article_show", methods={"GET"})
      */
     public function show(Article $article): Response
     {
@@ -62,9 +78,9 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{idArticle}/edit", name="article_edit", methods={"GET","POST"})
+     * @Route("/article/{idArticle}/edit", name="article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Article $article): Response
+    public function edit(Request $request, Article $article,TranslatorInterface $translator ): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
@@ -72,6 +88,8 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $message =$translator->trans('user modified ');
+            $this->addFlash('message',$message);
             return $this->redirectToRoute('article_index');
         }
 
@@ -82,7 +100,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{idArticle}", name="article_delete", methods={"POST"})
+     * @Route("/article/{idArticle}", name="article_delete", methods={"POST"})
      */
     public function delete(Request $request, Article $article): Response
     {
@@ -94,4 +112,23 @@ class ArticleController extends AbstractController
 
         return $this->redirectToRoute('article_index');
     }
+
+
+
+    /**
+     * @Route("/showarticle", name="article_ind", methods={"GET"})
+     */
+    public function indexx(): Response
+    {
+        $articles = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->findAll();
+
+        return $this->render('article/aarticle.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
+
+
 }

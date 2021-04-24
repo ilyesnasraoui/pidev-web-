@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * Evenement
  *
@@ -51,7 +52,6 @@ class Evenement
 
     /**
      * @var int
-     *
      * @ORM\Column(name="duree_evenement", type="integer", nullable=false)
      */
     private $dureeEvenement;

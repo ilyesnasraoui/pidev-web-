@@ -26,7 +26,7 @@ class UsersController extends AbstractController
     public function ttest(\Swift_Mailer $mailer){
         $message = (new \Swift_Message('Hello Email'))
             ->setFrom('send@example.com')
-            ->setTo('ahmed.benhadjkhalifa@esprit.tn')
+            ->setTo('mohamedkarim.oueslati@esprit.tn')
             ->setBody("test",
                        'text/plain'
                 );

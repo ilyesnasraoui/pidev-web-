@@ -30,14 +30,13 @@ class UsersdataController extends AbstractController
         $error=$file['error'];
         $fileTmpName=$file['tmp_name'];
         $fileExt= explode('.',$fileName);
-        $fileDest="images/users/".$user->getUsername().".".end($fileExt);
-
+        $fileDest="images/users/".$user->getIdUser().".".end($fileExt);
         move_uploaded_file($fileTmpName,$fileDest);
         // image sent to the file
 
         if($error==0)
 
-        {$userdata->setImage($user->getUsername().".".end($fileExt));}
+        {$userdata->setImage($user->getIdUser().".".end($fileExt));}
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($userdata);
         $entityManager->flush();

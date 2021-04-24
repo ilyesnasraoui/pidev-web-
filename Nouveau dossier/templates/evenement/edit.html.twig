@@ -1,13 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Evenement{% endblock %}
+{% block title %}New Evenement{% endblock %}
 
 {% block body %}
-    <h1>Edit Evenement</h1>
 
-    {{ include('evenement/_form.html.twig', {'button_label': 'Update'}) }}
+    <h1>Create new Evenement</h1>
+    {{ form_start(form) }}
+    id
+    {{ form_widget(form.idCatEvenement) }}
+    idUser
+    {{ form_widget(form.idUser) }}
+    nomEv
+    {{ form_widget(form.nomEvenement) }}
+    date
+    {{ form_widget(form.dateEvenement) }}
+    duree
+    {{ form_widget(form.dureeEvenement)}}
+    imageEvnement
+    <input type="file" id="{{ form.imageEvnement.vars.id }}" name="{{ form.imageEvnement.vars.full_name }}"
+           accept="image/png, image/jpeg, image/jpg">
+
+    {% do form.imageEvnement.setRendered %}
+    desc
+    {{ form_widget(form.description) }}
+    validate
+    {{ form_widget(form.validate) }}
+    <button class="btn">{{ button_label|default('Update') }}</button>
+
+
+    {{ form_end(form) }}
+
 
     <a href="{{ path('evenement_index') }}">back to list</a>
-
-    {{ include('evenement/_delete_form.html.twig') }}
 {% endblock %}
+

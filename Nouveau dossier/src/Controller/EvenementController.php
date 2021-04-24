@@ -8,14 +8,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\PropertySearch;
+use App\Form\PropertySearchType;
 
-/**
- * @Route("/evenement")
- */
+
 class EvenementController extends AbstractController
 {
     /**
-     * @Route("/", name="evenement_index", methods={"GET"})
+     * @Route("/evenement", name="evenement_index", methods={"GET"})
      */
     public function index(): Response
     {
@@ -29,7 +29,7 @@ class EvenementController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="evenement_new", methods={"GET","POST"})
+     * @Route("evenement/new", name="evenement_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -52,7 +52,7 @@ class EvenementController extends AbstractController
     }
 
     /**
-     * @Route("/{idEvenement}", name="evenement_show", methods={"GET"})
+     * @Route("/evenement/{idEvenement}", name="evenement_show", methods={"GET"})
      */
     public function show(Evenement $evenement): Response
     {
@@ -62,7 +62,7 @@ class EvenementController extends AbstractController
     }
 
     /**
-     * @Route("/{idEvenement}/edit", name="evenement_edit", methods={"GET","POST"})
+     * @Route("/evenement/{idEvenement}/edit", name="evenement_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Evenement $evenement): Response
     {
@@ -82,7 +82,7 @@ class EvenementController extends AbstractController
     }
 
     /**
-     * @Route("/{idEvenement}", name="evenement_delete", methods={"POST"})
+     * @Route("/evenement/{idEvenement}", name="evenement_delete", methods={"POST"})
      */
     public function delete(Request $request, Evenement $evenement): Response
     {
@@ -94,4 +94,21 @@ class EvenementController extends AbstractController
 
         return $this->redirectToRoute('evenement_index');
     }
+
+    /**
+     * @Route("/showeventtt", name="evenement_indexx", methods={"GET"})
+     */
+    public function indexx(): Response
+    {
+        $evenements = $this->getDoctrine()
+            ->getRepository(Evenement::class)
+            ->findAll();
+
+        return $this->render('evenement/eveenement.html.twig', [
+            'evenements' => $evenements,
+        ]);
+    }
+
+
+
 }

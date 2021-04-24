@@ -5,15 +5,34 @@
 {% block body %}
     <h1>Article index</h1>
 
+    {{ form_start(form) }}
+
+    <div class="form-row align-items-end" >
+        <div class="col">
+            {{ form_row(form.nom) }}
+        </div>
+
+        <div class="col">
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Recherche</button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+
+
+
+
     <table class="table">
         <thead>
-            <tr>
-                <th>IdArticle</th>
-                <th>IdEvenement</th>
-                <th>Titre</th>
-                <th>Contenu</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>IdArticle</th>
+            <th>IdEvenement</th>
+            <th>Titre</th>
+            <th>Contenu</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for article in articles %}

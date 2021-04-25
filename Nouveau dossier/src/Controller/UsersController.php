@@ -35,6 +35,48 @@ class UsersController extends AbstractController
  return new Response("tawa");
 
     }
+
+    /**
+     * @Route("/resetpwd", name="resetpwd", methods={"GET","POST"})
+     */
+      public function resetpassword(Request $request, UsersdataRepository $udr, UsersRepository $ur){
+          $entityManager = $this->getDoctrine()->getManager();
+          $user = $entityManager->getRepository(Users::class)->find($request->get('id'));
+          $userdata=$udr->findOneByUserId($user->getIdUser());
+          if($request->get('code')==$userdata->getForgetPwd())
+          {$user->setPassword($request->get('pwd'));}
+          else
+              return $this->render('users/forgetpassword.html.twig',['user'=>$user , 'err1'=>"wrong code",'err2'=>""]);
+          $entityManager = $this->getDoctrine()->getManager();
+          $entityManager->persist($userdata);
+          $entityManager->flush();
+          return $this->redirectToRoute("front");
+      }
+    /**
+     * @Route("/forgetpwd", name="forgetpwd", methods={"GET","POST"})
+     */
+    public function forgetpwd(Request $request,\Swift_Mailer $mailer , UsersdataRepository $udr, UsersRepository $ur){
+        $user=$ur->findOneByEmail($request->get('email'));
+        $userdata=$udr->findOneByUserId($user->getIdUser());
+        $userdata->setForgetPwd(random_int(100000,1000000000));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($userdata);
+        $entityManager->flush();
+
+        $message = (new \Swift_Message('Password reset'))
+            ->setFrom('send@example.com')
+            ->setTo($request->get('email'))
+            ->setBody($userdata->getForgetPwd(),
+                'text/plain'
+            );
+
+        $mailer->send($message);
+
+        return $this->render('users/forgetpassword.html.twig',['user'=>$user , 'err1'=>"",'err2'=>""]);
+    }
+
+
+
     /**
      * @Route("/block/{idUser}", name="users_block", methods={"POST"})
      */
@@ -44,7 +86,7 @@ class UsersController extends AbstractController
 
          if ($this->isCsrfTokenValid('block'.$user->getIdUser(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $user = $entityManager->getRepository(Users::class)->find(7);
+            $user = $entityManager->getRepository(Users::class)->find($user->getIdUser());
 
             $user->setBlocked(1);
             $entityManager->flush();

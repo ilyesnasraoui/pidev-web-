@@ -38,7 +38,28 @@
         <span></span>
     </div>
 </div>
-<!--end of preloading-->
+<!--forget form popup-->
+<div class="login-wrapper" id="forget-content">
+    <div class="login-content">
+        <a href="#" class="close">x</a>
+        <h3>Forget password</h3>
+        <form action="{{ path('forgetpwd') }}" method="post" >
+            <div class="row">
+                <label for="email">
+                    Email:
+                    <input type="email" name="email" id="email" placeholder="example@example.ce" required="required" />
+                </label>
+            </div>
+
+
+            <div class="row">
+                <button type="submit">Send mail</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+<!--end of forget form popup-->
 <!--login form popup-->
 <div class="login-wrapper" id="login-content">
     <div class="login-content">
@@ -81,6 +102,8 @@
 </div>
 
 <!--end of login form popup-->
+
+
 <!--signup form popup-->
 <div class="login-wrapper"  id="signup-content">
     <div class="login-content">
@@ -246,7 +269,9 @@
                     {% else %}
 
                         <li class="loginLink"><a href="#">LOG In</a></li>
+                        <li class="forgetLink"><a href="#"> forget password</a></li>
                         <li class="btn signupLink"><a href="#">sign up</a></li>
+
                     {% endif %}
 
                 </ul>

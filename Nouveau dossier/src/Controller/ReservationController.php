@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Planning;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
+use App\Repository\FilmsRepository;
+use App\Repository\SalleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +17,29 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ReservationController extends AbstractController
 {
+    /**
+     * @Route("/mytickets", name="mytickets", methods={"GET","POST"})
+     */
+    public function mytickets(FilmsRepository $fr,SalleRepository $sr){
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $entityManager = $this->getDoctrine()->getManager();
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Reservation r , App\Entity\Planning p
+            WHERE  
+             (r.idUser = :id) AND (r.idPlanning = p.idPlanning)
+             ORDER BY p.date
+            '
+        )
+            ->setParameters(array('id' => $user->getIdUser()));
+        return $this->render('reservation/mytickets.html.twig', [
+            'salles' =>$sr->findAll() ,
+            'plannings' => $query->getResult(),
+            'films' => $fr->findAll(),
+        ]);
+
+
+    }
 
     /**
      * @Route("/book", name="book", methods={"GET","POST"})

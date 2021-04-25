@@ -27,11 +27,11 @@ class UsersRepository extends ServiceEntityRepository
     // /**
     //  * @return Users[] Returns an array of Users objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findByEmail($value)
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
+            ->andWhere('u.email = :val')
             ->setParameter('val', $value)
             ->orderBy('u.id', 'ASC')
             ->setMaxResults(10)
@@ -39,7 +39,7 @@ class UsersRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+
 
 
     public function findOneUsername($value): ?Users

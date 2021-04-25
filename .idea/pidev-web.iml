@@ -110,6 +110,8 @@
       <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/phpdocumentor/type-resolver" />
       <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/phpdocumentor/reflection-common" />
       <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/monolog/monolog" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/knplabs/knp-paginator-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/knplabs/knp-components" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

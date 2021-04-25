@@ -32,7 +32,7 @@ class Offre
 
     /**
      * @var string|null
-     *@Assert\NotBlank(message="Offre must have an image")
+     *
      * @ORM\Column(name="offreimgpath", type="string", length=150, nullable=true)
      */
     private $offreimgpath;

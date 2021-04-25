@@ -2,31 +2,28 @@
 
 namespace App\Form;
 
-use App\Entity\Candidature;
+use App\Entity\Offre;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CandidatureType extends AbstractType
+class Offre2Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('idUser')
-            ->add('idOffre')
-            ->add('cvpath',FileType::class,[
-                'required'=>false,
-                'mapped'=>false])
+            ->add('offreimgpath')
             ->add('date')
             ->add('description')
+            ->add('titre')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Candidature::class,
+            'data_class' => Offre::class,
         ]);
     }
 }

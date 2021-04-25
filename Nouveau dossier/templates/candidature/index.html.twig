@@ -23,7 +23,8 @@
                 <td>{{ candidature.idCandidature }}</td>
                 <td>{{ candidature.idUser }}</td>
                 <td>{{ candidature.idOffre }}</td>
-                <td>{{ candidature.cvpath }}</td>
+                <td> <a href="/public/images/candidature/{{ candidature.cvpath }}" download="p">Download cv</a></td>
+                <!-- <td><a href="test.php?file=pdffilename">Download my eBook</a></td>-->
                 <td>{{ candidature.date ? candidature.date|date('Y-m-d') : '' }}</td>
                 <td>{{ candidature.description }}</td>
                 <td>

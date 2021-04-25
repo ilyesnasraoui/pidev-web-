@@ -22,7 +22,8 @@
             <tr>
                 <td>{{ offre.idOffre }}</td>
                 <td>{{ offre.idUser }}</td>
-                <td>{{ offre.offreimgpath }}</td>
+                <td><img style="height: 100px; width: 100px" src="{{ asset('images/offre/'~offre.offreimgpath) }}" >
+                </td>
                 <td>{{ offre.date ? offre.date|date('Y-m-d') : '' }}</td>
                 <td>{{ offre.description }}</td>
                 <td>{{ offre.titre }}</td>
@@ -40,4 +41,6 @@
     </table>
 
     <a href="{{ path('offre_new') }}">Create new</a>
+    {{ knp_pagination_render(offres) }}
+
 {% endblock %}

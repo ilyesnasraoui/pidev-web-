@@ -39,7 +39,7 @@ class Candidature
     /**
      * @var string|null
      *
-     *  @Assert\NotBlank(message="a cv is required")
+     *
      * @ORM\Column(name="cvpath", type="string", length=150, nullable=true)
      */
     private $cvpath;

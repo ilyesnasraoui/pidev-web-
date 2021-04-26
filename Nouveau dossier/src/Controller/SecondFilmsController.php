@@ -21,7 +21,7 @@ class SecondFilmsController extends AbstractController
             ->getRepository(Films::class)
             ->findAll();
 
-        return $this->render('films/moviegrid.html.twig', [
+        return $this->render('films/test.html.twig', [
             'films' => $films,
         ]);
     }

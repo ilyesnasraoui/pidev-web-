@@ -4,6 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Evenement;
 use App\Form\EvenementType;
+use App\Entity\CategorieEvent;
+use App\Repository\CategorieEventRepository;
+use App\Entity\Users;
+use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,9 +35,11 @@ class EvenementController extends AbstractController
     /**
      * @Route("evenement/new", name="evenement_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request ,CategorieEventRepository  $categorieEventRepository,UsersRepository $usersRepository): Response
     {
         $evenement = new Evenement();
+        $CategorieEvents = new CategorieEvent();
+        $Useress = new Users();
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
 
@@ -47,6 +53,8 @@ class EvenementController extends AbstractController
 
         return $this->render('evenement/new.html.twig', [
             'evenement' => $evenement,
+            'CategorieEvents' => $categorieEventRepository->findAll(),
+            'Userss' => $usersRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }
@@ -64,7 +72,7 @@ class EvenementController extends AbstractController
     /**
      * @Route("/evenement/{idEvenement}/edit", name="evenement_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Evenement $evenement): Response
+    public function edit(Request $request, Evenement $evenement,CategorieEventRepository  $categorieEventRepository,UsersRepository $usersRepository): Response
     {
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
@@ -77,6 +85,8 @@ class EvenementController extends AbstractController
 
         return $this->render('evenement/edit.html.twig', [
             'evenement' => $evenement,
+            'CategorieEvents' => $categorieEventRepository->findAll(),
+            'Userss' => $usersRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }

@@ -4,8 +4,26 @@
 
 {% block body %}
     <h1>Create new Article</h1>
-
-    {{ include('article/_form.html.twig') }}
+    {{ form_start(form) }}
+    Event
+    <br>
+            <select  id="{{ form.idEvenement.vars.id }}" name="{{ form.idEvenement.vars.full_name }}">
+                {%  for evenement in evenements %}
+                    <option value="{{ evenement.idEvenement }}">
+                        {{evenement.nomEvenement}}
+                    </option>
+                {% endfor %}
+            </select>
+    {% do form.idEvenement.setRendered %}
+    <br>
+    <br>
+    Title
+    {{ form_widget(form.titre) }}
+    <br>
+    content
+    {{ form_widget(form.contenu) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
 
     <a href="{{ path('article_index') }}">back to list</a>
 {% endblock %}

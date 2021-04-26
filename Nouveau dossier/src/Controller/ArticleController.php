@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Evenement;
 use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\PropertySearch;
 use App\Form\PropertySearchType;
+use App\Repository\EvenementRepository;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 
@@ -47,9 +49,10 @@ class ArticleController extends AbstractController
     /**
      * @Route("article/new", name="article_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,EvenementRepository  $EvenementRepository): Response
     {
         $article = new Article();
+        $evenements =new evenement();
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -63,6 +66,7 @@ class ArticleController extends AbstractController
 
         return $this->render('article/new.html.twig', [
             'article' => $article,
+            'evenements' => $EvenementRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }
@@ -80,7 +84,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/article/{idArticle}/edit", name="article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Article $article,TranslatorInterface $translator ): Response
+    public function edit(Request $request, Article $article,TranslatorInterface $translator ,EvenementRepository  $EvenementRepository): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
@@ -95,6 +99,7 @@ class ArticleController extends AbstractController
 
         return $this->render('article/edit.html.twig', [
             'article' => $article,
+            'evenements' => $EvenementRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }

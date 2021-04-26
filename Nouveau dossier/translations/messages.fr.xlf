@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="9ApKuU2" resname="user modified ">
+        <source>user modified </source>
+        <target>__user modified </target>
+      </trans-unit>
+      <trans-unit id="F7QsEmm" resname="Article index">
+        <source>Article index</source>
+        <target>article indice</target>
+      </trans-unit>
+      <trans-unit id="Pr79uWH" resname="article index">
+        <source>article index</source>
+        <target>article indice</target>
+      </trans-unit>
+      <trans-unit id="nMyzKRT" resname="Reaserch">
+        <source>Reaserch</source>
+        <target>Recherche</target>
+      </trans-unit>
+      <trans-unit id="ACcM9j_" resname="logout">
+        <source>logout</source>
+        <target>se déconnecter</target>
+      </trans-unit>
+      <trans-unit id="VT8Gnks" resname="Visit client side">
+        <source>Visit client side</source>
+        <target>visite cote client</target>
+      </trans-unit>
+      <trans-unit id="Z7aWRoY" resname="Dashboard">
+        <source>Dashboard</source>
+        <target>tableau de bord</target>
+      </trans-unit>
+      <trans-unit id="fftM9nd" resname="users">
+        <source>users</source>
+        <target>utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="aHf9NDJ" resname="Room plannings">
+        <source>Room plannings</source>
+        <target>planification de la salle</target>
+      </trans-unit>
+      <trans-unit id="VfDMuPu" resname="Plannings">
+        <source>Plannings</source>
+        <target>planification</target>
+      </trans-unit>
+      <trans-unit id="lI4D5wV" resname="Booking">
+        <source>Booking</source>
+        <target>réservation</target>
+      </trans-unit>
+      <trans-unit id="ZSvMOke" resname="Item">
+        <source>Item</source>
+        <target>Article</target>
+      </trans-unit>
+      <trans-unit id="IRzSYHA" resname="Event category">
+        <source>Event category</source>
+        <target>catégorie événement</target>
+      </trans-unit>
+      <trans-unit id="Eh7ugW5" resname="Evenement">
+        <source>Evenement</source>
+        <target>__Evenement</target>
+      </trans-unit>
+      <trans-unit id="3.kktp_" resname="Movies">
+        <source>Movies</source>
+        <target>Films</target>
+      </trans-unit>
+      <trans-unit id="zZNDcCn" resname="Movie category">
+        <source>Movie category</source>
+        <target>Catégorie films</target>
+      </trans-unit>
+      <trans-unit id="rIYnrws" resname="Product Category">
+        <source>Product Category</source>
+        <target>Catégorie produit</target>
+      </trans-unit>
+      <trans-unit id="Th9Jqci" resname="Event">
+        <source>Event</source>
+        <target>Evénement</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

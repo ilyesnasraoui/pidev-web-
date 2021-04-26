@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article index{% endblock %}
+{% block title %} {% trans %}article index{% endtrans %}{% endblock %}
 
 {% block body %}
-    <h1>Article index</h1>
+
+
+
+    <h1>{% trans %}Article index{% endtrans %}</h1>
+
+
+
 
     {{ form_start(form) }}
 
@@ -14,7 +20,7 @@
 
         <div class="col">
             <div class="form-group">
-                <button type="submit" class="btn btn-success">Recherche</button>
+                <button type="submit" class="btn btn-success">{% trans %}Reaserch{% endtrans %}</button>
             </div>
         </div>
     </div>

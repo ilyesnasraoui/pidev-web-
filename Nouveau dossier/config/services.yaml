@@ -6,6 +6,7 @@
 parameters:
     images_directory: '%kernel.project_dir%/public/images/produit'
     users_directory: '%kernel.project_dir%/public/images/users'
+    app.locales: [en,fr]
 
 services:
     # default configuration for services in *this* file

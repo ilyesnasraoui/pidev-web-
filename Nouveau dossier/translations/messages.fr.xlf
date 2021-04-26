@@ -85,6 +85,34 @@
         <source>Product</source>
         <target>produit</target>
       </trans-unit>
+      <trans-unit id="icBSZ9M" resname="IdItem">
+        <source>IdItem</source>
+        <target>IdArticle</target>
+      </trans-unit>
+      <trans-unit id="TqKjpzX" resname="IdEvent">
+        <source>IdEvent</source>
+        <target>IdEvenement</target>
+      </trans-unit>
+      <trans-unit id="fozSBW2" resname="Title">
+        <source>Title</source>
+        <target>titre</target>
+      </trans-unit>
+      <trans-unit id="R70pB1_" resname="Content">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="U0M9PNE" resname="back to list">
+        <source>back to list</source>
+        <target>Retour à la liste</target>
+      </trans-unit>
+      <trans-unit id="JiEhxTc" resname="edit">
+        <source>edit</source>
+        <target>Modifer</target>
+      </trans-unit>
+      <trans-unit id="rqNWinU" resname="Item index">
+        <source>Item index</source>
+        <target>Article indice</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

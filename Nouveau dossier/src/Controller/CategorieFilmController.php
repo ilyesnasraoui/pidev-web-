@@ -14,6 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CategorieFilmController extends AbstractController
 {
+
+
+
+
+
+
     /**
      * @Route("/", name="categorie_film_index", methods={"GET"})
      */

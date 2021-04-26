@@ -4,7 +4,9 @@
     "require": {
         "php": ">=7.3",
         "ext-ctype": "*",
+        "ext-curl": "*",
         "ext-iconv": "*",
+        "blackknight467/star-rating-bundle": "^2.0",
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.3",
@@ -39,8 +41,7 @@
         "symfony/web-server-bundle": "4.4.*",
         "symfony/yaml": "4.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0",
-        "ext-curl": "*"
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "symfony/browser-kit": "^4.4",

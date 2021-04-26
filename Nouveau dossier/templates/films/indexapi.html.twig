@@ -1,1 +1,66 @@
 {% extends 'base.html.twig' %}
+
+{% block title %}Films index{% endblock %}
+
+{% block body %}
+    <h1>Films index</h1>
+    <div class="col-md-12 form-it">
+        <label>Movie name</label>
+        <form class="form-style-1" method="post" action="/films/testapii">
+            <input name="search" type="text" id="search" placeholder="Enter keywords" >
+            <input class="submit" type="submit" value="submit">
+        </form>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>IdFilm</th>
+            <th>IdCategorie</th>
+            <th>Language</th>
+            <th>NomFilm</th>
+            <th>DureeFilm</th>
+            <th>Image</th>
+            <th>Description</th>
+            <th>Utube</th>
+            <th>Rated</th>
+            <th>Date</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for film in films %}
+            <tr>
+                <td>{{ film.idFilm }}</td>
+                <td>
+                    {% for categoriefilm in CategorieFilms %}
+                        {% if (film.idCategorie==categoriefilm.idCategorie) %}
+                            {{ categoriefilm.nomCategorie }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ film.language }}</td>
+                <td>{{ film.nomFilm }}</td>
+                <td>{{ film.dureeFilm }}</td>
+
+                <td> <img width="150" height="200" src="{{ film.getImage() }} " alt=""></td>
+
+
+                <td>{{ film.description }}</td>
+                <td>{{ film.utube }}</td>
+                <td>{{ film.rated }}</td>
+                <td>{{ film.date ? film.date|date('Y-m-d') : '' }}</td>
+                <td>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('films_new') }}">Create new</a>
+{% endblock %}

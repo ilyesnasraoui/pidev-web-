@@ -33,6 +33,23 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class FilmsController extends AbstractController
 {
     /**
+     * @Route("/showmov", name="showmov", methods={"GET"})
+     * @param $CategorieFilmRepository
+     * @return Response
+     */
+    public function showmovies(CategorieFilmRepository $categorieFilmRepository): Response
+    {
+        $films = $this->getDoctrine()
+            ->getRepository(Films::class)
+            ->findAll();
+        //var_dump($films);
+
+        return $this->render('films/moviegrid.html.twig', [
+            'films' => $films,
+            'CategorieFilms' => $categorieFilmRepository->findAll(),
+        ]);
+    }
+    /**
      * @Route("/", name="films_index", methods={"GET"})
      * @param $categorieFilmRepository
      * @return Response
@@ -49,6 +66,36 @@ class FilmsController extends AbstractController
             'CategorieFilms' => $categorieFilmRepository->findAll(),
 
         ]);
+    }
+
+
+
+    /**
+     * @Route("/{idFilm}", name="showmovi", methods={"GET"})
+     */
+    public function ratemovie(Films $film): Response
+
+    {
+
+        return $this->render('films/singlemovie.html.twig', [
+            "film" => $film,
+
+
+        ]);
+    }
+
+    /**
+     * @Route("/{idFilm}", name="showmovi", methods={"GET"})
+     */
+    public function showsinglemovie(Films $film): Response
+
+     {
+
+         return $this->render('films/singlemovie.html.twig', [
+             "film" => $film,
+
+
+         ]);
     }
 
     /**
@@ -74,7 +121,7 @@ class FilmsController extends AbstractController
 
         $films=array();
 
-       for($x = '1'; $x <3;$x++){
+       for($x = '1'; $x <5;$x++){
         //var_dump($data['results'][$x]);
           $film=new Films();
         //  $name = ($data);
@@ -96,7 +143,8 @@ class FilmsController extends AbstractController
         $newdate = (\DateTime::createFromFormat('Y-m-d', $date));
         $result = $newdate->format('Y-m-d');
         $film->setDate(\DateTime::createFromFormat('Y-m-d', $result));
-        print_r($film);
+
+       print_r($film);
        // curl_close($curl);
 
 
@@ -109,14 +157,15 @@ class FilmsController extends AbstractController
         /*   $films= $this->getDoctrine()
                ->getRepository(Films::class)
                ->findAll(); */
-           $films=$film;
+           $films[$x]=$film;
+
     }
 
 
 
-      return $this->render('films/index.html.twig', [
+      return $this->render('films/indexapi.html.twig', [
           array('films'=> $films),
-           // 'films' => $films,
+            'films' => $films,
             'CategorieFilms' => $categorieFilmRepository->findAll(),
             ]);
 
@@ -151,23 +200,7 @@ class FilmsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/showmov", name="showmov", methods={"GET"})
-     * @param $CategorieFilmRepository
-     * @return Response
-     */
-    public function showmovies(CategorieFilmRepository $categorieFilmRepository): Response
-    {
-        $films = $this->getDoctrine()
-            ->getRepository(Films::class)
-            ->findAll();
-        //var_dump($films);
 
-        return $this->render('films/moviegrid.html.twig', [
-            'films' => $films,
-            'CategorieFilms' => $categorieFilmRepository->findAll(),
-        ]);
-    }
 
 
 

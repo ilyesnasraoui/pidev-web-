@@ -1,6 +1,10 @@
 {% extends 'basefront.html.twig' %}
 
 {% block body %}
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
     <div class="hero mv-single-hero">
         <div class="container">
             <div class="row">
@@ -54,7 +58,9 @@
                                 <span class="rv">56 Reviews</span>
                             </p>
                         </div>
+
                         <div class="rate-star">
+                            <form action="/films/saverate" method="post">
                             <p>Rate This Movie:  </p>
                             <i onclick="" class="ion-ios-star" data-index="0" ></i>
                             <i class="ion-ios-star" data-index="1"></i>
@@ -62,6 +68,13 @@
                             <i class="ion-ios-star" data-index="3"></i>
                             <i class="ion-ios-star" data-index="4"></i>
                             <i class="ion-ios-star" data-index="5"></i>
+                                <input  type="text" name="note" id="note">
+                                <button type="submit" >Rate!</button>
+                            </form>
+                            <form action="/films/audio">
+                                <input type="button">
+                                <button type="submit" >play audio</button>
+                            </form>
 
                             <i class="ion-ios-star-outline"></i>
                         </div>
@@ -78,15 +91,15 @@
                                 if (localStorage.getItem('ratedIndex') != null) {
                                     setStars(parseInt(localStorage.getItem('ratedIndex')));
                                     uID = localStorage.getItem('uID');
-                                    console.log(uID);
+
 
                                 }
 
                                 $('.ion-ios-star').on('click', function () {
                                     ratedIndex = parseInt($(this).data('index'));
                                     localStorage.setItem('ratedIndex', ratedIndex);
-                                    console.log(ratedIndex);
-                                    console.log(uID);
+                                    document.getElementById("note").value =ratedIndex;
+
                                 });
 
                                 $('.ion-ios-star').mouseover(function () {
@@ -101,6 +114,18 @@
                                     if (ratedIndex != 1)
                                         setStars(ratedIndex);
                                 });
+
+                             $.ajax({
+                                 url: "test.php",
+                                 type: "POST",
+                                 data:{"myData":ratedIndex}
+                             }).done(function(data) {
+                                 console.log(data);
+                             });
+
+                            // document.getElementById("note").value = 99;
+
+                             console.log(document.cookie);
                             });
 
 

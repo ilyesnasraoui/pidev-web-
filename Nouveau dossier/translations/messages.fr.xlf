@@ -77,6 +77,14 @@
         <source>Event</source>
         <target>Evénement</target>
       </trans-unit>
+      <trans-unit id="ZWWRRVa" resname="Notice">
+        <source>Notice</source>
+        <target>avis</target>
+      </trans-unit>
+      <trans-unit id="_574lBd" resname="Product">
+        <source>Product</source>
+        <target>produit</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

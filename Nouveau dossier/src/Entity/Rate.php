@@ -49,6 +49,8 @@ class Rate
      */
     private $comment;
 
+
+
     public function getIdRate(): ?int
     {
         return $this->idRate;
@@ -98,6 +100,13 @@ class Rate
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function setIdRate(int $id_rate): self
+    {
+        $this->id_rate = $id_rate;
 
         return $this;
     }

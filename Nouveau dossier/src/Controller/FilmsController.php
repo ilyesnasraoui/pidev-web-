@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Films;
+use App\Entity\Rate;
+use App\Entity\Users;
 use App\Entity\CategorieFilm;
 use App\Repository\CategorieEventRepository;
 use App\Repository\FilmsRepository;
 use App\Form\FilmsType;
 use App\Repository\CategorieFilmRepository;
+use App\Repository\UsersdataRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +26,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+use Google\Cloud\TextToSpeech\V1\AudioConfig;
+use Google\Cloud\TextToSpeech\V1\AudioEncoding;
+use Google\Cloud\TextToSpeech\V1\SsmlVoiceGender;
+use Google\Cloud\TextToSpeech\V1\SynthesisInput;
+use Google\Cloud\TextToSpeech\V1\TextToSpeechClient;
+use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
 
 
 
@@ -32,6 +42,78 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class FilmsController extends AbstractController
 {
+
+    /**
+     * @Route("/audio", name="play")
+     */
+    public function audioo()
+    {
+
+
+        $text = 'Text to ddd';
+
+// create client object
+        $client = new TextToSpeechClient();
+
+        $input_text = (new SynthesisInput())
+            ->setText($text);
+
+// note: the voice can also be specified by name
+// names of voices can be retrieved with $client->listVoices()
+        $voice = (new VoiceSelectionParams())
+            ->setLanguageCode('en-US')
+            ->setSsmlGender(SsmlVoiceGender::FEMALE);
+
+        $audioConfig = (new AudioConfig())
+            ->setAudioEncoding(AudioEncoding::MP3);
+
+        $response = $client->synthesizeSpeech($input_text, $voice, $audioConfig);
+        $audioContent = $response->getAudioContent();
+
+        file_put_contents('output.mp3', $audioContent);
+        print('Audio content written to "output.mp3"' . PHP_EOL);
+
+        $client->close();
+        return $this->render('films/audio.html.twig');
+
+    }
+
+
+
+    /**
+     * @Route("/saverate", name="save", methods={"POST","GET"})
+     */
+    public function saverate(Request $request)
+    {
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $id=$user->getIdUser();
+        $ch=$request->get("note");
+
+        var_dump($id);
+        var_dump($ch);
+
+     $rate=new Rate();
+
+        $rate->setIdUser($id);
+        $rate->setNote($ch);
+        $rate->setIdFilm(53);
+       // $rate->setIdRate(1);
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($rate);
+        $entityManager->flush();
+
+
+
+
+        return $this->render('films/moviegrid.html.twig');
+
+
+    }
+
+
     /**
      * @Route("/showmov", name="showmov", methods={"GET"})
      * @param $CategorieFilmRepository
@@ -39,6 +121,7 @@ class FilmsController extends AbstractController
      */
     public function showmovies(CategorieFilmRepository $categorieFilmRepository): Response
     {
+
         $films = $this->getDoctrine()
             ->getRepository(Films::class)
             ->findAll();
@@ -69,20 +152,6 @@ class FilmsController extends AbstractController
     }
 
 
-
-    /**
-     * @Route("/{idFilm}", name="showmovi", methods={"GET"})
-     */
-    public function ratemovie(Films $film): Response
-
-    {
-
-        return $this->render('films/singlemovie.html.twig', [
-            "film" => $film,
-
-
-        ]);
-    }
 
     /**
      * @Route("/{idFilm}", name="showmovi", methods={"GET"})

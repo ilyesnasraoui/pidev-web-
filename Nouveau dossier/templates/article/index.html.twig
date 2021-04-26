@@ -33,11 +33,11 @@
     <table class="table">
         <thead>
         <tr>
-            <th>IdArticle</th>
-            <th>IdEvenement</th>
-            <th>Titre</th>
-            <th>Contenu</th>
-            <th>actions</th>
+            <th>{% trans %}IdItem{% endtrans %}</th>
+            <th>{% trans %}IdEvent{% endtrans %}</th>
+            <th>{% trans %}Title{% endtrans %}</th>
+            <th>{% trans %}Content{% endtrans %}</th>
+            <th>{% trans %}Actions{% endtrans %}</th>
         </tr>
         </thead>
         <tbody>
@@ -48,8 +48,8 @@
                 <td>{{ article.titre }}</td>
                 <td>{{ article.contenu }}</td>
                 <td>
-                    <a href="{{ path('article_show', {'idArticle': article.idArticle}) }}">show</a>
-                    <a href="{{ path('article_edit', {'idArticle': article.idArticle}) }}">edit</a>
+                    <a href="{{ path('article_show', {'idArticle': article.idArticle}) }}">{% trans %}show{% endtrans %}</a>
+                    <a href="{{ path('article_edit', {'idArticle': article.idArticle}) }}">{% trans %}edit{% endtrans %}</a>
                 </td>
             </tr>
         {% else %}

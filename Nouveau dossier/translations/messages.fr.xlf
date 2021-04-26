@@ -10,8 +10,8 @@
         <target>__user modified </target>
       </trans-unit>
       <trans-unit id="F7QsEmm" resname="Article index">
-        <source>Article index</source>
-        <target>article indice</target>
+        <source>Item index</source>
+        <target>Article indice</target>
       </trans-unit>
       <trans-unit id="Pr79uWH" resname="article index">
         <source>article index</source>
@@ -112,6 +112,14 @@
       <trans-unit id="rqNWinU" resname="Item index">
         <source>Item index</source>
         <target>Article indice</target>
+      </trans-unit>
+      <trans-unit id=".4BZ3Gd" resname="Actions">
+        <source>Actions</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="HGMzUJ3" resname="show">
+        <source>show</source>
+        <target>Afficher</target>
       </trans-unit>
     </body>
   </file>

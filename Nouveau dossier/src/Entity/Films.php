@@ -84,6 +84,12 @@ class Films
      */
     private $date;
 
+    /**
+     * Films constructor.
+     * @param int $idFilm
+     */
+
+
     public function getIdFilm(): ?int
     {
         return $this->idFilm;

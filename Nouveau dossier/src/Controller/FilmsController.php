@@ -32,7 +32,145 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class FilmsController extends AbstractController
 {
+    /**
+     * @Route("/showmov", name="showmov", methods={"GET"})
+     * @param $CategorieFilmRepository
+     * @return Response
+     */
+    public function showmovies(CategorieFilmRepository $categorieFilmRepository): Response
+    {
+        $films = $this->getDoctrine()
+            ->getRepository(Films::class)
+            ->findAll();
+        //var_dump($films);
 
+        return $this->render('films/moviegrid.html.twig', [
+            'films' => $films,
+            'CategorieFilms' => $categorieFilmRepository->findAll(),
+        ]);
+    }
+    /**
+     * @Route("/", name="films_index", methods={"GET"})
+     * @param $categorieFilmRepository
+     * @return Response
+     */
+    public function index(CategorieFilmRepository $categorieFilmRepository): Response
+    {
+
+        $films = $this->getDoctrine()
+            ->getRepository(Films::class)
+            ->findAll();
+
+        return $this->render('films/index.html.twig', [
+            'films' => $films,
+            'CategorieFilms' => $categorieFilmRepository->findAll(),
+
+        ]);
+    }
+
+
+
+    /**
+     * @Route("/{idFilm}", name="showmovi", methods={"GET"})
+     */
+    public function ratemovie(Films $film): Response
+
+    {
+
+        return $this->render('films/singlemovie.html.twig', [
+            "film" => $film,
+
+
+        ]);
+    }
+
+    /**
+     * @Route("/{idFilm}", name="showmovi", methods={"GET"})
+     */
+    public function showsinglemovie(Films $film): Response
+
+     {
+
+         return $this->render('films/singlemovie.html.twig', [
+             "film" => $film,
+
+
+         ]);
+    }
+
+    /**
+     * @Route("/testapii", name="test_api")
+     * @param $categorieFilmRepository
+     * @return Response
+     */
+    public function api(Request $request,CategorieFilmRepository $categorieFilmRepository): Response
+    {
+
+        $ch=$request->get("search");
+        $curl=curl_init("https://api.themoviedb.org/3/search/multi?api_key=ba9007874ae1b197d4fa0574fabba170&language=en&query=".$ch."&page=1&include_adult=false&fbclid=IwAR08vpervb55VV8BsOuMpsIsfgxxkH_NJDGz1okpdkB20pvNg1vYdw82NVg");
+        curl_setopt($curl,CURLOPT_PROXY_SSL_VERIFYPEER,false);
+       curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+        $data=curl_exec($curl);
+        if($data === false) {
+            var_dump(curl_error($curl));
+        }else {
+
+            $data = json_decode($data, true);
+        }
+
+
+        $films=array();
+
+       for($x = '1'; $x <5;$x++){
+        //var_dump($data['results'][$x]);
+          $film=new Films();
+        //  $name = ($data);
+        // curl_close($curl);
+        // create movie //////////////////////////////////////
+
+        $film->setIdCategorie('5');
+        $film->setLanguage($data['results'][$x]['original_language']);
+        $film->setNomFilm($data['results'][$x]['original_title']);
+        $film->setDureeFilm('5');
+        $image = ($data['results'][$x]['poster_path']);
+        $imgurl = ("https://image.tmdb.org/t/p/w500" . $image);
+        $film->setImage($imgurl);
+        echo($imgurl);
+        $film->setDescription($data['results'][$x]['overview']);
+        $film->setUtube("rgfrger");
+        $film->setRated($data['results'][$x]['vote_average']);
+        $date = "2020-10-10";
+        $newdate = (\DateTime::createFromFormat('Y-m-d', $date));
+        $result = $newdate->format('Y-m-d');
+        $film->setDate(\DateTime::createFromFormat('Y-m-d', $result));
+
+       print_r($film);
+       // curl_close($curl);
+
+
+        // add movie to data base
+        //    $entityManager = $this->getDoctrine()->getManager();
+        //  $entityManager->persist($film);
+        // $entityManager->flush();
+        // MOVIE CREATED //////////////////
+// add movies from database to films array
+        /*   $films= $this->getDoctrine()
+               ->getRepository(Films::class)
+               ->findAll(); */
+           $films[$x]=$film;
+
+    }
+
+
+
+      return $this->render('films/indexapi.html.twig', [
+          array('films'=> $films),
+            'films' => $films,
+            'CategorieFilms' => $categorieFilmRepository->findAll(),
+            ]);
+
+
+    }
 
 
     /**
@@ -62,42 +200,11 @@ class FilmsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/showmov", name="showmov", methods={"GET"})
-     * @param $CategorieFilmRepository
-     * @return Response
-     */
-    public function showmovies(CategorieFilmRepository $categorieFilmRepository): Response
-    {
-        $films = $this->getDoctrine()
-            ->getRepository(Films::class)
-            ->findAll();
-
-        return $this->render('films/moviegrid.html.twig', [
-            'films' => $films,
-            'CategorieFilms' => $categorieFilmRepository->findAll(),
-        ]);
-    }
 
 
 
-    /**
-     * @Route("/", name="films_index", methods={"GET"})
-     * @param $categorieFilmRepository
-     * @return Response
-     */
-    public function index(CategorieFilmRepository $categorieFilmRepository): Response
-    {
-        $films = $this->getDoctrine()
-            ->getRepository(Films::class)
-            ->findAll();
 
-        return $this->render('films/index.html.twig', [
-            'films' => $films,
-            'CategorieFilms' => $categorieFilmRepository->findAll(),
 
-        ]);
-    }
 
 
     /**
@@ -159,19 +266,33 @@ class FilmsController extends AbstractController
         ]);
     }
 
-
+    /**
+     * @Route("/{idFilm}", name="films_show", methods={"GET"})
+     */
+    public function show(Films $film): Response
+    {
+        return $this->render('films/show.html.twig', [
+            'film' => $film,
+        ]);
+    }
     /**
      * @Route("/addnew", name="add_new", methods={"GET","POST"})
      */
     public function addnew(Request $request): Response
     {
 
+
+
+
+
         $film= new Films();
         $film->setIdCategorie($request->get('cat'));
         $film->setLanguage($request->get('lang'));
         $film->setNomFilm($request->get('nomfilm'));
         $film->setDureeFilm($request->get('duree'));
-        $film->setImage($request->get('image'));
+        $image=("C:/Users/elyes\Documents/GitHub/pidev-web-/Nouveau dossier/public/images".($request->get('image')));
+        $film->setImage($image);
+
         $film->setDescription($request->get('desc'));
         $film->setUtube($request->get('utube'));
         $film->setRated($request->get('rated'));
@@ -191,15 +312,6 @@ class FilmsController extends AbstractController
 
 
 
-    /**
-     * @Route("/{idFilm}", name="films_show", methods={"GET"})
-     */
-    public function show(Films $film): Response
-    {
-        return $this->render('films/show.html.twig', [
-            'film' => $film,
-        ]);
-    }
 
     /**
      * @Route("/{idFilm}/edit", name="films_edit", methods={"GET","POST"})

@@ -7,38 +7,38 @@
     <div class="col-md-12 form-it">
         <label>Movie name</label>
         <form class="form-style-1" method="post" action="/films/testapii">
-        <input name="search" type="text" id="search" placeholder="Enter keywords" >
+            <input name="search" type="text" id="search" placeholder="Enter keywords" >
             <input class="submit" type="submit" value="submit">
         </form>
     </div>
 
     <table class="table">
         <thead>
-            <tr>
-                <th>IdFilm</th>
-                <th>IdCategorie</th>
-                <th>Language</th>
-                <th>NomFilm</th>
-                <th>DureeFilm</th>
-                <th>Image</th>
-                <th>Description</th>
-                <th>Utube</th>
-                <th>Rated</th>
-                <th>Date</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>IdFilm</th>
+            <th>IdCategorie</th>
+            <th>Language</th>
+            <th>NomFilm</th>
+            <th>DureeFilm</th>
+            <th>Image</th>
+            <th>Description</th>
+            <th>Utube</th>
+            <th>Rated</th>
+            <th>Date</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for film in films %}
             <tr>
                 <td>{{ film.idFilm }}</td>
                 <td>
-                        {% for categoriefilm in CategorieFilms %}
-                            {% if (film.idCategorie==categoriefilm.idCategorie) %}
+                    {% for categoriefilm in CategorieFilms %}
+                        {% if (film.idCategorie==categoriefilm.idCategorie) %}
                             {{ categoriefilm.nomCategorie }}
-                            {% endif %}
-                        {% endfor %}
-                    </td>
+                        {% endif %}
+                    {% endfor %}
+                </td>
                 <td>{{ film.language }}</td>
                 <td>{{ film.nomFilm }}</td>
                 <td>{{ film.dureeFilm }}</td>
@@ -51,8 +51,7 @@
                 <td>{{ film.rated }}</td>
                 <td>{{ film.date ? film.date|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('films_show', {'idFilm': film.idFilm}) }}">show</a>
-                    <a href="{{ path('films_edit', {'idFilm': film.idFilm}) }}">edit</a>
+
                 </td>
             </tr>
         {% else %}

@@ -110,6 +110,12 @@
       <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/phpdocumentor/type-resolver" />
       <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/phpdocumentor/reflection-common" />
       <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/monolog/monolog" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/swiftmailer/swiftmailer" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/symfony/swiftmailer-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/gedmo/doctrine-extensions" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/behat/transliterator" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/knplabs/knp-components" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/knplabs/knp-paginator-bundle" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

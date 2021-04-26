@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-md-9 col-sm-12 col-xs-12" >
                     <div class="form-style-1 user-pro" action="#">
-                        <form action="changepd" method="post" class="user">
+                        <form action="{{ path('changepersonaldata') }}" method="post" class="user">
                             <h4>01. Profile details</h4>
                             <div class="row">
                                 <div class="col-md-6 form-it">
@@ -87,7 +87,7 @@
                             </div>
                         </form>
 
-                        <form action="changepwd" class="password">
+                        <form action="{{ path('changepassword') }}" class="password">
                             <h4>02. Change password</h4>
                             <div class="row">
                                 <div class="col-md-6 form-it">
@@ -136,5 +136,4 @@
             </div>
         </div>
     </div>
-    <a href="test"><input type="submit" value="test" ></a>
 {% endblock %}

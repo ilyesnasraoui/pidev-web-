@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Offre;
 use App\Form\Offre2Type;
 use App\Repository\OffreRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,77 +19,38 @@ class ListeofferController extends AbstractController
     /**
      * @Route("/", name="listeoffer_index", methods={"GET"})
      */
-    public function index(OffreRepository $offreRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        $offres = $this->getDoctrine()
+            ->getRepository(Offre::class)
+            ->findAll();
+        $size = count($offres);
+        $offres = $paginator->paginate(
+        // Doctrine Query, not results
+            $offres,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            8
+        );
         return $this->render('listeoffer/index.html.twig', [
-            'offres' => $offreRepository->findAll(),
+            'offres' => $offres,
+            'size' =>$size,
         ]);
     }
 
-    /**
-     * @Route("/new", name="listeoffer_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $offre = new Offre();
-        $form = $this->createForm(Offre2Type::class, $offre);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($offre);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('listeoffer_index');
-        }
-
-        return $this->render('listeoffer/new.html.twig', [
-            'offre' => $offre,
-            'form' => $form->createView(),
-        ]);
-    }
 
     /**
      * @Route("/{idOffre}", name="listeoffer_show", methods={"GET"})
      */
-    public function show(Offre $offre): Response
+    public function show(Offre $offre, int $idOffre): Response
     {
         return $this->render('listeoffer/show.html.twig', [
             'offre' => $offre,
+            'idOffre' => $idOffre,
         ]);
     }
 
-    /**
-     * @Route("/{idOffre}/edit", name="listeoffer_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Offre $offre): Response
-    {
-        $form = $this->createForm(Offre2Type::class, $offre);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('listeoffer_index');
-        }
-
-        return $this->render('listeoffer/edit.html.twig', [
-            'offre' => $offre,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{idOffre}", name="listeoffer_delete", methods={"POST"})
-     */
-    public function delete(Request $request, Offre $offre): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$offre->getIdOffre(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($offre);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('listeoffer_index');
-    }
 }

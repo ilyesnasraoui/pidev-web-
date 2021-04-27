@@ -19,6 +19,11 @@
             </div>
         </div>
     </div>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="page-single">
         <div class="container">
             <div class="row">

@@ -3,13 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Candidature
  *
  * @ORM\Table(name="candidature")
- * @ORM\Entity(repositoryClass="App\Repository\CandidatureRepository")
+ * @ORM\Entity
  */
 class Candidature
 {
@@ -39,7 +38,6 @@ class Candidature
     /**
      * @var string|null
      *
-     *
      * @ORM\Column(name="cvpath", type="string", length=150, nullable=true)
      */
     private $cvpath;
@@ -53,16 +51,24 @@ class Candidature
 
     /**
      * @var string
-     * @Assert\NotBlank(message="A description is required")
+     *
      * @Assert\Length(
      *      min = 10,
-     *      max = 80,
+     *      max = 800,
      *      minMessage = "Your Description must be at least 10 characters long",
      *      maxMessage = "Your Description is too long "
      * )
+     * @Assert\NotBlank(message="A description is required")
      * @ORM\Column(name="description", type="string", length=100, nullable=false)
      */
     private $description;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="EtatCandidat", type="string", length=20, nullable=true)
+     */
+    private $etatcandidat;
 
     public function getIdCandidature(): ?int
     {
@@ -125,6 +131,18 @@ class Candidature
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getEtatcandidat(): ?string
+    {
+        return $this->etatcandidat;
+    }
+
+    public function setEtatcandidat(?string $etatcandidat): self
+    {
+        $this->etatcandidat = $etatcandidat;
 
         return $this;
     }

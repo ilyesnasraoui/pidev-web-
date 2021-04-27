@@ -205,6 +205,38 @@
         <source>sign up</source>
         <target>__sign up</target>
       </trans-unit>
+      <trans-unit id="GiHTohZ" resname="blog List">
+        <source>blog List</source>
+        <target>__blog List</target>
+      </trans-unit>
+      <trans-unit id="1hl5z56" resname="blog Grid">
+        <source>blog Grid</source>
+        <target>__blog Grid</target>
+      </trans-unit>
+      <trans-unit id="emEz_0M" resname="user favorite grid">
+        <source>user favorite grid</source>
+        <target>__user favorite grid</target>
+      </trans-unit>
+      <trans-unit id="8z2F8Al" resname="user favorite list">
+        <source>user favorite list</source>
+        <target>__user favorite list</target>
+      </trans-unit>
+      <trans-unit id="DiuG1gb" resname="user profile">
+        <source>user profile</source>
+        <target>__user profile</target>
+      </trans-unit>
+      <trans-unit id="AwhZMst" resname="user rate">
+        <source>user rate</source>
+        <target>__user rate</target>
+      </trans-unit>
+      <trans-unit id="v6Bi3gQ" resname="pages">
+        <source>pages</source>
+        <target>pages</target>
+      </trans-unit>
+      <trans-unit id="YiaBud5" resname="LOG out">
+        <source>LOG out</source>
+        <target>se déconnecter</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

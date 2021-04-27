@@ -40,44 +40,29 @@ use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
 /**
  * @Route("/films")
  */
+
+
+
+
+
 class FilmsController extends AbstractController
 {
 
     /**
-     * @Route("/audio", name="play")
+     * @Route("/new", name="films_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param CategorieFilmRepository $categorieFilmRepository
+
+     * @return Response
      */
-    public function audioo()
+    public function new(Request $request, CategorieFilmRepository $categorieFilmRepository): Response
     {
 
+        return $this->render('films/new.html.twig', [
+            'categoriefilms' => $categorieFilmRepository->findAll(),
 
-        $text = 'Text to ddd';
-
-// create client object
-        $client = new TextToSpeechClient();
-
-        $input_text = (new SynthesisInput())
-            ->setText($text);
-
-// note: the voice can also be specified by name
-// names of voices can be retrieved with $client->listVoices()
-        $voice = (new VoiceSelectionParams())
-            ->setLanguageCode('en-US')
-            ->setSsmlGender(SsmlVoiceGender::FEMALE);
-
-        $audioConfig = (new AudioConfig())
-            ->setAudioEncoding(AudioEncoding::MP3);
-
-        $response = $client->synthesizeSpeech($input_text, $voice, $audioConfig);
-        $audioContent = $response->getAudioContent();
-
-        file_put_contents('output.mp3', $audioContent);
-        print('Audio content written to "output.mp3"' . PHP_EOL);
-
-        $client->close();
-        return $this->render('films/audio.html.twig');
-
+        ]);
     }
-
 
 
     /**
@@ -87,31 +72,53 @@ class FilmsController extends AbstractController
     {
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $id=$user->getIdUser();
-        $ch=$request->get("note");
 
-        var_dump($id);
-        var_dump($ch);
+        $id = $user->getIdUser();
+        $ch = $request->get("note");
+       // var_dump($ch);
+        $idm = $request->get("idm");
+        //var_dump($request->get("idm"));
+        $ratez = $this->getDoctrine()
+            ->getRepository(Rate::class)
+            ->findAll();
+        $var = "You already rated this movie";
+        $varr = "done";
 
-     $rate=new Rate();
+        foreach ($ratez as $rate) {
+            if ($rate->getIdFilm() == $idm and $rate->getIdUser() == $id) {
+                $rate->setNote($ch);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($rate);
+                $entityManager->flush();
+
+                $films = $this->getDoctrine()
+                    ->getRepository(Films::class)
+                    ->findAll();
+                return $this->render('films/test2.html.twig', [
+                    'films' => $films,]);
+            }
+        }
+
+        $rate = new Rate();
+        echo($varr);
 
         $rate->setIdUser($id);
         $rate->setNote($ch);
-        $rate->setIdFilm(53);
-       // $rate->setIdRate(1);
-
+        $rate->setIdFilm($idm);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($rate);
         $entityManager->flush();
 
+        $films = $this->getDoctrine()
+            ->getRepository(Films::class)
+            ->findAll();
 
-
-
-        return $this->render('films/moviegrid.html.twig');
-
+        return $this->render('films/test2.html.twig', [
+            'films' => $films,]);
 
     }
+
 
 
     /**
@@ -179,7 +186,11 @@ class FilmsController extends AbstractController
         $curl=curl_init("https://api.themoviedb.org/3/search/multi?api_key=ba9007874ae1b197d4fa0574fabba170&language=en&query=".$ch."&page=1&include_adult=false&fbclid=IwAR08vpervb55VV8BsOuMpsIsfgxxkH_NJDGz1okpdkB20pvNg1vYdw82NVg");
         curl_setopt($curl,CURLOPT_PROXY_SSL_VERIFYPEER,false);
        curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+
+
         $data=curl_exec($curl);
+        var_dump($data);
+
         if($data === false) {
             var_dump(curl_error($curl));
         }else {
@@ -213,7 +224,7 @@ class FilmsController extends AbstractController
         $result = $newdate->format('Y-m-d');
         $film->setDate(\DateTime::createFromFormat('Y-m-d', $result));
 
-       print_r($film);
+      // print_r($film);
        // curl_close($curl);
 
 
@@ -271,52 +282,6 @@ class FilmsController extends AbstractController
 
 
 
-
-
-
-
-
-    /**
-     * @Route("/new", name="films_new", methods={"GET","POST"})
-     * @param Request $request
-     * @param CategorieFilmRepository $categorieFilmRepository
-     * @param $CategorieFilmRespository
-     * @return Response
-     */
-    public function new(Request $request, CategorieFilmRepository $categorieFilmRepository): Response
-    {
-      /*  $film = new Films();
-        $form = $this->createForm(FilmsType::class, $film);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $file = $form->get('image')->getData();
-            $fileName=md5(uniqid()).'.'.$file->guessExtension();
-            try{
-                $file->move(
-                    $this->getParameter('images_directory'),
-                    $fileName
-                );
-            } catch (FileException $e) {
-                //... handle exception if something happens during file upload
-            }
-            $entityManager= $this->getDoctrine()->getManager();
-            $film->setImage($fileName);
-            $entityManager->persist($film);
-            $entityManager->flush();
-
-
-
-            return $this->redirectToRoute('films_index');
-        }
-  */
-
-        return $this->render('films/new.html.twig', [
-            'categoriefilms' => $categorieFilmRepository->findAll(),
-
-        ]);
-    }
 
     /**
      * @Route("/filmtri/{id}", name="film_trie")

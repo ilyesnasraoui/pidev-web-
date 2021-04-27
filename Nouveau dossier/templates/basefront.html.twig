@@ -194,7 +194,7 @@
                         </a>
                         <ul class="dropdown-menu level1">
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" >{% trans %}Movie grid{% endtrans %}<i class="ion-ios-arrow-forward"></i></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Movie grid<i class="ion-ios-arrow-forward"></i></a>
                                 <ul class="dropdown-menu level2">
                                     <li><a href="{{ asset('films/showmov') }}">{% trans %}Movie grid{% endtrans %}</a></li>
                                     <li><a href="moviegridfw.html">{% trans %}movie grid full width{% endtrans %}</a></li>
@@ -207,6 +207,54 @@
 
 
                     </li>
+
+
+                    <li class="dropdown first">
+                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+                            {% trans %}Event{% endtrans %}<i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </a>
+                        <ul class="dropdown-menu level1">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Movie grid<i class="ion-ios-arrow-forward"></i></a>
+                                <ul class="dropdown-menu level2">
+                                    <li><a href="{{ asset('/showeventtt') }}">{% trans %}Movie grid{% endtrans %}</a></li>
+
+                                </ul>
+                            </li>
+
+
+
+
+                        </ul>
+
+
+
+                    </li>
+
+
+                    <li class="dropdown first">
+                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+                            {% trans %}Item{% endtrans %}<i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </a>
+                        <ul class="dropdown-menu level1">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Item grid<i class="ion-ios-arrow-forward"></i></a>
+                                <ul class="dropdown-menu level2">
+                                    <li><a href="{{ asset('/showarticle') }}">{% trans %}Item grid{% endtrans %}</a></li>
+
+                                </ul>
+                            </li>
+
+
+
+
+                        </ul>
+
+                    </li>
+
+
+
+
                     <li class="dropdown first">
                         <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                             {% trans %}Rooms{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
@@ -219,22 +267,11 @@
 
                     <li class="dropdown first">
                         <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            {% trans %}celebrities{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu level1">
-                            <li><a href="celebritygrid01.html">celebrity grid 01</a></li>
-                            <li><a href="celebritygrid02.html">celebrity grid 02 </a></li>
-                            <li><a href="celebritylist.html">celebrity list</a></li>
-                            <li class="it-last"><a href="celebritysingle.html">celebrity single</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                             {% trans %}news{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu level1">
-                            <li><a href="bloglist.html">blog List</a></li>
-                            <li><a href="bloggrid.html">blog Grid</a></li>
+                            <li><a href="bloglist.html">{% trans %}blog List{% endtrans %}</a></li>
+                            <li><a href="bloggrid.html">{% trans %}blog Grid{% endtrans %}</a></li>
                             <li class="it-last"><a href="blogdetail.html">blog Detail</a></li>
                         </ul>
                     </li>
@@ -243,17 +280,17 @@
                             {% trans %}community{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu level1">
-                            <li><a href="userfavoritegrid.html">user favorite grid</a></li>
-                            <li><a href="userfavoritelist.html">user favorite list</a></li>
-                            <li><a href="userprofile.html">user profile</a></li>
-                            <li class="it-last"><a href="userrate.html">user rate</a></li>
+                            <li><a href="userfavoritegrid.html">{% trans %}user favorite grid{% endtrans %}</a></li>
+                            <li><a href="userfavoritelist.html">{% trans %}user favorite list{% endtrans %}</a></li>
+                            <li><a href="userprofile.html">{% trans %}user profile{% endtrans %}</a></li>
+                            <li class="it-last"><a href="userrate.html">{% trans %}user rate{% endtrans %}</a></li>
                         </ul>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav flex-child-menu menu-right">
                     <li class="dropdown first">
                         <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            pages <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            {% trans %}pages{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu level1">
                             <li><a href="landing.html">Landing</a></li>
@@ -266,25 +303,25 @@
                     {% if app.user %}
                         <li><a href="/reservation/mytickets">{% trans %}my tickets{% endtrans %}</a></li>
                         <li><a href="{{asset('users/profile') }}">{% trans %}Profile{% endtrans %}</a></li>
-                        <li ><a href="/logout">LOG out</a></li>
+                        <li ><a href="/logout">{% trans %}LOG out{% endtrans %}</a></li>
 
                     {% else %}
 
                         <li class="loginLink"><a href="#">{% trans %}LOG In{% endtrans %}</a></li>
-                        <li class="forgetLink"><a href="#"> {% trans %}forget password{% endtrans %}</a></li>
-                        <li class="btn signupLink"><a href="#">{% trans %}sign up{% endtrans %}</a></li>
+                        <li class="forgetLink"><a href="#"> forget password</a></li>
+                        <li class="btn signupLink"><a href="#">sign up</a></li>
 
                     {% endif %}
 
-
+                    <li >{% for locale in locales %}
+                            {% if locale != app.request.locale %}
+                                <a href="{{ path('change_locale',{'locale':locale}) }}"><img src="{{ asset('img/'~locale~'.png') }}" alt="{{ locale }}" style="width: 40px; height: 40px">
+                                </a>
+                            {% endif %}
+                        {% endfor %}</li>
                 </ul>
 
-                <li >{% for locale in locales %}
-                        {% if locale != app.request.locale %}
-                            <a href="{{ path('change_locale',{'locale':locale}) }}"><img src="{{ asset('img/'~locale~'.png') }}" alt="{{ locale }}""width="20"
-                                height="20"></a>
-                        {% endif %}
-                    {% endfor %}</li>
+
             </div>
             <!-- /.navbar-collapse -->
         </nav>

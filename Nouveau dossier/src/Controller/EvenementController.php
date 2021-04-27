@@ -104,11 +104,15 @@ class EvenementController extends AbstractController
     /**
      * @Route("/showeventtt", name="evenement_indexx", methods={"GET"})
      */
-    public function indexx(): Response
+    public function indexx(Request $request,PaginatorInterface $paginator): Response
     {
-        $evenements = $this->getDoctrine()
+        $donnees = $this->getDoctrine()
             ->getRepository(Evenement::class)
             ->findAll();
+        $evenements=$paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            4);
 
         return $this->render('evenement/eveenement.html.twig', [
             'evenements' => $evenements,

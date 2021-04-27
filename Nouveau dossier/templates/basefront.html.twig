@@ -219,17 +219,6 @@
 
                     <li class="dropdown first">
                         <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu level1">
-                            <li><a href="celebritygrid01.html">celebrity grid 01</a></li>
-                            <li><a href="celebritygrid02.html">celebrity grid 02 </a></li>
-                            <li><a href="celebritylist.html">celebrity list</a></li>
-                            <li class="it-last"><a href="celebritysingle.html">celebrity single</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                             news <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu level1">
@@ -276,15 +265,15 @@
 
                     {% endif %}
 
-
+                    <li >{% for locale in locales %}
+                            {% if locale != app.request.locale %}
+                                <a href="{{ path('change_locale',{'locale':locale}) }}"><img src="{{ asset('img/'~locale~'.png') }}" alt="{{ locale }}" style="width: 40px; height: 40px">
+                                </a>
+                            {% endif %}
+                        {% endfor %}</li>
                 </ul>
 
-                <li >{% for locale in locales %}
-                        {% if locale != app.request.locale %}
-                            <a href="{{ path('change_locale',{'locale':locale}) }}"><img src="{{ asset('img/'~locale~'.png') }}" alt="{{ locale }}""width="20"
-                                height="20"></a>
-                        {% endif %}
-                    {% endfor %}</li>
+
             </div>
             <!-- /.navbar-collapse -->
         </nav>

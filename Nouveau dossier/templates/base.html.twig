@@ -242,8 +242,7 @@
                     <li><a class="logout" href="/front">Visit client side</a></li>
                     <li>{% for locale in locales %}
                             {% if locale != app.request.locale %}
-                                <a href="{{ path('change_locale',{'locale':locale}) }}"><img src="{{ asset('img/'~locale~'.png') }}" alt="{{ locale }}""width="50"
-                                    height="50"></a>
+                                <a href="{{ path('change_locale',{'locale':locale}) }}"><img src="{{ asset('img/'~locale~'.png') }}" alt="{{ locale }}" style="width :50px; height:50px"></a>
                             {% endif %}
                         {% endfor %}</li>
 

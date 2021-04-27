@@ -36,7 +36,7 @@ class RateRepository extends ServiceEntityRepository
     }
     */
 
-    /*
+
     public function findOneBySomeField($value): ?Rate
     {
         return $this->createQueryBuilder('r')
@@ -46,5 +46,5 @@ class RateRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+
 }

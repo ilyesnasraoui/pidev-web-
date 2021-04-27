@@ -180,46 +180,46 @@
                     </li>
                     <li class="dropdown first">
                         <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown">
-                            Home <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            {% trans %}Home{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu level1">
-                            <li><a href="index-2.html">Home 01</a></li>
-                            <li><a href="homev2.html">Home 02</a></li>
-                            <li><a href="homev3.html">Home 03</a></li>
+                            <li><a href="index-2.html">{% trans %}Home 01{% endtrans %}</a></li>
+                            <li><a href="homev2.html">{% trans %}Home 02{% endtrans %}</a></li>
+                            <li><a href="homev3.html">{% trans %}Home 03{% endtrans %}</a></li>
                         </ul>
                     </li>
                     <li class="dropdown first">
                         <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            movies<i class="fa fa-angle-down" aria-hidden="true"></i>
+                            {% trans %}movies{% endtrans %}<i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu level1">
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Movie grid<i class="ion-ios-arrow-forward"></i></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" >{% trans %}Movie grid{% endtrans %}<i class="ion-ios-arrow-forward"></i></a>
                                 <ul class="dropdown-menu level2">
-                                    <li><a href="{{ asset('films/showmov') }}">Movie grid</a></li>
-                                    <li><a href="moviegridfw.html">movie grid full width</a></li>
+                                    <li><a href="{{ asset('films/showmov') }}">{% trans %}Movie grid{% endtrans %}</a></li>
+                                    <li><a href="moviegridfw.html">{% trans %}movie grid full width{% endtrans %}</a></li>
                                 </ul>
                             </li>
-                            <li><a href="movielist.html">Movie list</a></li>
-                            <li><a href="moviesingle.html">Movie single</a></li>
-                            <li class="it-last"><a href="seriessingle.html">Series single</a></li>
+                            <li><a href="movielist.html">{% trans %}Movie list{% endtrans %}</a></li>
+                            <li><a href="moviesingle.html">{% trans %}Movie single{% endtrans %}</a></li>
+                            <li class="it-last"><a href="seriessingle.html">{% trans %}Series single{% endtrans %}</a></li>
                         </ul>
 
 
                     </li>
                     <li class="dropdown first">
                         <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            Rooms <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            {% trans %}Rooms{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu level1">
-                            <li><a href="{{ asset('salle/all') }}">Room list</a></li>
-                            <li><a href="celebritygrid02.html">Rooms Planning </a></li>
+                            <li><a href="{{ asset('salle/all') }}">{% trans %}Room list{% endtrans %}</a></li>
+                            <li><a href="celebritygrid02.html">{% trans %}Rooms Planning{% endtrans %} </a></li>
                         </ul>
                     </li>
 
                     <li class="dropdown first">
                         <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            {% trans %}celebrities{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu level1">
                             <li><a href="celebritygrid01.html">celebrity grid 01</a></li>
@@ -230,7 +230,7 @@
                     </li>
                     <li class="dropdown first">
                         <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            news <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            {% trans %}news{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu level1">
                             <li><a href="bloglist.html">blog List</a></li>
@@ -240,7 +240,7 @@
                     </li>
                     <li class="dropdown first">
                         <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            community <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            {% trans %}community{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu level1">
                             <li><a href="userfavoritegrid.html">user favorite grid</a></li>
@@ -264,15 +264,15 @@
 
 
                     {% if app.user %}
-                        <li><a href="/reservation/mytickets">my tickets</a></li>
-                        <li><a href="{{asset('users/profile') }}">Profile</a></li>
+                        <li><a href="/reservation/mytickets">{% trans %}my tickets{% endtrans %}</a></li>
+                        <li><a href="{{asset('users/profile') }}">{% trans %}Profile{% endtrans %}</a></li>
                         <li ><a href="/logout">LOG out</a></li>
 
                     {% else %}
 
-                        <li class="loginLink"><a href="#">LOG In</a></li>
-                        <li class="forgetLink"><a href="#"> forget password</a></li>
-                        <li class="btn signupLink"><a href="#">sign up</a></li>
+                        <li class="loginLink"><a href="#">{% trans %}LOG In{% endtrans %}</a></li>
+                        <li class="forgetLink"><a href="#"> {% trans %}forget password{% endtrans %}</a></li>
+                        <li class="btn signupLink"><a href="#">{% trans %}sign up{% endtrans %}</a></li>
 
                     {% endif %}
 

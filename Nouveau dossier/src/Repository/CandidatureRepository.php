@@ -47,4 +47,16 @@ class CandidatureRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByIdOffre($idOffre)
+    {
+        return $this
+            ->createQueryBuilder('b')
+            ->where('b.idOffre = : id')
+            ->setParameter('id',$idOffre)
+            ->getQuery()
+            ->execute()
+            ;
+    }
+
+
 }

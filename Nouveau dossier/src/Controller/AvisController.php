@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Avis;
+use App\Entity\Produit;
 use App\Form\AvisType;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,6 +54,62 @@ class AvisController extends AbstractController
     }
 
     /**
+     * @Route("/{idProduit}/new", name="avis_new_like", methods={"GET","POST"})
+     */
+    public function new_like(Request $request,Produit $produit): Response
+    {
+        $avi = new Avis();
+        $form = $this->createForm(AvisType::class, $avi);
+        $form->handleRequest($request);
+
+
+         $id=$produit->getIdProduit();
+
+
+            $avi->setIdProduit($id);
+            $avi->setTypeAvis('like');
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($avi);
+            $entityManager->flush();
+
+
+        $nblikes = $this->getDoctrine()->getRepository(Avis::class)->numberoflikes($id);
+        $nbdislikes = $this->getDoctrine()->getRepository(Avis::class)->numberofdislikes($id);
+
+        return $this->render('produit/singleproduct.html.twig', [
+            "produits" => $produit,  'like' => $nblikes, 'dislike' => $nbdislikes
+        ]);
+    }
+    /**
+     * @Route("/{idProduit}/neww", name="avis_new_dislike", methods={"GET","POST"})
+     */
+    public function new_dislike(Request $request,Produit $produit): Response
+    {
+        $avi = new Avis();
+        $form = $this->createForm(AvisType::class, $avi);
+        $form->handleRequest($request);
+
+
+        $id=$produit->getIdProduit();
+
+
+        $avi->setIdProduit($id);
+        $avi->setTypeAvis('dislike');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($avi);
+        $entityManager->flush();
+
+
+        $nblikes = $this->getDoctrine()->getRepository(Avis::class)->numberoflikes($id);
+        $nbdislikes = $this->getDoctrine()->getRepository(Avis::class)->numberofdislikes($id);
+
+        return $this->render('produit/singleproduct.html.twig', [
+            "produits" => $produit,  'like' => $nblikes, 'dislike' => $nbdislikes
+        ]);
+    }
+
+
+    /**
      * @Route("/{idAvis}", name="avis_show", methods={"GET"})
      */
     public function show(Avis $avi): Response
@@ -93,5 +151,51 @@ class AvisController extends AbstractController
         }
 
         return $this->redirectToRoute('avis_index');
+    }
+    /**
+     * @Route("/stat/t/t", name="stat", methods={"GET"})
+     */
+    public function chartAction()
+    { $repository = $this->getDoctrine()->getRepository(Avis::class);
+        $prog = $repository->findAll();
+        $em = $this->getDoctrine()->getManager();
+
+        $likes=0;
+        $dislikes=0;
+
+
+
+        foreach ($prog as $prog)
+        {
+            if (  $prog->getTypeAvis()=="like")  :
+
+                $likes+=1;
+            elseif ($prog->getTypeAvis()=="dislike"):
+
+                $dislikes+=1;
+            endif;
+
+        }
+        $pieChart = new PieChart();
+        $pieChart->getOptions()->setTitle("       Store : Products Notices added by Users  ");
+        $pieChart->getData()->setArrayToDataTable(
+            [
+                ['Notice', '4'],
+                ['Likes on our Products ',  (int)$likes],
+                ['Dislikes on our Products', (int)$dislikes],
+
+
+            ]
+        );
+        $pieChart->getOptions()->setPieSliceText('label');
+        $pieChart->getOptions()->setHeight(500);
+        $pieChart->getOptions()->setWidth(900);
+        $pieChart->getOptions()->getLegend()->setPosition('none');
+        //
+
+
+        return $this->render('avis/stat.html.twig', [
+            'piechart' => $pieChart
+        ]);
     }
 }

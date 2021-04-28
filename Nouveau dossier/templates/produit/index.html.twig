@@ -4,8 +4,26 @@
 
 {% block body %}
     <h1>Produit index</h1>
+<div class="table-responsive">
+    <script src="{{ asset('admin/jquery.min.js') }}"></script>
+    <input type="text" id="search" class="form-control form-control-no-border mr-sm-2" placeholder="chercher produit">
+    <label class="ml-shopbar__filterLabel" for="ml-shopbar__select1"></label>
+    <form method="post" action="{{ path('tri') }}" align="right">
+        <label>
+            <select name="tri">
+                <option value="">veuillez Choisir</option>
+                <option value="nom">Nom</option>
+                <option value="prix">prix</option>
+                <option value="couleur">couleur</option>
 
-    <table class="table">
+            </select>
+        </label>
+        <input type="submit" class="btn btn-primary btn-bottom" value="Trier" />
+
+
+    </form>
+    <table class="table table-bordered dataTable" id="tableac" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+
         <thead>
             <tr>
                 <th>IdProduit</th>
@@ -33,10 +51,34 @@
                     <a href="{{ path('produit_edit', {'idProduit': produit.idProduit}) }}">edit</a>
                 </td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
+            <script>
+                $(document).ready(function(){
+                    $('#search').keyup(function(){
+                        search_table($(this).val());
+                    });
+                    function search_table(value){
+                        $('#tableac tbody tr').each(function(){
+                            var found = 'false';
+                            $(this).each(function(){
+                                if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                                {
+                                    found = 'true';
+                                }
+                            });
+                            if(found == 'true')
+                            {
+                                $(this).show();
+
+                            }
+                            else
+                            {
+                                $(this).hide();
+
+                            }
+                        });
+                    }
+                });
+            </script>
         {% endfor %}
         </tbody>
     </table>

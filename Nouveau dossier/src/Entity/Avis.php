@@ -35,7 +35,6 @@ class Avis
      */
     private $typeAvis;
 
-
     public function getIdAvis(): ?int
     {
         return $this->idAvis;
@@ -64,7 +63,6 @@ class Avis
 
         return $this;
     }
-
 
 
 }

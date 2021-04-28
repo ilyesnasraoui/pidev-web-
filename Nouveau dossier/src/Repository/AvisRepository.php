@@ -47,4 +47,17 @@ class AvisRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function numberoflikes($ids)
+    {
+        $entityManager=$this->getEntityManager();
+        $query=$entityManager->createQuery('SELECT count(a) from App\Entity\Avis a WHERE (a.typeAvis LIKE :type) and (a.idProduit = :idp) ')->setParameter('type', 'like')->setParameter('idp',$ids);
+        return $query->getSingleScalarResult();
+    }
+    public function numberofdislikes($ids)
+    {
+        $entityManager=$this->getEntityManager();
+        $query=$entityManager->createQuery('SELECT count(a) from App\Entity\Avis a WHERE (a.typeAvis LIKE :type) and (a.idProduit = :idp)')->setParameter('type', 'dislike')->setParameter('idp',$ids);
+        return $query->getSingleScalarResult();
+    }
 }

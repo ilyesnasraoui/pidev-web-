@@ -1,0 +1,116 @@
+{% extends 'basefront.html.twig' %}
+
+{% block body %}
+    <div class="hero common-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="hero-ct">
+                        <h1> Store </h1>
+                        <ul class="breadcumb">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li> <span class="ion-ios-arrow-right"></span> Store </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-single">
+        <div class="container">
+            <div class="row ipad-width">
+                <div class="col-md-8 col-sm-12 col-xs-12">
+                    <div class="topbar-filter">
+                        <p>Found <span>1,608 Products</span> in total</p>
+                        <label>Sort by:</label>
+
+                            <form method="post" action="{{ path('trii') }}" align="center">
+                                <label>
+                                    <select name="tri">
+                                        <option value="">Please choose</option>
+                                        <option value="nom">Nom</option>
+                                        <option value="prix">prix</option>
+                                        <option value="couleur">couleur</option>
+
+                                    </select>
+                                </label>
+
+                                <input type="submit" class="submit" value="Sort" />
+                                <label> </label>
+
+                            </form>
+
+                    </div>
+                    <div class="flex-wrap-movielist">
+                        {% for produit in produits %}
+                            <div class="movie-item-style-2 movie-item-style-1">
+                                <img src="{{ asset('images/produit/'~produit.image) }}" alt="">
+
+                                <div class="hvr-inner">
+                                    <a  href="{{ path('showpro', {'idProduit': produit.idProduit}) }}">  Read more <i class="ion-android-arrow-dropright"></i> </a>
+                                </div>
+                                <div class="mv-item-infor">
+                                    <h6><a href="#">{{ produit.prix }}</a></h6>
+
+                                </div>
+                            </div>
+                        {% endfor %}
+
+
+
+                    </div>
+                    <div class="topbar-filter">
+                        <label> <h4>More Products...</h4> </label>
+
+                        <div class="pagination2">
+                            <span>{{ knp_pagination_render(produits) }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class="sidebar">
+                        <div class="searh-form">
+                            <h4 class="sb-title">Search for Product</h4>
+
+                                <div class="row">
+                                    <div class="col-md-12 form-it">
+                                        <label>Enter Product name</label>
+
+                                        <input type="text" id="search" class="form-control form-control-no-border mr-sm-2" placeholder="chercher produit">
+                                    </div>
+
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                        </div>
+                        <div class="ads">
+                            <img src="images/uploads/ads1.png" alt="">
+                        </div>
+                        <div class="sb-facebook sb-it">
+                            <h4 class="sb-title">Find us on Facebook</h4>
+                            <iframe src="#" data-src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ftemplatespoint.net%2F%3Ffref%3Dts&tabs=timeline&width=340&height=315px&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=true&appId"  height="315" style="width:100%;border:none;overflow:hidden" ></iframe>
+                        </div>
+                        <div class="sb-twitter sb-it">
+                            <h4 class="sb-title">Tweet to us</h4>
+                            <div class="slick-tw">
+                                <div class="tweet item" id=""><!-- Put your twiter id here -->
+                                </div>
+                                <div class="tweet item" id=""><!-- Put your 2nd twiter account id here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

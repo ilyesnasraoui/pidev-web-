@@ -126,6 +126,30 @@ class UsersController extends AbstractController
     {
         return $this->render("/users/addsalleaccountform.html.twig");
     }
+
+    /**
+     * @Route("/setadmin/{idUser}", name="users_admin", methods={"POST"})
+     */
+
+    public function setadmin(Request $request, Users $user): Response
+    {
+
+        if ($this->isCsrfTokenValid('setadmin'.$user->getIdUser(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $user = $entityManager->getRepository(Users::class)->find($user->getIdUser());
+
+            $user->setRole("admin");
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('users_index');
+
+
+    }
+
+
+
+
     /**
      * @Route("/block/{idUser}", name="users_block", methods={"POST"})
      */

@@ -125,4 +125,5 @@
       <path value="$PROJECT_DIR$/vendor/symfony/property-access" />
     </include_path>
   </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />
 </project>

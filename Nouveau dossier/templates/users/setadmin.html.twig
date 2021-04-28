@@ -1,0 +1,11 @@
+<form method="post" action="{{ path('users_admin', {'idUser': user.idUser}) }}" onsubmit="
+return confirm('Are you sure you want to set  this account an admin?');
+
+        ">
+
+    <input type="hidden" name="_token" value="{{ csrf_token('setadmin' ~ user.idUser) }}">
+    {% if user.role!="admin" %}
+        <button class="btn">  set admin{% endif %}
+        </button>
+    
+</form>

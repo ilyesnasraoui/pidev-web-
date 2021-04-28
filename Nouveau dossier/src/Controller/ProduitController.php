@@ -57,7 +57,19 @@ class ProduitController extends AbstractController
             "produits" => $produit,  'like' => $nblikes, 'dislike' => $nbdislikes
         ]);
     }
+   /**
+     * @Route("/{idProduit}/genpro/qr", name="genpro", methods={"GET"})
+     */
+    public function genpro (Produit $produit): Response
 
+    {
+
+        return $this->render('produit/qrcode.html.twig', [
+            "produits" => $produit,
+
+
+        ]);
+    }
     /**
      * @Route("/{idProduit}/zoom", name="zoomProduct", methods={"GET"})
      */

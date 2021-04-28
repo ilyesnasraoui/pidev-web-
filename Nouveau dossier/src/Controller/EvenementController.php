@@ -8,11 +8,11 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Users;
+use App\Repository\UsersRepository;
+use App\Entity\CategorieEvent;
+use App\Repository\CategorieEventRepository;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\PropertySearch;
-use App\Form\PropertySearchType;
-
-
 class EvenementController extends AbstractController
 {
     /**
@@ -37,9 +37,11 @@ class EvenementController extends AbstractController
     /**
      * @Route("evenement/new", name="evenement_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,UsersRepository  $UsersRepository,CategorieEventRepository $CategorieEventRepository): Response
     {
         $evenement = new Evenement();
+        $users =new Users();
+        $categorieevent = new CategorieEvent();
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
 
@@ -53,6 +55,8 @@ class EvenementController extends AbstractController
 
         return $this->render('evenement/new.html.twig', [
             'evenement' => $evenement,
+            'users' => $UsersRepository->findAll(),
+            'categorieevent'=> $CategorieEventRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }
@@ -70,10 +74,12 @@ class EvenementController extends AbstractController
     /**
      * @Route("/evenement/{idEvenement}/edit", name="evenement_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Evenement $evenement): Response
+    public function edit(Request $request, Evenement $evenement,UsersRepository  $UsersRepository,CategorieEventRepository $CategorieEventRepository): Response
     {
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
+        $users =new Users();
+        $categorieevent = new CategorieEvent();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -83,6 +89,8 @@ class EvenementController extends AbstractController
 
         return $this->render('evenement/edit.html.twig', [
             'evenement' => $evenement,
+            'users' => $UsersRepository->findAll(),
+            'categorieevent'=> $CategorieEventRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }
@@ -118,6 +126,10 @@ class EvenementController extends AbstractController
             'evenements' => $evenements,
         ]);
     }
+
+
+
+
 
 
 

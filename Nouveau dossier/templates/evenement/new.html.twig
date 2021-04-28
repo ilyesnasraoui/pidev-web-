@@ -6,11 +6,29 @@
 
     <h1>Create new Evenement</h1>
     {{ form_start(form) }}
-    id
-    {{ form_widget(form.idCatEvenement) }}
-    idUser
-    {{ form_widget(form.idUser) }}
-    nomEv
+    Category
+    <br>
+    <select id="{{ form.idCatEvenement.vars.id }}" name="{{ form.idCatEvenement.vars.full_name }}">
+        {%  for categorieevent in categorieevent %}
+            <option value="{{ categorieevent.idCatEvent }}">
+                {{ categorieevent.nomCategorieEv}}
+            </option>
+        {% endfor %}
+    </select>
+    {% do form.idCatEvenement.setRendered %}
+    <br>
+    User
+    <br>
+    <select id="{{ form.idUser.vars.id }}" name="{{ form.idUser.vars.full_name }}">
+        {%  for user in users %}
+            <option value="{{ user.idUser }}">
+                {{ user.username}}
+            </option>
+        {% endfor %}
+    </select>
+    {% do form.idUser.setRendered %}
+    <br>
+    Name
     {{ form_widget(form.nomEvenement) }}
     date
     <br>
@@ -18,14 +36,14 @@
 
     {% do form.dateEvenement.setRendered %}
     <br>
-    duree
+    duration
     {{ form_widget(form.dureeEvenement)}}
-    imageEvnement
+    Event post
     <input type="file" id="{{ form.imageEvnement.vars.id }}" name="{{ form.imageEvnement.vars.full_name }}"
            accept="image/png, image/jpeg, image/jpg">
 
     {% do form.imageEvnement.setRendered %}
-    desc
+    description
     {{ form_widget(form.description) }}
     validate
     {{ form_widget(form.validate) }}

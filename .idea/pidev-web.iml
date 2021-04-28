@@ -110,6 +110,23 @@
       <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/phpdocumentor/type-resolver" />
       <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/phpdocumentor/reflection-common" />
       <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/monolog/monolog" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/blackknight467/star-rating-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/swiftmailer/swiftmailer" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/php-http/promise" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/php-http/message-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/php-http/message" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/php-http/httplug" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/php-http/discovery" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/php-http/curl-client" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/symfony/swiftmailer-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/gedmo/doctrine-extensions" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/behat/transliterator" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/clue/stream-filter" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/psr/http-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/psr/http-client" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/knplabs/knp-paginator-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/Nouveau dossier/vendor/knplabs/knp-components" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

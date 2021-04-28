@@ -11,6 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\PropertySearch;
 use App\Form\PropertySearchType;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Entity\Evenement;
+use App\Repository\EvenementRepository;
 
 
 class ArticleController extends AbstractController
@@ -47,9 +49,10 @@ class ArticleController extends AbstractController
     /**
      * @Route("article/new", name="article_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,EvenementRepository $EvenementRepository): Response
     {
         $article = new Article();
+        $evenement =new Evenement();
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -63,6 +66,7 @@ class ArticleController extends AbstractController
 
         return $this->render('article/new.html.twig', [
             'article' => $article,
+            'evenements' => $EvenementRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }
@@ -80,10 +84,11 @@ class ArticleController extends AbstractController
     /**
      * @Route("/article/{idArticle}/edit", name="article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Article $article,TranslatorInterface $translator ): Response
+    public function edit(Request $request, Article $article,TranslatorInterface $translator,EvenementRepository $EvenementRepository ): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
+        $evenement =new Evenement();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -95,6 +100,7 @@ class ArticleController extends AbstractController
 
         return $this->render('article/edit.html.twig', [
             'article' => $article,
+            'evenements' => $EvenementRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }

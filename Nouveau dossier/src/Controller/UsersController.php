@@ -301,8 +301,8 @@ class UsersController extends AbstractController
      * @Route("/{idUser}", name="users_show", methods={"GET"})
      */
     public function show(Users $user): Response
-    {   $user = $this->get('security.token_storage')->getToken()->getUser();
-        if($user->getRole()=="salle")
+    {   $users = $this->get('security.token_storage')->getToken()->getUser();
+        if($users->getRole()=="salle")
             return $this->render("error.html.twig");
         return $this->render('users/show.html.twig', [
             'user' => $user,

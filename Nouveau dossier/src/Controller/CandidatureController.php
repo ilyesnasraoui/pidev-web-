@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Candidature;
+use App\Entity\Offre;
 use App\Form\CandidatureType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -143,6 +144,30 @@ class CandidatureController extends AbstractController
         }
 
         return $this->redirectToRoute('candidature_index');
+    }
+
+    /**
+     * @Route("/{idCandidature}/{idOffre}/accepter",name="accepter")
+     */
+    public function acceptbtn(Candidature $candidature, int $idOffre)
+    {
+        $candidature->setEtatcandidat("accepter");
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute("realisateuroffre_show",['idOffre' => $idOffre]);
+
+    }
+
+    /**
+     * @Route("/{idCandidature}/{idOffre}/rejeter",name="rejeter")
+     */
+    public function rejeterbtn(Candidature $candidature, int $idOffre)
+    {
+
+        $candidature->setEtatcandidat("rejeter");
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute("realisateuroffre_show",['idOffre' => $idOffre]);
+
     }
 
 }

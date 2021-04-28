@@ -37,7 +37,7 @@ class RealisateuroffreController extends AbstractController
     /**
      * @Route("/new", name="realisateuroffre_new", methods={"GET","POST"})
      */
-    public function new(Request $request, int $idOffre): Response
+    public function new(Request $request): Response
     {
         $offre = new Offre();
         $form = $this->createForm(Offre2Type::class, $offre);
@@ -46,7 +46,7 @@ class RealisateuroffreController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $user = $this->get('security.token_storage')->getToken()->getUser();
-            $offre ->setIdUser($user->getIdUser());
+            $offre->setIdUser($user->getIdUser());
             $entityManager->persist($offre);
             $entityManager->flush();
 
@@ -62,16 +62,17 @@ class RealisateuroffreController extends AbstractController
     /**
      * @Route("/{idOffre}", name="realisateuroffre_show", methods={"GET"})
      */
-    public function show(Offre $offre,int $idOffre): Response
+    public function show(Offre $offre, int $idOffre): Response
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $cand = $this->getDoctrine()
             ->getRepository(Candidature::class)
             ->findByIdOffre($idOffre);
-            return $this->render('realisateuroffre/show.html.twig', [
+        $size = count($cand);
+        return $this->render('realisateuroffre/show.html.twig', [
             'candid' => $cand,
-                'offre'=>$offre,
-
+            'offre' => $offre,
+            'size' => $size,
         ]);
     }
 
@@ -100,7 +101,7 @@ class RealisateuroffreController extends AbstractController
      */
     public function delete(Request $request, Offre $offre): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$offre->getIdOffre(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $offre->getIdOffre(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($offre);
             $entityManager->flush();
@@ -108,4 +109,6 @@ class RealisateuroffreController extends AbstractController
 
         return $this->redirectToRoute('realisateuroffre_index');
     }
+
+
 }

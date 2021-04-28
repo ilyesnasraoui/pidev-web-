@@ -641,10 +641,13 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
                 "source": "https://github.com/doctrine/dbal/tree/2.13.0"
             },
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -1874,9 +1877,22 @@
                     "type": "community_bridge"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-04-23T11:54:51+00:00"
 =======
             "time": "2021-04-21T17:42:05+00:00"
+>>>>>>> Stashed changes
+=======
+            "description": "Knplabs component library",
+            "homepage": "http://github.com/KnpLabs/knp-components",
+            "keywords": [
+                "components",
+                "knp",
+                "knplabs",
+                "pager",
+                "paginator"
+            ],
+            "time": "2021-03-16T13:52:01+00:00"
 >>>>>>> Stashed changes
         },
         {
@@ -1942,8 +1958,23 @@
                 "Apache-2.0"
 >>>>>>> Stashed changes
             ],
+<<<<<<< Updated upstream
             "description": "Cloud Text-to-Speech Client for PHP",
             "time": "2021-03-02T00:45:14+00:00"
+=======
+            "description": "Paginator bundle for Symfony to automate pagination and simplify sorting and other features",
+            "homepage": "http://github.com/KnpLabs/KnpPaginatorBundle",
+            "keywords": [
+                "bundle",
+                "knp",
+                "knplabs",
+                "pager",
+                "pagination",
+                "paginator",
+                "symfony"
+            ],
+            "time": "2020-12-17T08:19:16+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "google/common-protos",
@@ -2072,7 +2103,20 @@
             "description": "Google API Core for PHP",
             "homepage": "https://github.com/googleapis/gax-php",
             "keywords": [
+<<<<<<< Updated upstream
                 "google"
+=======
+                "event",
+                "eventmanager",
+                "events",
+                "laminas"
+            ],
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+>>>>>>> Stashed changes
             ],
             "time": "2021-03-22T22:27:35+00:00"
         },
@@ -2590,6 +2634,7 @@
                 "zf"
             ],
             "funding": [
+<<<<<<< Updated upstream
                 {
                     "url": "https://funding.communitybridge.org/projects/laminas-project",
                     "type": "community_bridge"
@@ -2803,6 +2848,8 @@
                 "MIT"
             ],
             "authors": [
+=======
+>>>>>>> Stashed changes
                 {
                     "name": "Márk Sági-Kazár",
                     "email": "mark.sagikazar@gmail.com"
@@ -3140,6 +3187,9 @@
                 "psr-18"
             ],
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
             "time": "2020-12-14T08:36:51+00:00"
 =======
             "time": "2020-06-27T09:03:43+00:00"
@@ -3547,7 +3597,11 @@
                 "request",
                 "response"
             ],
+<<<<<<< Updated upstream
             "time": "2019-04-30T12:38:16+00:00"
+=======
+            "time": "2021-02-01T08:54:58+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "psr/http-message",
@@ -3597,7 +3651,11 @@
                 "request",
                 "response"
             ],
+<<<<<<< Updated upstream
             "time": "2016-08-06T14:39:51+00:00"
+=======
+            "time": "2015-12-19T14:08:53+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "psr/link",
@@ -3652,6 +3710,9 @@
                 "promise"
             ],
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
             "time": "2020-07-07T09:29:14+00:00"
         },
         {
@@ -4088,6 +4149,9 @@
                 "psr-13",
                 "rest"
             ],
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
             "time": "2016-10-28T16:06:13+00:00"
@@ -6624,7 +6688,10 @@
                 "options"
             ],
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -6703,6 +6770,9 @@
                 "portable",
                 "shim"
             ],
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             "funding": [
                 {

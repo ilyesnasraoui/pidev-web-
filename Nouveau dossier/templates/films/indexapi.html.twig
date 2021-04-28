@@ -30,8 +30,10 @@
         </thead>
         <tbody>
         {% for film in films %}
+            <form method="post" action="/films/addapi">
             <tr>
                 <td>{{ film.idFilm }}</td>
+
                 <td>
                     {% for categoriefilm in CategorieFilms %}
                         {% if (film.idCategorie==categoriefilm.idCategorie) %}
@@ -40,20 +42,30 @@
                     {% endfor %}
                 </td>
                 <td>{{ film.language }}</td>
+                <input type="hidden"  name="lang" value="{{ film.language }}" >
                 <td>{{ film.nomFilm }}</td>
+                <input type="hidden"  name="name" value="{{ film.nomFilm }}" >
                 <td>{{ film.dureeFilm }}</td>
+                <input type="hidden"  name="duree" value="{{ film.dureeFilm }}" >
 
                 <td> <img width="150" height="200" src="{{ film.getImage() }} " alt=""></td>
+                <input type="hidden"  name="image" value="{{ film.getImage() }}" >
 
 
                 <td>{{ film.description }}</td>
+                <input type="hidden"  name="desc" value="{{ film.description }}" >
                 <td>{{ film.utube }}</td>
+                <input type="hidden"  name="utube" value="{{ film.utube }}" >
                 <td>{{ film.rated }}</td>
+                <input type="hidden"  name="rated" value="{{ film.rated }}" >
                 <td>{{ film.date ? film.date|date('Y-m-d') : '' }}</td>
+                <input type="hidden"  name="date" value="{{ film.date ? film.date|date('Y-m-d') : '' }}" >
                 <td>
+                    <h6><input type="submit" >create new></h6>
 
                 </td>
             </tr>
+            </form>
         {% else %}
             <tr>
                 <td colspan="11">no records found</td>
@@ -62,5 +74,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('films_new') }}">Create new</a>
+ <!--
 {% endblock %}

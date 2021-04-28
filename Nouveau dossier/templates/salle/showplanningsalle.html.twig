@@ -38,7 +38,7 @@
                             {% for film in films %}
                                 {% if film.getIdfilm()==planning.getIdfilm() %}
                             <img src="{{ asset('/images/produit/' ~ film.getImage()) }}" alt="">
-                                    {%  if (planning.getPlaces!=0) and (app.user) %}
+                                    {%  if (planning.getPlaces!=0) and (app.user) and (app.user.role != "salle") %}
                               <form action="{{ asset('/reservation/book') }}" method="post">
                                   <input type="hidden" name="idplanning" value="{{ planning.getIdPlanning }}">
                                   <input type="submit" class="hvr-inner" value="Book now!">

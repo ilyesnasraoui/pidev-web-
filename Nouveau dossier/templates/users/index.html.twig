@@ -9,11 +9,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>IdUser</th>
                 <th>Username</th>
-                <th>Password</th>
                 <th>Email</th>
-                <th>IdSalle</th>
                 <th>Fname</th>
                 <th>Lname</th>
                 <th>Idcard</th>
@@ -26,11 +23,8 @@
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.idUser }}</td>
                 <td>{{ user.username }}</td>
-                <td>{{ user.password }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.idSalle }}</td>
                 <td>{{ user.fname }}</td>
                 <td>{{ user.lname }}</td>
                 <td>{{ user.idcard }}</td>
@@ -39,7 +33,7 @@
                 <td>{{ user.blocked }}</td>
                 <td>
                     <a href="{{ path('users_show', {'idUser': user.idUser}) }}">show</a>
-                    <a href="{{ path('users_edit', {'idUser': user.idUser}) }}">edit</a>
+  <!--<a href="{{ path('users_edit', {'idUser': user.idUser}) }}">block</a>-->
 
                 </td>
             </tr>
@@ -50,8 +44,8 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('users_new') }}">Create new</a>
+    {{ knp_pagination_render(users) }}
+   <!-- <a href="{{ path('users_new') }}">Create new</a> -->
 {% endblock %}
 
 

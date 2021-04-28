@@ -4,28 +4,30 @@ namespace App\Controller;
 
 use App\Entity\Evenement;
 use App\Form\EvenementType;
-use App\Entity\CategorieEvent;
-use App\Repository\CategorieEventRepository;
-use App\Entity\Users;
-use App\Repository\UsersRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Users;
+use App\Repository\UsersRepository;
+use App\Entity\CategorieEvent;
+use App\Repository\CategorieEventRepository;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\PropertySearch;
-use App\Form\PropertySearchType;
-
-
 class EvenementController extends AbstractController
 {
     /**
      * @Route("/evenement", name="evenement_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(Request $request,PaginatorInterface $paginator): Response
     {
-        $evenements = $this->getDoctrine()
+        $donnees = $this->getDoctrine()
             ->getRepository(Evenement::class)
             ->findAll();
+        $evenements=$paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            4
+        );
 
         return $this->render('evenement/index.html.twig', [
             'evenements' => $evenements,
@@ -35,11 +37,11 @@ class EvenementController extends AbstractController
     /**
      * @Route("evenement/new", name="evenement_new", methods={"GET","POST"})
      */
-    public function new(Request $request ,CategorieEventRepository  $categorieEventRepository,UsersRepository $usersRepository): Response
+    public function new(Request $request,UsersRepository  $UsersRepository,CategorieEventRepository $CategorieEventRepository): Response
     {
         $evenement = new Evenement();
-        $CategorieEvents = new CategorieEvent();
-        $Useress = new Users();
+        $users =new Users();
+        $categorieevent = new CategorieEvent();
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
 
@@ -53,8 +55,8 @@ class EvenementController extends AbstractController
 
         return $this->render('evenement/new.html.twig', [
             'evenement' => $evenement,
-            'CategorieEvents' => $categorieEventRepository->findAll(),
-            'Userss' => $usersRepository->findAll(),
+            'users' => $UsersRepository->findAll(),
+            'categorieevent'=> $CategorieEventRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }
@@ -72,10 +74,12 @@ class EvenementController extends AbstractController
     /**
      * @Route("/evenement/{idEvenement}/edit", name="evenement_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Evenement $evenement,CategorieEventRepository  $categorieEventRepository,UsersRepository $usersRepository): Response
+    public function edit(Request $request, Evenement $evenement,UsersRepository  $UsersRepository,CategorieEventRepository $CategorieEventRepository): Response
     {
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
+        $users =new Users();
+        $categorieevent = new CategorieEvent();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -85,8 +89,8 @@ class EvenementController extends AbstractController
 
         return $this->render('evenement/edit.html.twig', [
             'evenement' => $evenement,
-            'CategorieEvents' => $categorieEventRepository->findAll(),
-            'Userss' => $usersRepository->findAll(),
+            'users' => $UsersRepository->findAll(),
+            'categorieevent'=> $CategorieEventRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }
@@ -108,16 +112,24 @@ class EvenementController extends AbstractController
     /**
      * @Route("/showeventtt", name="evenement_indexx", methods={"GET"})
      */
-    public function indexx(): Response
+    public function indexx(Request $request,PaginatorInterface $paginator): Response
     {
-        $evenements = $this->getDoctrine()
+        $donnees = $this->getDoctrine()
             ->getRepository(Evenement::class)
             ->findAll();
+        $evenements=$paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            6);
 
         return $this->render('evenement/eveenement.html.twig', [
             'evenements' => $evenements,
         ]);
     }
+
+
+
+
 
 
 

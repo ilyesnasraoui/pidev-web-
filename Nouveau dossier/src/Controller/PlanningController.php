@@ -6,9 +6,10 @@ use App\Entity\Planning;
 use App\Entity\Salle;
 use App\Entity\Films;
 use App\Form\PlanningType;
-    use App\Repository\FilmsRepository;
+use App\Repository\FilmsRepository;
 use App\Repository\SalleRepository;
 use App\Repository\PlanningRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,11 +20,55 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PlanningController extends AbstractController
 {
+
+    /**
+     * @Route("/all", name="allplannings", methods={"GET","POST"})
+     */
+    public function sp(Request $request,PaginatorInterface $paginator,SalleRepository  $sr,FilmsRepository $fr, PlanningRepository  $pr)
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $donnees = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Planning p
+           
+             ORDER BY p.date DESC
+            '
+        );
+
+
+        $plannings=$paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            10
+        );
+        return $this->render('planning/allplannings.html.twig', [
+            'salles' =>$sr->findAll() ,
+            'plannings' => $plannings,
+            'films' => $fr->findAll(),
+        ]);
+
+    }
+
+    /**
+     * @Route("/myplanning", name="my_planning", methods={"GET"})
+     */
+    public function myplanning(PlanningRepository $pr,SalleRepository $sr, FilmsRepository $fr): Response
+    {          $salle = $this->get('security.token_storage')->getToken()->getUser();
+          // var_dump($salle->getIdSalle());die;
+        return $this->render('planning/myplanning.html.twig', [
+            'plannings' => $pr->findByIdSalle($salle->getIdSalle()),
+            'films' => $fr->findAll(),
+        ]);
+    }
+
     /**
      * @Route("/", name="planning_index", methods={"GET"})
      */
     public function index(PlanningRepository $pr,SalleRepository $sr, FilmsRepository $fr): Response
-    {
+    {   $user = $this->get('security.token_storage')->getToken()->getUser();
+        if($user->getRole()=="salle")
+            return $this->render("error.html.twig");
         return $this->render('planning/index.html.twig', [
             'plannings' => $pr->findAll(),
             'salles' => $sr->findAll(),
@@ -40,7 +85,7 @@ class PlanningController extends AbstractController
         $films =new Films();
         return $this->render('planning/new.html.twig',[
             'films' => $FilmRepository->findAll(),
-            'salles' => $SalleRepository->findAll(),
+
         ]);
     }
 
@@ -48,9 +93,10 @@ class PlanningController extends AbstractController
      * @Route("/add", name="planning_add", methods={"GET","POST"})
      */
     public function add(Request $request): Response{
+        $salle = $this->get('security.token_storage')->getToken()->getUser();
         $planning = new Planning();
         $planning->setIdFilm($request->get('filmname'));
-        $planning->setIdSalle($request->get('sallename'));
+        $planning->setIdSalle($salle->getIdSalle());
         $planning->setProjectionTime($request->get('projectiontime'));
         $planning->setPlaces($request->get('places'));
         $newdate =  (\DateTime::createFromFormat('Y-m-d',$request->get('projectiondate') ));
@@ -59,7 +105,7 @@ class PlanningController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($planning);
         $entityManager->flush();
-        return $this->redirectToRoute('planning_index');
+        return $this->redirectToRoute('my_planning');
     }
 
 

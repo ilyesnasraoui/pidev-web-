@@ -65,6 +65,7 @@ class Produit
      * @var string
      *
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
+
      */
     private $image;
 
@@ -73,6 +74,7 @@ class Produit
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      * @Assert\NotBlank(message="this fiels is required")
+
      */
     private $description;
 

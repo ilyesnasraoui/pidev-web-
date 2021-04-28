@@ -18,7 +18,30 @@ class ProduitRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Produit::class);
     }
+    public function OrderBycouleur()
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.couleur','ASC')
+            ->getQuery()->getResult()
+            ;
 
+    }
+    public function OrderBynom()
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.nomProduit','DESC')
+            ->getQuery()->getResult()
+            ;
+
+    }
+    public function OrderByprix()
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.prix','ASC')
+            ->getQuery()->getResult()
+            ;
+
+    }
     // /**
     //  * @return Produit[] Returns an array of Produit objects
     //  */

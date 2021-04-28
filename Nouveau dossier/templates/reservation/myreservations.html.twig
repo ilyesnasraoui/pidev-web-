@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservation index{% endblock %}
+
+{% block body %}
+    <h1>Reservation index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Film Name</th>
+            <th>Projection Date</th>
+            <th>Projection Time</th>
+            <th>Username</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+             <tr>
+                 {% for planning in plannings %}
+                   {% if reservation.idPlanning==planning.idPlanning %}
+                             {% for film in films %}
+                                  {% if film.idFilm == planning.idFilm %}
+                                          <td>{{ film.nomFilm }}</td>
+                                  {% endif %}
+                             {% endfor %}
+                       <td>{{ planning.date ? planning.date|date('Y-m-d') : '' }}</td>
+                       <td>{{ planning.projectiontime }}</td>
+
+
+                {% for user in users %}
+                    {% if (user.idUser == reservation.idUser) %}
+                        <td>{{ user.username}}</td>
+                    {% endif %}
+                {% endfor %}
+                   {% endif %}
+                 {% endfor %}
+                <td>
+                   <!-- <a href="{{ path('reservation_show', {'idReservation': reservation.idReservation}) }}">show</a>-->
+                    {{ include('reservation/_delete_form.html.twig') }}
+
+                    <!--  <a href="{{ path('reservation_edit', {'idReservation': reservation.idReservation}) }}">edit</a> -->
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   <!-- <a href="{{ path('reservation_new') }}">Create new</a> -->
+{% endblock %}

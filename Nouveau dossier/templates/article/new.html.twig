@@ -7,20 +7,18 @@
     {{ form_start(form) }}
     Event
     <br>
-            <select  id="{{ form.idEvenement.vars.id }}" name="{{ form.idEvenement.vars.full_name }}">
-                {%  for evenement in evenements %}
-                    <option value="{{ evenement.idEvenement }}">
-                        {{evenement.nomEvenement}}
-                    </option>
-                {% endfor %}
-            </select>
+    <select id="{{ form.idEvenement.vars.id }}" name="{{ form.idEvenement.vars.full_name }}">
+        {%  for evenement in evenements %}
+            <option value="{{ evenement.idEvenement }}">
+                {{ evenement.nomEvenement}}
+            </option>
+        {% endfor %}
+    </select>
     {% do form.idEvenement.setRendered %}
-    <br>
     <br>
     Title
     {{ form_widget(form.titre) }}
-    <br>
-    content
+    Content
     {{ form_widget(form.contenu) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
     {{ form_end(form) }}

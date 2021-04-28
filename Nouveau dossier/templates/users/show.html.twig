@@ -7,40 +7,30 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>IdUser</th>
-                <td>{{ user.idUser }}</td>
-            </tr>
+
             <tr>
                 <th>Username</th>
                 <td>{{ user.username }}</td>
             </tr>
             <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
                 <th>Email</th>
                 <td>{{ user.email }}</td>
             </tr>
+
             <tr>
-                <th>IdSalle</th>
-                <td>{{ user.idSalle }}</td>
-            </tr>
-            <tr>
-                <th>Fname</th>
+                <th>First name</th>
                 <td>{{ user.fname }}</td>
             </tr>
             <tr>
-                <th>Lname</th>
+                <th>Last name</th>
                 <td>{{ user.lname }}</td>
             </tr>
             <tr>
-                <th>Idcard</th>
+                <th>Id card</th>
                 <td>{{ user.idcard }}</td>
             </tr>
             <tr>
-                <th>Phone</th>
+                <th>Phone number</th>
                 <td>{{ user.phone }}</td>
             </tr>
             <tr>
@@ -49,14 +39,22 @@
             </tr>
             <tr>
                 <th>Blocked</th>
-                <td>{{ user.blocked }}</td>
+                {% if user.blocked==1 %}
+                  <td>Yes</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
             </tr>
         </tbody>
     </table>
 
     <a href="{{ path('users_index') }}">back to list</a>
 
-    <a href="{{ path('users_edit', {'idUser': user.idUser}) }}">edit</a>
-
+    {% if user.role!="admin" %}
     {{ include('users/_delete_form.html.twig') }}
+   {% endif %}
+    {{ include('users/block.html.twig') }}
+    {{ include('users/setadmin.html.twig') }}
+
+
 {% endblock %}

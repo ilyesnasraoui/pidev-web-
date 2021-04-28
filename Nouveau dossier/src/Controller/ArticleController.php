@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Article;
-use App\Entity\Evenement;
 use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,8 +10,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\PropertySearch;
 use App\Form\PropertySearchType;
-use App\Repository\EvenementRepository;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Entity\Evenement;
+use App\Repository\EvenementRepository;
 
 
 class ArticleController extends AbstractController
@@ -49,10 +49,10 @@ class ArticleController extends AbstractController
     /**
      * @Route("article/new", name="article_new", methods={"GET","POST"})
      */
-    public function new(Request $request,EvenementRepository  $EvenementRepository): Response
+    public function new(Request $request,EvenementRepository $EvenementRepository): Response
     {
         $article = new Article();
-        $evenements =new evenement();
+        $evenement =new Evenement();
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -84,10 +84,11 @@ class ArticleController extends AbstractController
     /**
      * @Route("/article/{idArticle}/edit", name="article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Article $article,TranslatorInterface $translator ,EvenementRepository  $EvenementRepository): Response
+    public function edit(Request $request, Article $article,TranslatorInterface $translator,EvenementRepository $EvenementRepository ): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
+        $evenement =new Evenement();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -134,6 +135,17 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/change_locale/{locale}", name="change_locale")
+     */
+    public function changeLocale($locale, Request $request)
+    {
+        // On stocke la langue dans la session
+        $request->getSession()->set('_locale', $locale);
+
+        // On revient sur la page précédente
+        return $this->redirect($request->headers->get('referer'));
+    }
 
 
 }

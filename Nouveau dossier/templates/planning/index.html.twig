@@ -8,13 +8,11 @@
     <table class="table">
         <thead>
             <tr>
-               
                 <th>Film name</th>
                 <th>Room name</th>
                 <th>ProjectionTime</th>
                 <th>Places</th>
                 <th>Date</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
@@ -34,10 +32,7 @@
                 <td>{{ planning.projectionTime }}</td>
                 <td>{{ planning.places }}</td>
                 <td>{{ planning.date ? planning.date|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('planning_show', {'idPlanning': planning.idPlanning}) }}">show</a>
-                    <a href="{{ path('planning_edit', {'idPlanning': planning.idPlanning}) }}">edit</a>
-                </td>
+
             </tr>
         {% else %}
             <tr>
@@ -47,5 +42,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('planning_new') }}">Create new</a>
 {% endblock %}

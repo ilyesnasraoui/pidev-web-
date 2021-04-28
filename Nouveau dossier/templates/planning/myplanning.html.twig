@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planning index{% endblock %}
+
+{% block body %}
+    <h1>Planning index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th>Film name</th>
+
+            <th>ProjectionTime</th>
+            <th>Places</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for planning in plannings %}
+             {% if planning.idSalle == app.user.idSalle  %}
+            <tr>
+
+                {% for film in films %}
+                    {% if (film.IdFilm == planning.idFilm) %}
+                        <td>{{ film.nomFilm}}</td>
+                    {% endif %}
+                {% endfor %}
+
+                <td>{{ planning.projectionTime }}</td>
+                <td>{{ planning.places }}</td>
+                <td>{{ planning.date ? planning.date|date('Y-m-d') : '' }}</td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

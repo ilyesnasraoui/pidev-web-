@@ -7,6 +7,7 @@ use App\Form\SalleType;
 use App\Repository\FilmsRepository;
 use App\Repository\SalleRepository;
 use App\Repository\UsersRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +22,12 @@ class SalleController extends AbstractController
     /**
      * @Route("/salleplanning", name="salleplanning", methods={"GET","POST"})
      */
-    public function sp(Request $request,SalleRepository  $sr,FilmsRepository $fr)
+    public function sp(Request $request,PaginatorInterface $paginator,SalleRepository  $sr,FilmsRepository $fr)
     {
        // return new Response($request->get('idsalle'));
-
+        $donnees = $this->getDoctrine()
+            ->getRepository(Salle::class)
+            ->findAll();
         $entityManager = $this->getDoctrine()->getManager();
         $query = $entityManager->createQuery(
             'SELECT p

@@ -39,7 +39,7 @@ class SecurityController extends AbstractController
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         if($user->getBlocked()==0) {
-            if ($user->getRole() == "client")
+            if ($user->getRole() == "client" )
                 return $this->render('indexfront.html.twig');
 
             return $this->render('base.html.twig');

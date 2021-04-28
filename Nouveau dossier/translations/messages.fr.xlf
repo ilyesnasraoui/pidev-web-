@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="9ApKuU2" resname="user modified ">
+        <source>user modified </source>
+        <target>__user modified </target>
+      </trans-unit>
+      <trans-unit id="F7QsEmm" resname="Article index">
+        <source>Article index</source>
+        <target>Article indice</target>
+      </trans-unit>
+      <trans-unit id="Pr79uWH" resname="article index">
+        <source>article index</source>
+        <target>article indice</target>
+      </trans-unit>
+      <trans-unit id="nMyzKRT" resname="Reaserch">
+        <source>Reaserch</source>
+        <target>Recherche</target>
+      </trans-unit>
+      <trans-unit id="ACcM9j_" resname="logout">
+        <source>logout</source>
+        <target>se déconnecter</target>
+      </trans-unit>
+      <trans-unit id="VT8Gnks" resname="Visit client side">
+        <source>Visit client side</source>
+        <target>visite cote client</target>
+      </trans-unit>
+      <trans-unit id="Z7aWRoY" resname="Dashboard">
+        <source>Dashboard</source>
+        <target>tableau de bord</target>
+      </trans-unit>
+      <trans-unit id="fftM9nd" resname="users">
+        <source>users</source>
+        <target>utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="aHf9NDJ" resname="Room plannings">
+        <source>Room plannings</source>
+        <target>planification de la salle</target>
+      </trans-unit>
+      <trans-unit id="VfDMuPu" resname="Plannings">
+        <source>Plannings</source>
+        <target>planification</target>
+      </trans-unit>
+      <trans-unit id="lI4D5wV" resname="Booking">
+        <source>Booking</source>
+        <target>réservation</target>
+      </trans-unit>
+      <trans-unit id="ZSvMOke" resname="Item">
+        <source>Item</source>
+        <target>Article</target>
+      </trans-unit>
+      <trans-unit id="IRzSYHA" resname="Event category">
+        <source>Event category</source>
+        <target>catégorie événement</target>
+      </trans-unit>
+      <trans-unit id="Eh7ugW5" resname="Evenement">
+        <source>Evenement</source>
+        <target>__Evenement</target>
+      </trans-unit>
+      <trans-unit id="3.kktp_" resname="Movies">
+        <source>Movies</source>
+        <target>Films</target>
+      </trans-unit>
+      <trans-unit id="zZNDcCn" resname="Movie category">
+        <source>Movie category</source>
+        <target>Catégorie films</target>
+      </trans-unit>
+      <trans-unit id="rIYnrws" resname="Product Category">
+        <source>Product Category</source>
+        <target>Catégorie produit</target>
+      </trans-unit>
+      <trans-unit id="Th9Jqci" resname="Event">
+        <source>Event</source>
+        <target>Evénement</target>
+      </trans-unit>
+      <trans-unit id="ZWWRRVa" resname="Notice">
+        <source>Notice</source>
+        <target>avis</target>
+      </trans-unit>
+      <trans-unit id="_574lBd" resname="Product">
+        <source>Product</source>
+        <target>produit</target>
+      </trans-unit>
+      <trans-unit id="icBSZ9M" resname="IdItem">
+        <source>IdItem</source>
+        <target>IdArticle</target>
+      </trans-unit>
+      <trans-unit id="TqKjpzX" resname="IdEvent">
+        <source>IdEvent</source>
+        <target>IdEvenement</target>
+      </trans-unit>
+      <trans-unit id="fozSBW2" resname="Title">
+        <source>Title</source>
+        <target>titre</target>
+      </trans-unit>
+      <trans-unit id="R70pB1_" resname="Content">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="U0M9PNE" resname="back to list">
+        <source>back to list</source>
+        <target>Retour à la liste</target>
+      </trans-unit>
+      <trans-unit id="JiEhxTc" resname="edit">
+        <source>edit</source>
+        <target>Modifer</target>
+      </trans-unit>
+      <trans-unit id="rqNWinU" resname="Item index">
+        <source>Item index</source>
+        <target>Article indice</target>
+      </trans-unit>
+      <trans-unit id=".4BZ3Gd" resname="Actions">
+        <source>Actions</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="HGMzUJ3" resname="show">
+        <source>show</source>
+        <target>Afficher</target>
+      </trans-unit>
+      <trans-unit id="OnhpU4i" resname="Home">
+        <source>Home</source>
+        <target>Domicile</target>
+      </trans-unit>
+      <trans-unit id="1CtxHqt" resname="Home 01">
+        <source>Home 01</source>
+        <target>Domicile 01</target>
+      </trans-unit>
+      <trans-unit id="3SEontT" resname="Home 02">
+        <source>Home 02</source>
+        <target>Domicile 02</target>
+      </trans-unit>
+      <trans-unit id="8iUHr8." resname="Home 03">
+        <source>Home 03</source>
+        <target>Domicile 03</target>
+      </trans-unit>
+      <trans-unit id="qUHgSem" resname="movies">
+        <source>movies</source>
+        <target>films</target>
+      </trans-unit>
+      <trans-unit id="jkk_uBA" resname="Movie grid">
+        <source>Movie grid</source>
+        <target>Grille de film</target>
+      </trans-unit>
+      <trans-unit id="vL_PSbU" resname="movie grid full width">
+        <source>movie grid full width</source>
+        <target>grille de filmpleine largeur</target>
+      </trans-unit>
+      <trans-unit id="GLeVpd." resname="Movie list">
+        <source>Movie list</source>
+        <target>Liste films</target>
+      </trans-unit>
+      <trans-unit id="ujsZDsh" resname="Movie single">
+        <source>Movie single</source>
+        <target>Film single</target>
+      </trans-unit>
+      <trans-unit id="P2t3_7x" resname="Series single">
+        <source>Series single</source>
+        <target>Serie single</target>
+      </trans-unit>
+      <trans-unit id="vTL2ztt" resname="Rooms">
+        <source>Rooms</source>
+        <target>Salles</target>
+      </trans-unit>
+      <trans-unit id="ysirINk" resname="Room list">
+        <source>Room list</source>
+        <target>Liste salle</target>
+      </trans-unit>
+      <trans-unit id="oqU3PFa" resname="Rooms Planning">
+        <source>Rooms Planning</source>
+        <target>Liste reservation</target>
+      </trans-unit>
+      <trans-unit id="cDqPKZZ" resname="celebrities">
+        <source>celebrities</source>
+        <target>célébrités</target>
+      </trans-unit>
+      <trans-unit id="Gfug6ZW" resname="news">
+        <source>news</source>
+        <target>nouvelles</target>
+      </trans-unit>
+      <trans-unit id="81TumeK" resname="community">
+        <source>community</source>
+        <target>communauté</target>
+      </trans-unit>
+      <trans-unit id="T4uqcZn" resname="my tickets">
+        <source>my tickets</source>
+        <target>mes tickets</target>
+      </trans-unit>
+      <trans-unit id="1pajW90" resname="Profile">
+        <source>Profile</source>
+        <target>Profil</target>
+      </trans-unit>
+      <trans-unit id="jMT_HB8" resname="LOG In">
+        <source>LOG In</source>
+        <target>Connexion</target>
+      </trans-unit>
+      <trans-unit id="Oo9T7Be" resname="forget password">
+        <source>forget password</source>
+        <target>__forget password</target>
+      </trans-unit>
+      <trans-unit id="uKE5f6c" resname="sign up">
+        <source>sign up</source>
+        <target>__sign up</target>
+      </trans-unit>
+      <trans-unit id="ix3HZuy" resname="Item grid">
+        <source>Item grid</source>
+        <target>__Item grid</target>
+      </trans-unit>
+      <trans-unit id="GiHTohZ" resname="blog List">
+        <source>blog List</source>
+        <target>__blog List</target>
+      </trans-unit>
+      <trans-unit id="1hl5z56" resname="blog Grid">
+        <source>blog Grid</source>
+        <target>__blog Grid</target>
+      </trans-unit>
+      <trans-unit id="emEz_0M" resname="user favorite grid">
+        <source>user favorite grid</source>
+        <target>__user favorite grid</target>
+      </trans-unit>
+      <trans-unit id="8z2F8Al" resname="user favorite list">
+        <source>user favorite list</source>
+        <target>__user favorite list</target>
+      </trans-unit>
+      <trans-unit id="DiuG1gb" resname="user profile">
+        <source>user profile</source>
+        <target>__user profile</target>
+      </trans-unit>
+      <trans-unit id="AwhZMst" resname="user rate">
+        <source>user rate</source>
+        <target>__user rate</target>
+      </trans-unit>
+      <trans-unit id="v6Bi3gQ" resname="pages">
+        <source>pages</source>
+        <target>__pages</target>
+      </trans-unit>
+      <trans-unit id="YiaBud5" resname="LOG out">
+        <source>LOG out</source>
+        <target>Se Déconnecter</target>
+      </trans-unit>
+      <trans-unit id="fcH15uA" resname="Event  - grid">
+        <source>Event  - grid</source>
+        <target>Grille - Evénement</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

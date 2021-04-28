@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article index{% endblock %}
+{% block title %} {% trans %}Item index{% endtrans %}{% endblock %}
 
 {% block body %}
-    <h1>Article index</h1>
+
+
+
+    <h1>{% trans %}Article index{% endtrans %}</h1>
+
+
+
 
     {{ form_start(form) }}
 
@@ -14,7 +20,7 @@
 
         <div class="col">
             <div class="form-group">
-                <button type="submit" class="btn btn-success">Recherche</button>
+                <button type="submit" class="btn btn-success">{% trans %}Reaserch{% endtrans %}</button>
             </div>
         </div>
     </div>
@@ -27,11 +33,11 @@
     <table class="table">
         <thead>
         <tr>
-            <th>IdArticle</th>
-            <th>IdEvenement</th>
-            <th>Titre</th>
-            <th>Contenu</th>
-            <th>actions</th>
+            <th>{% trans %}IdItem{% endtrans %}</th>
+            <th>{% trans %}IdEvent{% endtrans %}</th>
+            <th>{% trans %}Title{% endtrans %}</th>
+            <th>{% trans %}Content{% endtrans %}</th>
+            <th>{% trans %}Actions{% endtrans %}</th>
         </tr>
         </thead>
         <tbody>
@@ -42,8 +48,8 @@
                 <td>{{ article.titre }}</td>
                 <td>{{ article.contenu }}</td>
                 <td>
-                    <a href="{{ path('article_show', {'idArticle': article.idArticle}) }}">show</a>
-                    <a href="{{ path('article_edit', {'idArticle': article.idArticle}) }}">edit</a>
+                    <a href="{{ path('article_show', {'idArticle': article.idArticle}) }}">{% trans %}show{% endtrans %}</a>
+                    <a href="{{ path('article_edit', {'idArticle': article.idArticle}) }}">{% trans %}edit{% endtrans %}</a>
                 </td>
             </tr>
         {% else %}

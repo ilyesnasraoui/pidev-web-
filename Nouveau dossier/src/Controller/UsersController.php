@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Salle;
 use App\Entity\Users;
 use App\Entity\Usersdata;
 use App\Form\UsersType;
+use App\Repository\SalleRepository;
 use App\Repository\UsersdataRepository;
 use App\Repository\UsersRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\User;
 
 /**
  * @Route("/users")
@@ -75,9 +78,54 @@ class UsersController extends AbstractController
 
         return $this->render('users/forgetpassword.html.twig',['user'=>$user , 'err1'=>"",'err2'=>""]);
     }
+    /**
+     * @Route("/addsalleaccount", name="newsalleaccount", methods={"POST"})
+     */
+    public function newsalleaccount(Request $request,SalleRepository $sr,UsersRepository $ur)
+    {
+        $salle=new Salle();
+        $salle->setName($request->get('name'));
+        $salle->setAdress($request->get('adress'));
+        $salle->setGovernorate($request->get('governorate'));
 
 
 
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($salle);
+        $entityManager->flush();
+        $salle=$sr->findOneBySomeField($salle->getIdSalle());
+
+        $user=new Users();
+        $user->setPassword($request->get('password'));
+        $user->setPhone($request->get('phone'));
+        $user->setEmail($request->get('email'));
+        $user->setIdSalle($salle->getIdSalle());
+        $user->setUsername($request->get('username'));
+        $user->setBlocked(0);
+        $user->setRole("salle");
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+
+        $user=$ur->findOneUsername($user->getUsername());
+
+        $userdata= new Usersdata();
+        $userdata->setImage("");
+        $userdata->setForgetPwd(0);
+        $userdata->setAccountVerif(0);
+        $userdata->setIdUser($user->getIdUser());
+        $entityManager->persist($userdata);
+        $entityManager->flush();
+        return $this->redirectToRoute('users_index');
+    }
+
+    /**
+     * @Route("/addsalleaccount", name="addsalleaccount", methods={"GET"})
+     */
+    public function addsalleaccount()
+    {
+        return $this->render("/users/addsalleaccountform.html.twig");
+    }
     /**
      * @Route("/block/{idUser}", name="users_block", methods={"POST"})
      */
@@ -116,8 +164,9 @@ class UsersController extends AbstractController
      * @Route("/", name="users_index", methods={"GET"})
      */
     public function index(Request $request,PaginatorInterface $paginator): Response
-    {
-
+    {  $user = $this->get('security.token_storage')->getToken()->getUser();
+       if($user->getRole()=="salle")
+           return $this->render("error.html.twig");
         $donnees = $this->getDoctrine()
             ->getRepository(Users::class)
             ->findAll();
@@ -144,7 +193,9 @@ class UsersController extends AbstractController
      * @Route("/new", name="users_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
-    {
+    {   $user = $this->get('security.token_storage')->getToken()->getUser();
+        if($user->getRole()=="salle")
+            return $this->render("error.html.twig");
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
@@ -250,7 +301,9 @@ class UsersController extends AbstractController
      * @Route("/{idUser}", name="users_show", methods={"GET"})
      */
     public function show(Users $user): Response
-    {
+    {   $user = $this->get('security.token_storage')->getToken()->getUser();
+        if($user->getRole()=="salle")
+            return $this->render("error.html.twig");
         return $this->render('users/show.html.twig', [
             'user' => $user,
         ]);
@@ -260,7 +313,9 @@ class UsersController extends AbstractController
      * @Route("/{idUser}/edit", name="users_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Users $user): Response
-    {
+    {   $user = $this->get('security.token_storage')->getToken()->getUser();
+        if($user->getRole()=="salle")
+            return $this->render("error.html.twig");
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
 
@@ -280,7 +335,9 @@ class UsersController extends AbstractController
      * @Route("/{idUser}", name="users_delete", methods={"POST"})
      */
     public function delete(Request $request, Users $user): Response
-    {
+    {    $user = $this->get('security.token_storage')->getToken()->getUser();
+        if($user->getRole()=="salle")
+            return $this->render("error.html.twig");
         if ($this->isCsrfTokenValid('delete'.$user->getIdUser(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);

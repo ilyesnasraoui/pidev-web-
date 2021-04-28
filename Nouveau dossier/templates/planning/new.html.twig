@@ -23,22 +23,10 @@
                 <span class="help-block">Select a film</span>
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label col-md-3">Room name</label>
-            <div class="col-md-3 col-xs-11">
-                <select name="sallename">
-                    {%  for salle in salles %}
-                        <option value="{{ salle.idSalle }}">
-                            {{ salle.name}}
-                        </option>
-                    {% endfor %}
-                </select>
-                <span class="help-block">Select a rooms</span>
-            </div>
-        </div>
+
 
         <div class="form-group">
-            <label class="control-label col-md-3">Default Timepicker</label>
+            <label class="control-label col-md-3">Projection time</label>
             <div class="col-md-4">
                 <div class="input-group bootstrap-timepicker">
                     <input type="text" name="projectiontime" class="form-control timepicker-default">
@@ -51,7 +39,7 @@
 
 
         <div class="form-group">
-            <label class="control-label col-md-3">Default Datepicker</label>
+            <label class="control-label col-md-3">Projection Date</label>
             <div class="col-md-4 col-xs-11 ">
 
                 <input type="date" name="projectiondate" id="projectiondate" placeholder="projectiondate"  required="required" />

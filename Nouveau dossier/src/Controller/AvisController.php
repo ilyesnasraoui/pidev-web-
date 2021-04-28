@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Avis;
+use App\Entity\Produit;
 use App\Form\AvisType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,6 +49,61 @@ class AvisController extends AbstractController
         return $this->render('avis/new.html.twig', [
             'avi' => $avi,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{idProduit}/new", name="avis_new_like", methods={"GET","POST"})
+     */
+    public function new_like(Request $request,Produit $produit): Response
+    {
+        $avi = new Avis();
+        $form = $this->createForm(AvisType::class, $avi);
+        $form->handleRequest($request);
+
+
+         $id=$produit->getIdProduit();
+
+
+            $avi->setIdProduit($id);
+            $avi->setTypeAvis('like');
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($avi);
+            $entityManager->flush();
+
+
+        $nblikes = $this->getDoctrine()->getRepository(Avis::class)->numberoflikes($id);
+        $nbdislikes = $this->getDoctrine()->getRepository(Avis::class)->numberofdislikes($id);
+
+        return $this->render('produit/singleproduct.html.twig', [
+            "produits" => $produit,  'like' => $nblikes, 'dislike' => $nbdislikes
+        ]);
+    }
+    /**
+     * @Route("/{idProduit}/neww", name="avis_new_dislike", methods={"GET","POST"})
+     */
+    public function new_dislike(Request $request,Produit $produit): Response
+    {
+        $avi = new Avis();
+        $form = $this->createForm(AvisType::class, $avi);
+        $form->handleRequest($request);
+
+
+        $id=$produit->getIdProduit();
+
+
+        $avi->setIdProduit($id);
+        $avi->setTypeAvis('dislike');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($avi);
+        $entityManager->flush();
+
+
+        $nblikes = $this->getDoctrine()->getRepository(Avis::class)->numberoflikes($id);
+        $nbdislikes = $this->getDoctrine()->getRepository(Avis::class)->numberofdislikes($id);
+
+        return $this->render('produit/singleproduct.html.twig', [
+            "produits" => $produit,  'like' => $nblikes, 'dislike' => $nbdislikes
         ]);
     }
 

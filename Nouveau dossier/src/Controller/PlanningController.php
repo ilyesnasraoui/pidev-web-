@@ -9,6 +9,7 @@ use App\Form\PlanningType;
 use App\Repository\FilmsRepository;
 use App\Repository\SalleRepository;
 use App\Repository\PlanningRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,36 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PlanningController extends AbstractController
 {
+
+    /**
+     * @Route("/all", name="allplannings", methods={"GET","POST"})
+     */
+    public function sp(Request $request,PaginatorInterface $paginator,SalleRepository  $sr,FilmsRepository $fr, PlanningRepository  $pr)
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $donnees = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Planning p
+           
+             ORDER BY p.date DESC
+            '
+        );
+
+
+        $plannings=$paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            10
+        );
+        return $this->render('planning/allplannings.html.twig', [
+            'salles' =>$sr->findAll() ,
+            'plannings' => $plannings,
+            'films' => $fr->findAll(),
+        ]);
+
+    }
+
     /**
      * @Route("/myplanning", name="my_planning", methods={"GET"})
      */

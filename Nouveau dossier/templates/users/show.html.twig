@@ -50,7 +50,9 @@
 
     <a href="{{ path('users_index') }}">back to list</a>
 
-    <a href="{{ path('users_edit', {'idUser': user.idUser}) }}">edit</a>
-    {{ include('users/block.html.twig') }}
+    {% if user.role!="admin" %}
     {{ include('users/_delete_form.html.twig') }}
+   {% endif %}
+    {{ include('users/block.html.twig') }}
+
 {% endblock %}

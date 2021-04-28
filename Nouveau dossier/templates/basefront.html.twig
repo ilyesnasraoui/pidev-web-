@@ -179,16 +179,6 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown">
-                            {% trans %}Home{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu level1">
-                            <li><a href="index-2.html">{% trans %}Home 01{% endtrans %}</a></li>
-                            <li><a href="homev2.html">{% trans %}Home 02{% endtrans %}</a></li>
-                            <li><a href="homev3.html">{% trans %}Home 03{% endtrans %}</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown first">
                         <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                             {% trans %}movies{% endtrans %}<i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
@@ -274,7 +264,7 @@
                         </a>
                         <ul class="dropdown-menu level1">
                             <li><a href="{{ asset('salle/all') }}">{% trans %}Room list{% endtrans %}</a></li>
-                            <li><a href="celebritygrid02.html">{% trans %}Rooms Planning{% endtrans %} </a></li>
+                            <li><a href="{{ path('allplannings') }}">{% trans %}Rooms Planning{% endtrans %} </a></li>
                         </ul>
                     </li>
 
@@ -288,29 +278,8 @@
                             <li class="it-last"><a href="blogdetail.html">blog Detail</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            {% trans %}community{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu level1">
-                            <li><a href="userfavoritegrid.html">{% trans %}user favorite grid{% endtrans %}</a></li>
-                            <li><a href="userfavoritelist.html">{% trans %}user favorite list{% endtrans %}</a></li>
-                            <li><a href="userprofile.html">{% trans %}user profile{% endtrans %}</a></li>
-                            <li class="it-last"><a href="userrate.html">{% trans %}user rate{% endtrans %}</a></li>
-                        </ul>
-                    </li>
                 </ul>
                 <ul class="nav navbar-nav flex-child-menu menu-right">
-                    <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            {% trans %}pages{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu level1">
-                            <li><a href="landing.html">Landing</a></li>
-                            <li><a href="404.html">404 Page</a></li>
-                            <li class="it-last"><a href="comingsoon.html">Coming soon</a></li>
-                        </ul>
-                    </li>
 
 
                     {% if app.user %}

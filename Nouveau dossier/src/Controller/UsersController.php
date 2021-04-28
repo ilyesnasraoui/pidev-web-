@@ -70,7 +70,7 @@ class UsersController extends AbstractController
         $message = (new \Swift_Message('Password reset'))
             ->setFrom('send@example.com')
             ->setTo($request->get('email'))
-            ->setBody($userdata->getForgetPwd(),
+            ->setBody("Your reset password code is  : ".$userdata->getForgetPwd(),
                 'text/plain'
             );
 

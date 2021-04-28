@@ -1,5 +1,13 @@
-<form method="post" action="{{ path('users_block', {'idUser': user.idUser}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('block' ~ user.idUser) }}">
+<form method="post" action="{{ path('users_block', {'idUser': user.idUser}) }}" onsubmit="
+{% if user.blocked==0 %}return confirm('Are you sure you want to block this account?');
+        {% else %}
+                return confirm('Are you sure you want to unblock this account?');
+{% endif %}
+        ">
 
-    <button class="btn">block</button>
+    <input type="hidden" name="_token" value="{{ csrf_token('block' ~ user.idUser) }}">
+    {% if user.role!="admin" %}
+        <button class="btn">  {% if user.blocked==0 %}block{% else %}unblock {% endif %}
+    </button>
+    {% endif %}
 </form>

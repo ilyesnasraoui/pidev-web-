@@ -9,6 +9,7 @@ use App\Repository\UsersdataRepository;
 use App\Repository\UsersRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use http\Url;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -88,7 +89,7 @@ class UsersController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $user = $entityManager->getRepository(Users::class)->find($user->getIdUser());
 
-            $user->setBlocked(1);
+            $user->setBlocked(($user->getBlocked()+1)%2);
             $entityManager->flush();
         }
 
@@ -114,10 +115,16 @@ class UsersController extends AbstractController
     /**
      * @Route("/", name="users_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(Request $request,PaginatorInterface $paginator): Response
     {
 
-
+        $donnees = $this->getDoctrine()
+            ->getRepository(Users::class)
+            ->findAll();
+        $users=$paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            12);
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
       if($user=="anon.")
@@ -125,9 +132,7 @@ class UsersController extends AbstractController
 
         if($user->getRole()=="client")
           return $this->render('error.html.twig');
-        $users = $this->getDoctrine()
-            ->getRepository(Users::class)
-            ->findAll();
+
 
         return $this->render('users/index.html.twig', [
             'users' => $users,

@@ -8,13 +8,13 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Candidature1Type extends AbstractType
+class Candidature2Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
 
-            ->add('idOffre')
+
             ->add('cvpath',FileType::class,[
                 'required'=>false,
                 'mapped'=>false])

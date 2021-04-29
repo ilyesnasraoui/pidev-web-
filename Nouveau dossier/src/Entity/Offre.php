@@ -32,7 +32,7 @@ class Offre
 
     /**
      * @var string|null
-     *@Assert\NotBlank(message="Offre must have an image")
+     *
      * @ORM\Column(name="offreimgpath", type="string", length=150, nullable=true)
      */
     private $offreimgpath;
@@ -64,11 +64,10 @@ class Offre
      *      minMessage = "Your title must be at least 2 characters long",
      *      maxMessage = "Your title cannot be longer than 30 characters"
      * )
-      * @Assert\NotBlank(message="A Title is required")
+     * @Assert\NotBlank(message="A Title is required")
      * @ORM\Column(name="titre", type="string", length=50, nullable=true)
      */
     private $titre;
-
 
     public function getIdOffre(): ?int
     {

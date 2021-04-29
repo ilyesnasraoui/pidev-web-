@@ -95,13 +95,15 @@
             }
         }
     </script>
-
+<div class="slider movie-items">
+    <div class="container">
     <label class="bd-hd"> Mouse over {{ produits.nomProduit }} to ZOOM  </label>
     <div class="img-zoom-container">
         <div id="myresult" class="img-zoom-result"></div>
         <img id="myimage" src="{{ asset('images/produit/'~produits.image) }}" alt="">
     </div>
-
+    </div>
+</div>
     <script>
         // Initiate zoom effect:
         imageZoom("myimage", "myresult");

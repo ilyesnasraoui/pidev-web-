@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Offre;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,7 +14,9 @@ class Offre1Type extends AbstractType
     {
         $builder
             ->add('idUser')
-            ->add('offreimgpath')
+            ->add('offreimgpath',FileType::class,[
+                'required'=>false,
+                'mapped'=>false])
             ->add('date')
             ->add('description')
             ->add('titre')

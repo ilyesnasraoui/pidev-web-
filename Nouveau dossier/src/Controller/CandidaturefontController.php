@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Candidature;
 use App\Form\Candidature1Type;
 use App\Repository\CandidatureRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,21 @@ class CandidaturefontController extends AbstractController
     /**
      * @Route("/", name="candidaturefont_index", methods={"GET"})
      */
-    public function index(CandidatureRepository $candidatureRepository): Response
+    public function index(CandidatureRepository $candidatureRepository,Request $request,PaginatorInterface  $paginator): Response
     {
+        $candidature = $this->getDoctrine()->getRepository(Candidature::class);
+        $candidatures = $candidature->findAll();
+        // Paginate the results of the query
+        $candidatures = $paginator->paginate(
+        // Doctrine Query, not results
+            $candidatures,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            4
+        );
         return $this->render('candidaturefont/index.html.twig', [
-            'candidatures' => $candidatureRepository->findAll(),
+            'candidatures' => $candidatures,
         ]);
     }
 

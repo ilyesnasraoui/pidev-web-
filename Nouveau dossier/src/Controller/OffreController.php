@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Offre;
 use App\Form\OffreType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,16 +20,25 @@ class OffreController extends AbstractController
     /**
      * @Route("/", name="offre_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(Request $request,PaginatorInterface $paginator): Response
     {
         $offres = $this->getDoctrine()
             ->getRepository(Offre::class)
             ->findAll();
 
+        $offres = $paginator->paginate(
+        // Doctrine Query, not results
+            $offres,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            8
+        );
         return $this->render('offre/index.html.twig', [
             'offres' => $offres,
         ]);
     }
+
 
     /**
      * @Route("/new", name="offre_new", methods={"GET","POST"})
@@ -39,7 +50,32 @@ class OffreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ImageFile = $form->get('offreimgpath')->getData();
+            if ($ImageFile) {
+
+                // this is needed to safely include the file name as part of the URL
+
+                $newFilename = md5(uniqid()).'.'.$ImageFile->guessExtension();
+                $destination = $this->getParameter('kernel.project_dir').'/public/images/offre';
+                // Move the file to the directory where brochures are stored
+                try {
+                    $ImageFile->move(
+                        $destination,
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'ImageFilename' property to store the PDF file name
+                // instead of its contents
+                $offre->setOffreimgpath($newFilename);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+
+            $offre->setIdUser($user->getIdUser());
             $entityManager->persist($offre);
             $entityManager->flush();
 
@@ -71,6 +107,26 @@ class OffreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ImageFilepath = $form->get('offreimgpath')->getData();
+            if ($ImageFilepath) {
+
+                // this is needed to safely include the file name as part of the URL
+
+                $newFilename = md5(uniqid()).'.'.$ImageFilepath->guessExtension();
+                $destination = $this->getParameter('kernel.project_dir').'/public/images/offre';
+                // Move the file to the directory where brochures are stored
+                try {
+                    $ImageFilepath->move(
+                        $destination,
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'ImageFilename' property to store the PDF file name
+                // instead of its contents
+                $offre->setOffreimgpath($newFilename);}
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('offre_index');

@@ -6,6 +6,8 @@ use App\Entity\Candidature;
 use App\Entity\Offre;
 use App\Form\Offre2Type;
 use App\Repository\OffreRepository;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,6 +46,28 @@ class RealisateuroffreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $ImageFile = $form->get('offreimgpath')->getData();
+            if ($ImageFile) {
+
+                // this is needed to safely include the file name as part of the URL
+
+                $newFilename = md5(uniqid()).'.'.$ImageFile->guessExtension();
+                $destination = $this->getParameter('kernel.project_dir').'/public/images/offre';
+                // Move the file to the directory where brochures are stored
+                try {
+                    $ImageFile->move(
+                        $destination,
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'ImageFilename' property to store the PDF file name
+                // instead of its contents
+                $offre->setOffreimgpath($newFilename);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $user = $this->get('security.token_storage')->getToken()->getUser();
             $offre->setIdUser($user->getIdUser());
@@ -110,5 +134,51 @@ class RealisateuroffreController extends AbstractController
         return $this->redirectToRoute('realisateuroffre_index');
     }
 
+    /**
+     * @Route("/cho/{idOffre}/", name="up", methods={"GET"})
+     */
+    public function cho(int $idOffre): Response
+    {
+        $cand = $this->getDoctrine()
+            ->getRepository(Candidature::class)
+            ->findByIdOffre($idOffre);
+
+        return $this->render('realisateuroffre/pdf.html.twig', [
+            'candidatures' => $cand,
+        ]);
+
+    }
+
+
+
+
+    /**
+     * @Route("/export/{idOffre}/pdf", name="imprimer", methods={"GET"})
+     */
+    public function pdf(int $idOffre): Response
+    {
+
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        $dompdf = new Dompdf($pdfOptions);
+        $cand = $this->getDoctrine()
+            ->getRepository(Candidature::class)
+            ->findByIdOffre($idOffre);
+        $html = $this->renderView('realisateuroffre/pdf.html.twig', [
+            'candidatures' => $cand,
+        ]);
+
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper('A4', 'portrait');
+
+        $dompdf->render();
+
+
+        $dompdf->stream("Candidatures.pdf", [
+            "Attachment" => true
+        ]);
+    }
 
 }

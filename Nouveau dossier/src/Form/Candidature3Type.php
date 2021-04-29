@@ -2,32 +2,29 @@
 
 namespace App\Form;
 
-use App\Entity\Offre;
+use App\Entity\Candidature;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Gregwar\CaptchaBundle\Type\CaptchaType;
 
-class Offre2Type extends AbstractType
+class Candidature3Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('offreimgpath',FileType::class,[
-                'required'=>false,
-                'mapped'=>false])
+            ->add('idUser')
+            ->add('idOffre')
+            ->add('cvpath')
             ->add('date')
             ->add('description')
-            ->add('titre')
-            ->add('captcha',CaptchaType::class)
+            ->add('etatcandidat')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Offre::class,
+            'data_class' => Candidature::class,
         ]);
     }
 }

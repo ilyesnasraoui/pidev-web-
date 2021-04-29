@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Candidature;
 use App\Entity\Offre;
 use App\Form\CandidatureType;
+use App\Repository\CandidatureRepository;
+use App\Repository\OffreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -169,5 +171,6 @@ class CandidatureController extends AbstractController
         return $this->redirectToRoute("realisateuroffre_show",['idOffre' => $idOffre]);
 
     }
+
 
 }

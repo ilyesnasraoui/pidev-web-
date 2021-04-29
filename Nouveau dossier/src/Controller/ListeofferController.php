@@ -35,7 +35,7 @@ class ListeofferController extends AbstractController
         );
         return $this->render('listeoffer/index.html.twig', [
             'offres' => $offres,
-            'size' =>$size,
+            'size' => $size,
         ]);
     }
 

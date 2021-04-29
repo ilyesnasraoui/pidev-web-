@@ -58,5 +58,16 @@ class CandidatureRepository extends ServiceEntityRepository
             ;
     }
 
+    public function findByIdUser($id_user)
+    {
+        return $this
+            ->createQueryBuilder('a')
+            ->where('a.idUser = :id')
+            ->setParameter( 'id', $id_user)
+            ->getQuery()
+            ->execute()
+            ;
+    }
+
 
 }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\CategorieEvent;
 use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -146,6 +147,11 @@ class ArticleController extends AbstractController
         // On revient sur la page précédente
         return $this->redirect($request->headers->get('referer'));
     }
+
+
+
+
+
 
 
 }

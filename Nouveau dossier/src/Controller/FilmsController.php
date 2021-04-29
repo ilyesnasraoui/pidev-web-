@@ -115,7 +115,7 @@ class FilmsController extends AbstractController
             ->getRepository(Films::class)
             ->findAll();
 
-        return $this->render('films/test2.html.twig', [
+        return $this->render('films/moviegrid.html.twig', [
             'films' => $films,]);
 
     }
@@ -134,11 +134,8 @@ class FilmsController extends AbstractController
             ->getRepository(Films::class)
             ->findAll();
         //var_dump($films);
-        $films = $paginator->paginate(
-            $films, // Requête contenant les données à paginer (ici nos articles)
-            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-            4 // Nombre de résultats par page
-        );
+
+
 
 
 
@@ -194,7 +191,7 @@ class FilmsController extends AbstractController
         $film->setDescription($request->get("desc"));
         $film->setUtube("rgfrger");
         $film->setRated($request->get("rated"));
-        $date = "2020-10-10";
+        $date = ($request->get("date"));
         $newdate = (\DateTime::createFromFormat('Y-m-d', $date));
         $result = $newdate->format('Y-m-d');
         $film->setDate(\DateTime::createFromFormat('Y-m-d', $result));
@@ -233,8 +230,86 @@ array('films'=> $films),
 
      {
 
+         $rate= $this->getDoctrine()
+             ->getRepository(Rate::class)
+             ->findbyidfilm($film->getIdFilm());
+         $total=0;
+         $nbr=0;
+
+         foreach($rate as $rate){
+             $nbr++;
+             $total=$total+$rate->getNote();
+         }
+         if($nbr==0)
+             $nbr=1;
+
+
+
+         $ch=168530;
+         $curl=curl_init("https://api.themoviedb.org/3/movie/".$ch."/similar?api_key=ba9007874ae1b197d4fa0574fabba170&language=fr&query=justice&page=1&include_adult=false&fbclid=IwAR1wn0SzcqYGtmcmrT5r-ZvQOqRhpGVDkRVOxyqVGujBuhEvX3eQtvDBio4");
+         curl_setopt($curl,CURLOPT_PROXY_SSL_VERIFYPEER,false);
+         curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+
+
+         $data=curl_exec($curl);
+         var_dump($data);
+
+         if($data === false) {
+             var_dump(curl_error($curl));
+         }else {
+
+             $data = json_decode($data, true);
+         }
+
+
+         $films=array();
+
+         for($x = '1'; $x <3;$x++) {
+             //var_dump($data['results'][$x]);
+             $suggestion = new Films();
+
+             //  $name = ($data);
+             // curl_close($curl);
+             // create movie //////////////////////////////////////
+             $suggestion->setIdFilm($data['results'][$x]['id']);
+             $suggestion->setIdCategorie('5');
+             if (isset($data['results'][$x]['original_title'])) {
+                 $suggestion->setNomFilm($data['results'][$x]['original_title']);
+             } elseif (isset($data['results'][$x]['original_name'])) {
+                 $suggestion->setNomFilm($data['results'][$x]['original_name']);
+             } elseif (isset($data['results'][$x]['name'])) {
+                 $suggestion->setNomFilm($data['results'][$x]['name']);
+             }
+             $suggestion->setLanguage($data['results'][$x]['original_language']);
+
+             //  $film->setNomFilm($data['results'][$x]['original_title']);
+
+             $suggestion->setDureeFilm('5');
+             $image = ($data['results'][$x]['poster_path']);
+             $imgurl = ("https://image.tmdb.org/t/p/w500" . $image);
+             $suggestion->setImage($imgurl);
+             echo($imgurl);
+             $suggestion->setDescription($data['results'][$x]['overview']);
+             $suggestion->setUtube("rgfrger");
+             $suggestion->setRated($data['results'][$x]['vote_average']);
+             if (isset($data['results'][$x]['release_date'])) {
+                 $date = $data['results'][$x]['release_date'];
+             } elseif (isset($data['results'][$x]['first_air_date'])) {
+                 $date = $data['results'][$x]['first_air_date'];
+
+             }
+             // $date = $data['results'][$x]['release_date'];
+             $newdate = (\DateTime::createFromFormat('Y-m-d', $date));
+             $result = $newdate->format('Y-m-d');
+             $suggestion->setDate(\DateTime::createFromFormat('Y-m-d', $result));
+
+             $suggestions[$x]=$suggestion;
+         }
+
          return $this->render('films/singlemovie.html.twig', [
              "film" => $film,
+             "rate"=> ($total/$nbr)*2,
+             "suggestions"=>$suggestions
 
 
          ]);
@@ -255,7 +330,7 @@ array('films'=> $films),
 
 
         $data=curl_exec($curl);
-        //var_dump($data);
+        var_dump($data);
 
         if($data === false) {
             var_dump(curl_error($curl));
@@ -274,7 +349,7 @@ array('films'=> $films),
           //  $name = ($data);
         // curl_close($curl);
         // create movie //////////////////////////////////////
-
+        $film->setIdFilm($data['results'][$x]['id']);
         $film->setIdCategorie('5');
            if(isset($data['results'][$x]['original_title']))
            {
@@ -369,6 +444,7 @@ array('films'=> $films),
 
 
         $film= new Films();
+        $film->setIdFilm($request->get('id'));
         $film->setIdCategorie(5);
         $film->setLanguage($request->get('lang'));
         $film->setNomFilm($request->get('nomfilm'));
@@ -452,16 +528,23 @@ array('films'=> $films),
          $ch=$request->get("search");
          $cat=$request->get("cat");
 
-
-        $query = $entityManager->createQuery(
-            'SELECT p
+        if($cat=="") {
+            $query = $entityManager->createQuery(
+                'SELECT p
+            FROM App\Entity\Films p
+            WHERE p.nomFilm LIKE :data'
+            )
+                ->setParameters(array('data' => "%" . $ch . "%"));
+        }
+else{
+    $query = $entityManager->createQuery(
+        'SELECT p
             FROM App\Entity\Films p
             WHERE (p.nomFilm LIKE :data )
             AND (p.idCategorie = :param)'
-        )
-            ->setParameters(array('data'=> "%".$ch."%", 'param' => $cat));
-
-
+    )
+        ->setParameters(array('data' => "%" . $ch . "%", 'param' => $cat));
+}
 
         return $this->render('films/moviegrid.html.twig', [
             'films' => $query->getResult(),

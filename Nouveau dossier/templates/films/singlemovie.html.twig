@@ -27,7 +27,7 @@
                     <div class="movie-btn">
                         <div class="btn-transform transform-vertical red">
                             <div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
-                            <div><a href="https://www.youtube.com/embed/o-0hcF97wy0" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
+                            <div><a href="{{ film.utube }}" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
                         </div>
                         <div class="btn-transform transform-vertical">
                             <div><a href="#" class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy ticket</a></div>
@@ -38,7 +38,7 @@
             </div>
             <div class="col-md-8 col-sm-12 col-xs-12">
                 <div class="movie-single-ct main-content">
-                    <h1 class="bd-hd">{{ film.nomFilm }}<span>2015</span></h1>
+                    <h1 class="bd-hd">{{ film.nomFilm }}<span>{{ film.date ? film.date|date('Y-m-d') : '' }}</span></h1>
                     <div class="social-btn">
                         <a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
                         <div class="hover-bnt">
@@ -53,29 +53,60 @@
                     </div>
                     <div class="movie-rate">
                         <div class="rate">
-                            <i class="ion-android-star"></i>
+                            <input type="image" src="/images/produit/imdb.png" height="30" width="60">
                             <p><span>{{ film.rated }}</span> /10<br>
+
                                 <span class="rv">56 Reviews</span>
+                            </p>
+                        </div>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <div class="rate">
+
+                            <input type="image" src="/images/produit/logosite.png" height="60" width="90">
+
+                            <p><span>{{ rate }}/10</span><br>
+                          <!--      <span class="rv">56 Reviews</span> -->
                             </p>
                         </div>
 
                         <div class="rate-star">
                             <form action="/films/saverate" method="post">
-                            <p>Rate This Movie:  </p>
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                <p>Rate This Movie:  </p>
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
                             <i hidden onclick="" class="ion-ios-star" data-index="0" ></i>
-                            <i class="ion-ios-star" data-index="1"></i>
+
+                                <i class="ion-ios-star" data-index="1"></i>
                             <i class="ion-ios-star" data-index="2"></i>
                             <i class="ion-ios-star" data-index="3"></i>
                             <i class="ion-ios-star" data-index="4"></i>
                             <i class="ion-ios-star" data-index="5"></i>
-
                                 <input type="hidden" name="note" id="note">
                                 <input  name="idm" type="hidden" value="{{ film.idFilm }}" id="idm">
-                                <button type="submit" >Rate!</button>
+
+                                <input type="image" src="/images/produit/submit.png" alt="Submit Form" height="40" width="40" />
+
                             </form>
-                           
 
-
+<br>
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
                             <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fwww.imdb.com%2F&layout=button_count&size=small&width=108&height=20&appId" width="108" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>                        </div>
                         <script
                                 src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -90,7 +121,6 @@
                                 if (localStorage.getItem('ratedIndex') != null) {
                                     setStars(parseInt(localStorage.getItem('ratedIndex')));
                                     uID = localStorage.getItem('uID');
-
 
                                 }
 
@@ -148,6 +178,53 @@
                                 <li><a href="#media"> Media</a></li>
                                 <li><a href="#moviesrelated"> Related Movies</a></li>
                             </ul>
+
+                            <div class="tab-content">
+                                <div id="overview" class="tab active">
+                                    <div class="row">
+                                        <div class="col-md-8 col-sm-12 col-xs-12">
+                                            <p>{{ film.description }}</p>
+                                            <div class="title-hd-sm">
+                                                <h4>Videos & Photos</h4>
+                                                <a href="#" class="time">All 5 Videos & 245 Photos <i class="ion-ios-arrow-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="moviesrelated" class="tab">
+                                <div class="row">
+                                    <h3>Related Movies To</h3>
+                                    <h2>Skyfall: Quantum of Spectre</h2>
+                                    <div class="topbar-filter">
+                                        <p>Found <span>12 movies</span> in total</p>
+                                        <label>Sort by:</label>
+                                        <select>
+                                            <option value="popularity">Popularity Descending</option>
+                                            <option value="popularity">Popularity Ascending</option>
+                                            <option value="rating">Rating Descending</option>
+                                            <option value="rating">Rating Ascending</option>
+                                            <option value="date">Release date Descending</option>
+                                            <option value="date">Release date Ascending</option>
+                                        </select>
+                                    </div>
+                                    {% for suggestion in suggestions %}
+                                    <div class="movie-item-style-2">
+                                        <img src="{{ suggestion.getImage }}" alt="">
+                                        <div class="mv-item-infor">
+                                            <h6><a href="#">{{ suggestion.nomFilm }} <span>(2012)</span></a></h6>
+                                            <p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
+                                            <p class="describe">Earth's mightiest heroes must come together and learn to fight as a team if they are to stop the mischievous Loki and his alien army from enslaving humanity...</p>
+                                            <p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
+                                            <p>Director: <a href="#">Joss Whedon</a></p>
+                                            <p>Stars: <a href="#">Robert Downey Jr.,</a> <a href="#">Chris Evans,</a> <a href="#">  Chris Hemsworth</a></p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
 
                                             <!-- movie user review -->
                                             <div class="mv-user-review-item">
@@ -388,6 +465,7 @@
                                                 <option value="date">Release date Ascending</option>
                                             </select>
                                         </div>
+
                                         <div class="movie-item-style-2">
                                             <img src="images/uploads/mv1.jpg" alt="">
                                             <div class="mv-item-infor">

@@ -33,7 +33,7 @@
             <form method="post" action="/films/addapi">
             <tr>
                 <td>{{ film.idFilm }}</td>
-
+                <input type="hidden"  name="id" value="{{ film.idFilm }}" >
                 <td>
                     {% for categoriefilm in CategorieFilms %}
                         {% if (film.idCategorie==categoriefilm.idCategorie) %}

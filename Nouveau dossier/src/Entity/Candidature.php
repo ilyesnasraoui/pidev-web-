@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Candidature
@@ -20,6 +21,7 @@ class Candidature
      * @ORM\Column(name="id_candidature", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idCandidature;
 
@@ -27,6 +29,7 @@ class Candidature
      * @var int
      *
      * @ORM\Column(name="id_user", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $idUser;
 
@@ -34,6 +37,7 @@ class Candidature
      * @var int
      *
      * @ORM\Column(name="id_offre", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $idOffre;
 
@@ -41,6 +45,7 @@ class Candidature
      * @var string|null
      *
      * @ORM\Column(name="cvpath", type="string", length=150, nullable=true)
+     * @Groups("post:read")
      */
     private $cvpath;
 
@@ -48,6 +53,7 @@ class Candidature
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="date", nullable=false)
+     * @Groups("post:read")
      */
     private $date;
 
@@ -62,6 +68,7 @@ class Candidature
      * )
      * @Assert\NotBlank(message="A description is required")
      * @ORM\Column(name="description", type="string", length=100, nullable=false)
+     * @Groups("post:read")
      */
     private $description;
 
@@ -69,6 +76,7 @@ class Candidature
      * @var string|null
      *
      * @ORM\Column(name="EtatCandidat", type="string", length=20, nullable=true)
+     * @Groups("post:read")
      */
     private $etatcandidat;
 

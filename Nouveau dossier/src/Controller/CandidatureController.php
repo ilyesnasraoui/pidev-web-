@@ -10,12 +10,16 @@ use App\Repository\OffreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * @Route("/candidature")
@@ -35,6 +39,70 @@ class CandidatureController extends AbstractController
         return $this->render('candidature/index.html.twig', [
             'candidatures' => $candidatures,
         ]);
+    }
+           /*             Edit Candidature JSON              */
+    /**
+     * @Route("/editCandidatureJSON", name="editCandidatureJSON")
+     */
+    public function editCandidatureJSON(Request $request,NormalizerInterface $Normalizer): Response
+    {
+        $date = new \DateTime('now');
+        $candidature = $this->getDoctrine()
+            ->getRepository(Candidature::class)
+            ->find($request->get('idCandidature'));
+
+        $candidature->setIdUser($request->get('idUser'));
+        $candidature->setIdOffre($request->get('idOffre'));
+        $candidature->setCvpath($request->get('cvpath'));
+        $candidature->setDate($date);
+        $candidature->setDescription($request->get('description'));
+        $candidature->setEtatcandidat($request->get('etatcandidat'));
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($candidature);
+        $entityManager->flush();
+
+        $jsonContent=$Normalizer->normalize($candidature,'json',['groups'=>'post:read']);
+        return new Response("Candidature edited successfully".json_encode($jsonContent,JSON_UNESCAPED_UNICODE));
+    }
+
+    /*       JSON ADD CANDIDATURE */
+    /**
+     * @Route("/addCandidatureJSON", name="addCandidatureJSON")
+     */
+    public function addCandidatureJSON(Request $request,NormalizerInterface $Normalizer): Response
+    {
+        $date = new \DateTime('now');
+        $eta="attente";
+        $candidature=new Candidature();
+        $candidature->setIdUser($request->get('idUser'));
+        $candidature->setIdOffre($request->get('idOffre'));
+        $candidature->setCvpath($request->get('offreimgpath'));
+        $candidature->setDate($date);
+        $candidature->setDescription($request->get('description'));
+        $candidature->setEtatcandidat($eta);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($candidature);
+        $entityManager->flush();
+
+        $jsonContent=$Normalizer->normalize($candidature,'json',['groups'=>'post:read']);
+        return new Response("Candidature added successfully".json_encode($jsonContent,JSON_UNESCAPED_UNICODE));
+    }
+
+    /*       JSON  DISPLAY ALLLLLL         */
+    /**
+     * @Route("/displayCandidature", name="displayCandidature", methods={"GET"})
+     */
+    public function getAll()
+    {
+        $candidature = $candidature = $this->getDoctrine()
+            ->getRepository(Candidature::class)
+            ->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($candidature);
+
+        return new JsonResponse($formatted);
+
     }
 
     /**
@@ -84,6 +152,34 @@ class CandidatureController extends AbstractController
         ]);
     }
 
+  #  /**
+  #   * @Route("/addCandidature", name="addCandidature", methods={"POST"})
+    #    */
+    #  public function addCand(Request $request)
+    #  {
+    #      $candidature = new Candidature();
+    #    $em = $this->getDoctrine()->getManager();
+    #    $date = new \DateTime('now');
+    #     $eta="attente";
+    #    $content = json_decode($request->getContent(), true);
+    #    $em = $this->getDoctrine()->getManager();
+    #    #dd("dsfsfsdfsdfsdfgsdfgs");
+    #    $candidature->setIdUser($content['idUser']);
+    #    $candidature->setIdOffre($content['idOffre']);
+    #    $candidature->setCvpath($content['cvpath']);
+    #    $candidature->setDate($date);
+    #    $candidature->setDescription($content['description']);
+    #    $candidature->setEtatcandidat($eta);
+
+
+    #     $em->persist($candidature);
+    #    $em->flush();
+    #    $serializer = new Serializer([new ObjectNormalizer()]);
+    #    $formatted = $serializer->normalize($candidature);
+    #    return new JsonResponse($formatted);
+
+    # }
+
     /**
      * @Route("/{idCandidature}", name="candidature_show", methods={"GET"})
      */
@@ -93,6 +189,35 @@ class CandidatureController extends AbstractController
             'candidature' => $candidature,
         ]);
     }
+         /* MOBILE DISPLAY BY ID OFFRE */
+    /**
+     * @Route("/displayss/{id}",name="displayss",methods={"GET"})
+     */
+    public function getCand(int $id)
+    {
+
+        $candidature = $this->getDoctrine()->getManager()->getRepository(Candidature::class)->findByIdOffre($id);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($candidature);
+
+        return new JsonResponse($formatted);
+    }
+
+    /*      MOBILE DISPLAY BY ID USER           */
+    /**
+     * @Route("/displaysse/{id}",name="displaysse",methods={"GET"})
+     */
+    public function getCands(int $id): JsonResponse
+    {
+
+        $candidature = $this->getDoctrine()->getManager()->getRepository(Candidature::class)->findByIdUser($id);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($candidature);
+
+        return new JsonResponse($formatted);
+    }
+
+
 
     /**
      * @Route("/{idCandidature}/edit", name="candidature_edit", methods={"GET","POST"})
@@ -134,6 +259,8 @@ class CandidatureController extends AbstractController
         ]);
     }
 
+
+
     /**
      * @Route("/{idCandidature}", name="candidature_delete", methods={"POST"})
      */
@@ -146,6 +273,29 @@ class CandidatureController extends AbstractController
         }
 
         return $this->redirectToRoute('candidature_index');
+    }
+
+    /*      MOBILE Delete BY ID CANDIDATURE           */
+    /**
+     * @Route("/deletesCandidd/{id}", name="deletesCandidd")
+     */
+    public function deleteCan(int $id) {
+        $em = $this->getDoctrine()->getManager();
+        $candidature =  $this->getDoctrine()
+            ->getRepository(Candidature::class)
+            ->find($id);
+        if($candidature!=null ) {
+            $em->remove($candidature);
+            $em->flush();
+
+            $serialize = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize("Candidature a ete supprimee avec success.");
+            return new JsonResponse($formatted);
+
+        }
+        return new JsonResponse("Id Candidature invalide.");
+
+
     }
 
     /**
@@ -171,6 +321,8 @@ class CandidatureController extends AbstractController
         return $this->redirectToRoute("realisateuroffre_show",['idOffre' => $idOffre]);
 
     }
+
+
 
 
 }

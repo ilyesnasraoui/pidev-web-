@@ -5,12 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Offre
  *
  * @ORM\Table(name="offre")
  * @ORM\Entity(repositoryClass="App\Repository\OffreRepository")
+ *
  */
 class Offre
 {
@@ -20,6 +21,7 @@ class Offre
      * @ORM\Column(name="id_offre", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *  @Groups("post:read")
      */
     private $idOffre;
 
@@ -27,24 +29,27 @@ class Offre
      * @var int
      *
      * @ORM\Column(name="id_user", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $idUser;
 
     /**
      * @var string|null
-     *
      * @ORM\Column(name="offreimgpath", type="string", length=150, nullable=true)
+     * @Groups("post:read")
      */
     private $offreimgpath;
 
     /**
      * @var \DateTime
      * @ORM\Column(name="date", type="date", nullable=false)
+     * @Groups("post:read")
      */
     private $date;
 
     /**
      * @var string
+     *
      *@Assert\Length(
      *      min = 10,
      *      max = 800,
@@ -58,6 +63,7 @@ class Offre
 
     /**
      * @var string|null
+     *
      * @Assert\Length(
      *      min = 2,
      *      max = 30,
@@ -66,6 +72,7 @@ class Offre
      * )
      * @Assert\NotBlank(message="A Title is required")
      * @ORM\Column(name="titre", type="string", length=50, nullable=true)
+     * @Groups("post:read")
      */
     private $titre;
 

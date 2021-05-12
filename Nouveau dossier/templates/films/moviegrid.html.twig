@@ -36,6 +36,7 @@
 
                             <div class="hvr-inner">
                                 <a  href="{{ path('showmovi', {'idFilm': film.idFilm}) }}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                                <input type="hidden" name="id" value="{{ film.idFilm }}">
                             </div>
                             <div class="mv-item-infor">
                                 <h6><a href="{{ path('showmovi', {'idFilm': film.idFilm}) }}">{{film.nomFilm }}</a></h6>

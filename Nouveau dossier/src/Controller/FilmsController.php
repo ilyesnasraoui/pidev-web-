@@ -14,12 +14,15 @@ use App\Repository\CategorieFilmRepository;
 use App\Repository\UsersdataRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Gedmo\Sluggable\Util\Urlizer;
 
+
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,12 +30,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-use Google\Cloud\TextToSpeech\V1\AudioConfig;
-use Google\Cloud\TextToSpeech\V1\AudioEncoding;
-use Google\Cloud\TextToSpeech\V1\SsmlVoiceGender;
-use Google\Cloud\TextToSpeech\V1\SynthesisInput;
-use Google\Cloud\TextToSpeech\V1\TextToSpeechClient;
-use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
+
 
 
 
@@ -48,6 +46,24 @@ use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
 
 class FilmsController extends AbstractController
 {
+    /**
+     * @Route("/showmobile", name="show_mob", methods={"GET","POST"})
+     * @param $CategorieFilmRepository
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function showmob(SerializerInterface $serializer): JsonResponse
+    {
+
+        $films = $this->getDoctrine()
+            ->getRepository(Films::class)
+            ->findAll();
+
+        $json=$serializer->normalize($films);
+        return new JsonResponse($json);
+
+
+    }
 
     /**
      * @Route("/new", name="films_new", methods={"GET","POST"})
@@ -69,7 +85,7 @@ class FilmsController extends AbstractController
     /**
      * @Route("/saverate", name="save", methods={"POST","GET"})
      */
-    public function saverate(Request $request)
+    public function saverate(Request $request,CategorieFilmRepository $categorieFilmRepository)
     {
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
@@ -95,8 +111,7 @@ class FilmsController extends AbstractController
                 $films = $this->getDoctrine()
                     ->getRepository(Films::class)
                     ->findAll();
-                return $this->render('films/test2.html.twig', [
-                    'films' => $films,]);
+                return $this->redirectToRoute('showmov');
             }
         }
 
@@ -115,8 +130,12 @@ class FilmsController extends AbstractController
             ->getRepository(Films::class)
             ->findAll();
 
-        return $this->render('films/moviegrid.html.twig', [
+<<<<<<< Updated upstream
+        return $this->render('films/test2.html.twig', [
             'films' => $films,]);
+=======
+        return $this->redirectToRoute('showmov');
+>>>>>>> Stashed changes
 
     }
 
@@ -134,8 +153,11 @@ class FilmsController extends AbstractController
             ->getRepository(Films::class)
             ->findAll();
         //var_dump($films);
-
-
+        $films = $paginator->paginate(
+            $films, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            4 // Nombre de résultats par page
+        );
 
 
 
@@ -191,7 +213,7 @@ class FilmsController extends AbstractController
         $film->setDescription($request->get("desc"));
         $film->setUtube("rgfrger");
         $film->setRated($request->get("rated"));
-        $date = ($request->get("date"));
+        $date = "2020-10-10";
         $newdate = (\DateTime::createFromFormat('Y-m-d', $date));
         $result = $newdate->format('Y-m-d');
         $film->setDate(\DateTime::createFromFormat('Y-m-d', $result));
@@ -226,10 +248,14 @@ array('films'=> $films),
     /**
      * @Route("/{idFilm}", name="showmovi", methods={"GET"})
      */
-    public function showsinglemovie(Films $film): Response
+    public function showsinglemovie(Films $film,Request $request,CategorieFilmRepository $categorieFilmRepository): Response
 
      {
 
+<<<<<<< Updated upstream
+         return $this->render('films/singlemovie.html.twig', [
+             "film" => $film,
+=======
          $rate= $this->getDoctrine()
              ->getRepository(Rate::class)
              ->findbyidfilm($film->getIdFilm());
@@ -245,14 +271,15 @@ array('films'=> $films),
 
 
 
-         $ch=168530;
+        // $ch=168530;
+         $ch=$request->get('idFilm');
          $curl=curl_init("https://api.themoviedb.org/3/movie/".$ch."/similar?api_key=ba9007874ae1b197d4fa0574fabba170&language=fr&query=justice&page=1&include_adult=false&fbclid=IwAR1wn0SzcqYGtmcmrT5r-ZvQOqRhpGVDkRVOxyqVGujBuhEvX3eQtvDBio4");
          curl_setopt($curl,CURLOPT_PROXY_SSL_VERIFYPEER,false);
          curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
 
 
          $data=curl_exec($curl);
-         var_dump($data);
+         //var_dump($data);
 
          if($data === false) {
              var_dump(curl_error($curl));
@@ -298,7 +325,7 @@ array('films'=> $films),
                  $date = $data['results'][$x]['first_air_date'];
 
              }
-             // $date = $data['results'][$x]['release_date'];
+
              $newdate = (\DateTime::createFromFormat('Y-m-d', $date));
              $result = $newdate->format('Y-m-d');
              $suggestion->setDate(\DateTime::createFromFormat('Y-m-d', $result));
@@ -306,10 +333,13 @@ array('films'=> $films),
              $suggestions[$x]=$suggestion;
          }
 
+
          return $this->render('films/singlemovie.html.twig', [
              "film" => $film,
              "rate"=> ($total/$nbr)*2,
-             "suggestions"=>$suggestions
+             "suggestions"=>$suggestions,
+
+>>>>>>> Stashed changes
 
 
          ]);
@@ -330,7 +360,7 @@ array('films'=> $films),
 
 
         $data=curl_exec($curl);
-        var_dump($data);
+        //var_dump($data);
 
         if($data === false) {
             var_dump(curl_error($curl));
@@ -349,7 +379,7 @@ array('films'=> $films),
           //  $name = ($data);
         // curl_close($curl);
         // create movie //////////////////////////////////////
-        $film->setIdFilm($data['results'][$x]['id']);
+
         $film->setIdCategorie('5');
            if(isset($data['results'][$x]['original_title']))
            {
@@ -444,7 +474,6 @@ array('films'=> $films),
 
 
         $film= new Films();
-        $film->setIdFilm($request->get('id'));
         $film->setIdCategorie(5);
         $film->setLanguage($request->get('lang'));
         $film->setNomFilm($request->get('nomfilm'));
@@ -528,23 +557,16 @@ array('films'=> $films),
          $ch=$request->get("search");
          $cat=$request->get("cat");
 
-        if($cat=="") {
-            $query = $entityManager->createQuery(
-                'SELECT p
-            FROM App\Entity\Films p
-            WHERE p.nomFilm LIKE :data'
-            )
-                ->setParameters(array('data' => "%" . $ch . "%"));
-        }
-else{
-    $query = $entityManager->createQuery(
-        'SELECT p
+
+        $query = $entityManager->createQuery(
+            'SELECT p
             FROM App\Entity\Films p
             WHERE (p.nomFilm LIKE :data )
             AND (p.idCategorie = :param)'
-    )
-        ->setParameters(array('data' => "%" . $ch . "%", 'param' => $cat));
-}
+        )
+            ->setParameters(array('data'=> "%".$ch."%", 'param' => $cat));
+
+
 
         return $this->render('films/moviegrid.html.twig', [
             'films' => $query->getResult(),
@@ -571,6 +593,8 @@ else{
 
         ]);
     }
+
+
 
     /**
      * @Route("/{idFilm}", name="films_show", methods={"GET"})

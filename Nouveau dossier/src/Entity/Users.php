@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -20,6 +21,7 @@ class Users implements UserInterface
      * @ORM\Column(name="id_user", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("users")
      */
     private $idUser;
 
@@ -27,6 +29,7 @@ class Users implements UserInterface
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=50, nullable=false)
+     * @Groups("users")
      */
     private $username;
 
@@ -34,6 +37,7 @@ class Users implements UserInterface
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=50, nullable=false)
+     * @Groups("users")
      */
     private $password;
 
@@ -41,6 +45,7 @@ class Users implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     * @Groups("users")
      */
     private $email;
 
@@ -48,6 +53,7 @@ class Users implements UserInterface
      * @var int|null
      *
      * @ORM\Column(name="id_salle", type="integer", nullable=true)
+     * @Groups("users")
      */
     private $idSalle;
 
@@ -55,6 +61,7 @@ class Users implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="fname", type="string", length=50, nullable=true)
+     * @Groups("users")
      */
     private $fname;
 
@@ -62,6 +69,7 @@ class Users implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="lname", type="string", length=50, nullable=true)
+     * @Groups("users")
      */
     private $lname;
 
@@ -69,6 +77,7 @@ class Users implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="idcard", type="string", length=10, nullable=true)
+     * @Groups("users")
      */
     private $idcard;
 
@@ -76,6 +85,7 @@ class Users implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="phone", type="string", length=15, nullable=true)
+     * @Groups("users")
      */
     private $phone;
 
@@ -83,6 +93,7 @@ class Users implements UserInterface
      * @var string
      *
      * @ORM\Column(name="role", type="string", length=10, nullable=false)
+     * @Groups("users")
      */
     private $role;
 
@@ -90,6 +101,7 @@ class Users implements UserInterface
      * @var int
      *
      * @ORM\Column(name="blocked", type="integer", nullable=false)
+     * @Groups("users")
      */
     private $blocked = '0';
 

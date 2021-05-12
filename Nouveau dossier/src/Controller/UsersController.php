@@ -13,33 +13,113 @@ use Doctrine\Persistence\ManagerRegistry;
 use http\Url;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/users")
  */
 class UsersController extends AbstractController
 {
-
+ // mobile services start here
     /**
-     * @Route("/test", name="users_test", methods={"POST","GET"})
+     * @Route("/allusersmobile", name="allusersmobile", methods={"POST","GET"})
      */
-    public function ttest(\Swift_Mailer $mailer){
-        $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('send@example.com')
-            ->setTo('mohamedkarim.oueslati@esprit.tn')
-            ->setBody("test",
-                       'text/plain'
-                );
-
- $mailer->send($message);
- return new Response("tawa");
+    public function allusersmobile(UsersRepository $ur , SerializerInterface $serializer){
+        $users=$ur->findAll();
+        $json=$serializer->normalize($users);
+        return new JsonResponse($json);
 
     }
 
+    /**
+     * @Route("/authmobile", name="authmobile", methods={"GET"})
+     */
+    public function authmobile(UsersRepository $ur , SerializerInterface $serializer, Request $request){
+        $users=$ur->findOneUsername($request->get('username'));
+        if($users)
+
+        {
+            if ($users->getBlocked()==0) {
+                if ($users->getPassword() == $request->get('password')) {
+                    $json = $serializer->normalize($users);
+                    return new JsonResponse($json);
+                }
+                else return new JsonResponse("auth error");
+            }
+            else
+                return new JsonResponse("account blocked");
+        }
+        else
+            return new JsonResponse("this account does not exist");
+    }
+
+    /**
+     * @Route("/addusermobile", name="users_new_mobile", methods={"GET"})
+     */
+    public function newusermobile(Request $request,SerializerInterface $serializer,UsersRepository $u): Response
+    {    $user= new Users();
+        $user->setBlocked(0);
+        $user->setRole("client");
+        $user->setEmail($request->get('email'));
+        $user->setPhone($request->get('phone'));
+        $user->setUsername($request->get('username'));
+        $user->setPassword($request->get('password'));
+        $user->setFname($request->get('firstname'));
+        $user->setLname($request->get('lastname'));
+        $user->setIdcard($request->get('idcard'));
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $usr=$u->findOneUsername($user->getUsername());
+
+        $userdata= new Usersdata();
+        $userdata->setImage("");
+        $userdata->setForgetPwd(0);
+        $userdata->setAccountVerif(0);
+        $userdata->setIdUser($usr->getIdUser());
+        $entityManager->persist($userdata);
+        $entityManager->flush();
+
+
+        $json=$serializer->normalize($user);
+        return new JsonResponse($json);
+
+
+        }
+
+    /**
+     * @Route("/changepwdmobile", name="changepasswordmobile", methods={"GET"})
+     */
+    public function changepasswordmobile(Request $request,SerializerInterface $serializer,UsersRepository $ur): Response
+    {   $user = $ur->findOneUsername($request->get('username'));
+        if ($user->getPassword()==$request->get('oldpwd')) {
+            if($request->get('newpwd')==$request->get('confirmpwd'))
+            {
+                // password confirmed & oldpassword true
+                $user->setPassword($request->get('newpwd'));
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $json = $serializer->normalize($user);
+                return new JsonResponse($json);
+            }
+            // confirmation ghalta mte3 lpassword
+            return new JsonResponse("password confirmation error");
+        }
+        return new JsonResponse("old password error");
+
+    }
+
+
+
+// mobile services ends here
     /**
      * @Route("/resetpwd", name="resetpwd", methods={"GET","POST"})
      */

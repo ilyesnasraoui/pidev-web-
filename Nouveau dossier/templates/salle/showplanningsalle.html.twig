@@ -1,0 +1,83 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Salle{% endblock %}
+
+{% block body %}
+    <div class="hero user-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="hero-ct">
+                        <h1>{{ salle.getName() }}’s planning</h1>
+                        <ul class="breadcumb">
+                            <li class="active"><a href="#">{{ salle.getName() }}</a></li>
+                            <li> <span class="ion-ios-arrow-right"></span>planning</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-single">
+        <div class="container">
+            <div class="row ipad-width2">
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <div class="topbar-filter user">
+                        <p>Found <span>1,608 movies</span> in total</p>
+                        <label>Sort by:</label>
+                        <select>
+                            <option value="range">-- Choose option --</option>
+                            <option value="saab">-- Choose option 2--</option>
+                        </select>
+
+                    </div>
+
+                    <div class="flex-wrap-movielist grid-fav">
+                        {% for planning in plannings %}
+                        <div class="movie-item-style-2 movie-item-style-1 style-3">
+                            {% for film in films %}
+                                {% if film.getIdfilm()==planning.getIdfilm() %}
+                            <img src="{{  film.getImage() }}" alt="">
+                                    {%  if (planning.getPlaces!=0) and (app.user) and (app.user.role != "salle") %}
+                              <form action="{{ asset('/reservation/book') }}" method="post">
+                                  <input type="hidden" name="idplanning" value="{{ planning.getIdPlanning }}">
+                                  <input type="submit" class="hvr-inner" value="Book now!">
+                                </form>
+                                {% endif %}
+                            <div class="mv-item-infor">
+                                <h6><a href="#">{{ film.getnomFilm() }}</a></h6><br>
+                                <h9><a href="#">{{ planning.date ? planning.date|date('Y-m-d') : '' }}</a></h9><br>
+                                <h9><a href="#">{{ planning.getprojectiontime }}</a></h9><br>
+                                <h9><a href="#">Available places :{{ planning.getPlaces }}</a></h9>
+
+                                <p class="rate"><i class="ion-android-star"></i><span>{{ film.getrated() }}</span> /10</p>
+                            </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="topbar-filter">
+                        <label>Movies per page:</label>
+                        <select>
+                            <option value="range">20 Movies</option>
+                            <option value="saab">10 Movies</option>
+                        </select>
+
+                        <div class="pagination2">
+                            <span>Page 1 of 2:</span>
+                            <a class="active" href="#">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <a href="#">...</a>
+                            <a href="#">78</a>
+                            <a href="#">79</a>
+                            <a href="#"><i class="ion-arrow-right-b"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

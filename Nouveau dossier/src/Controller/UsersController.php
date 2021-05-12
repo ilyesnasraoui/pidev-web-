@@ -40,10 +40,24 @@ class UsersController extends AbstractController
     /**
      * @Route("/", name="users_index", methods={"GET"})
      */
+<<<<<<< Updated upstream
     public function index(): Response
     {
 
 
+=======
+    public function index(Request $request,PaginatorInterface $paginator): Response
+    {  $user = $this->get('security.token_storage')->getToken()->getUser();
+      // if($user->getRole()=="salle")
+       //    return $this->render("error.html.twig");
+        $donnees = $this->getDoctrine()
+            ->getRepository(Users::class)
+            ->findAll();
+        $users=$paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            12);
+>>>>>>> Stashed changes
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
       if($user=="anon.")

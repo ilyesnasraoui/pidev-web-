@@ -12,13 +12,17 @@ use App\Repository\FilmsRepository;
 use App\Form\FilmsType;
 use App\Repository\CategorieFilmRepository;
 use App\Repository\UsersdataRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Gedmo\Sluggable\Util\Urlizer;
 
+
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,12 +30,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-use Google\Cloud\TextToSpeech\V1\AudioConfig;
-use Google\Cloud\TextToSpeech\V1\AudioEncoding;
-use Google\Cloud\TextToSpeech\V1\SsmlVoiceGender;
-use Google\Cloud\TextToSpeech\V1\SynthesisInput;
-use Google\Cloud\TextToSpeech\V1\TextToSpeechClient;
-use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
+
 
 
 
@@ -47,6 +46,24 @@ use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
 
 class FilmsController extends AbstractController
 {
+    /**
+     * @Route("/showmobile", name="show_mob", methods={"GET","POST"})
+     * @param $CategorieFilmRepository
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function showmob(SerializerInterface $serializer): JsonResponse
+    {
+
+        $films = $this->getDoctrine()
+            ->getRepository(Films::class)
+            ->findAll();
+
+        $json=$serializer->normalize($films);
+        return new JsonResponse($json);
+
+
+    }
 
     /**
      * @Route("/new", name="films_new", methods={"GET","POST"})
@@ -68,7 +85,7 @@ class FilmsController extends AbstractController
     /**
      * @Route("/saverate", name="save", methods={"POST","GET"})
      */
-    public function saverate(Request $request)
+    public function saverate(Request $request,CategorieFilmRepository $categorieFilmRepository)
     {
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
@@ -94,8 +111,7 @@ class FilmsController extends AbstractController
                 $films = $this->getDoctrine()
                     ->getRepository(Films::class)
                     ->findAll();
-                return $this->render('films/test2.html.twig', [
-                    'films' => $films,]);
+                return $this->redirectToRoute('showmov');
             }
         }
 
@@ -114,8 +130,12 @@ class FilmsController extends AbstractController
             ->getRepository(Films::class)
             ->findAll();
 
+<<<<<<< Updated upstream
         return $this->render('films/test2.html.twig', [
             'films' => $films,]);
+=======
+        return $this->redirectToRoute('showmov');
+>>>>>>> Stashed changes
 
     }
 
@@ -126,19 +146,31 @@ class FilmsController extends AbstractController
      * @param $CategorieFilmRepository
      * @return Response
      */
-    public function showmovies(CategorieFilmRepository $categorieFilmRepository): Response
+    public function showmovies(CategorieFilmRepository $categorieFilmRepository,Request $request,PaginatorInterface $paginator): Response
     {
 
         $films = $this->getDoctrine()
             ->getRepository(Films::class)
             ->findAll();
         //var_dump($films);
+        $films = $paginator->paginate(
+            $films, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            4 // Nombre de résultats par page
+        );
+
+
 
         return $this->render('films/moviegrid.html.twig', [
             'films' => $films,
             'CategorieFilms' => $categorieFilmRepository->findAll(),
+
         ]);
     }
+
+
+
+
     /**
      * @Route("/", name="films_index", methods={"GET"})
      * @param $categorieFilmRepository
@@ -158,17 +190,156 @@ class FilmsController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/addapi", name="add_api", methods={"GET","POST"})
+     */
+    public function addapi(Request $request,CategorieFilmRepository $categorieFilmRepository): Response
 
+    {
+
+        $film=new Films();
+        //  $name = ($data);
+        // curl_close($curl);
+        // create movie //////////////////////////////////////
+
+        $film->setIdCategorie('2');
+        $film->setLanguage($request->get("lang"));
+        $film->setNomFilm($request->get("name"));
+        $film->setDureeFilm((int)($request->get("duree")));
+        $image = ($request->get("image"));
+        $imgurl = ("https://image.tmdb.org/t/p/w500" . ($request->get("image")));
+        $film->setImage($imgurl);
+        echo($imgurl);
+        $film->setDescription($request->get("desc"));
+        $film->setUtube("rgfrger");
+        $film->setRated($request->get("rated"));
+        $date = "2020-10-10";
+        $newdate = (\DateTime::createFromFormat('Y-m-d', $date));
+        $result = $newdate->format('Y-m-d');
+        $film->setDate(\DateTime::createFromFormat('Y-m-d', $result));
+
+
+
+
+        // add movie to data base
+           $entityManager = $this->getDoctrine()->getManager();
+          $entityManager->persist($film);
+        $entityManager->flush();
+        // MOVIE CREATED //////////////////
+// add movies from database to films array
+           $films= $this->getDoctrine()
+               ->getRepository(Films::class)
+               ->findAll();
+
+
+
+
+
+
+return $this->render('films/indexapi.html.twig', [
+array('films'=> $films),
+'films' => $films,
+'CategorieFilms' => $categorieFilmRepository->findAll(),
+]);
+
+
+}
 
     /**
      * @Route("/{idFilm}", name="showmovi", methods={"GET"})
      */
-    public function showsinglemovie(Films $film): Response
+    public function showsinglemovie(Films $film,Request $request,CategorieFilmRepository $categorieFilmRepository): Response
 
      {
 
+<<<<<<< Updated upstream
          return $this->render('films/singlemovie.html.twig', [
              "film" => $film,
+=======
+         $rate= $this->getDoctrine()
+             ->getRepository(Rate::class)
+             ->findbyidfilm($film->getIdFilm());
+         $total=0;
+         $nbr=0;
+
+         foreach($rate as $rate){
+             $nbr++;
+             $total=$total+$rate->getNote();
+         }
+         if($nbr==0)
+             $nbr=1;
+
+
+
+        // $ch=168530;
+         $ch=$request->get('idFilm');
+         $curl=curl_init("https://api.themoviedb.org/3/movie/".$ch."/similar?api_key=ba9007874ae1b197d4fa0574fabba170&language=fr&query=justice&page=1&include_adult=false&fbclid=IwAR1wn0SzcqYGtmcmrT5r-ZvQOqRhpGVDkRVOxyqVGujBuhEvX3eQtvDBio4");
+         curl_setopt($curl,CURLOPT_PROXY_SSL_VERIFYPEER,false);
+         curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+
+
+         $data=curl_exec($curl);
+         //var_dump($data);
+
+         if($data === false) {
+             var_dump(curl_error($curl));
+         }else {
+
+             $data = json_decode($data, true);
+         }
+
+
+         $films=array();
+
+         for($x = '1'; $x <3;$x++) {
+             //var_dump($data['results'][$x]);
+             $suggestion = new Films();
+
+             //  $name = ($data);
+             // curl_close($curl);
+             // create movie //////////////////////////////////////
+             $suggestion->setIdFilm($data['results'][$x]['id']);
+             $suggestion->setIdCategorie('5');
+             if (isset($data['results'][$x]['original_title'])) {
+                 $suggestion->setNomFilm($data['results'][$x]['original_title']);
+             } elseif (isset($data['results'][$x]['original_name'])) {
+                 $suggestion->setNomFilm($data['results'][$x]['original_name']);
+             } elseif (isset($data['results'][$x]['name'])) {
+                 $suggestion->setNomFilm($data['results'][$x]['name']);
+             }
+             $suggestion->setLanguage($data['results'][$x]['original_language']);
+
+             //  $film->setNomFilm($data['results'][$x]['original_title']);
+
+             $suggestion->setDureeFilm('5');
+             $image = ($data['results'][$x]['poster_path']);
+             $imgurl = ("https://image.tmdb.org/t/p/w500" . $image);
+             $suggestion->setImage($imgurl);
+             echo($imgurl);
+             $suggestion->setDescription($data['results'][$x]['overview']);
+             $suggestion->setUtube("rgfrger");
+             $suggestion->setRated($data['results'][$x]['vote_average']);
+             if (isset($data['results'][$x]['release_date'])) {
+                 $date = $data['results'][$x]['release_date'];
+             } elseif (isset($data['results'][$x]['first_air_date'])) {
+                 $date = $data['results'][$x]['first_air_date'];
+
+             }
+
+             $newdate = (\DateTime::createFromFormat('Y-m-d', $date));
+             $result = $newdate->format('Y-m-d');
+             $suggestion->setDate(\DateTime::createFromFormat('Y-m-d', $result));
+
+             $suggestions[$x]=$suggestion;
+         }
+
+
+         return $this->render('films/singlemovie.html.twig', [
+             "film" => $film,
+             "rate"=> ($total/$nbr)*2,
+             "suggestions"=>$suggestions,
+
+>>>>>>> Stashed changes
 
 
          ]);
@@ -189,7 +360,7 @@ class FilmsController extends AbstractController
 
 
         $data=curl_exec($curl);
-        var_dump($data);
+        //var_dump($data);
 
         if($data === false) {
             var_dump(curl_error($curl));
@@ -204,13 +375,28 @@ class FilmsController extends AbstractController
        for($x = '1'; $x <5;$x++){
         //var_dump($data['results'][$x]);
           $film=new Films();
-        //  $name = ($data);
+
+          //  $name = ($data);
         // curl_close($curl);
         // create movie //////////////////////////////////////
 
         $film->setIdCategorie('5');
+           if(isset($data['results'][$x]['original_title']))
+           {
+               $film->setNomFilm($data['results'][$x]['original_title']);
+           }
+           elseif(isset($data['results'][$x]['original_name']))
+           {
+               $film->setNomFilm($data['results'][$x]['original_name']);
+           }
+           elseif(isset($data['results'][$x]['name']))
+           {
+               $film->setNomFilm($data['results'][$x]['name']);
+           }
         $film->setLanguage($data['results'][$x]['original_language']);
-        $film->setNomFilm($data['results'][$x]['original_title']);
+
+      //  $film->setNomFilm($data['results'][$x]['original_title']);
+
         $film->setDureeFilm('5');
         $image = ($data['results'][$x]['poster_path']);
         $imgurl = ("https://image.tmdb.org/t/p/w500" . $image);
@@ -219,7 +405,16 @@ class FilmsController extends AbstractController
         $film->setDescription($data['results'][$x]['overview']);
         $film->setUtube("rgfrger");
         $film->setRated($data['results'][$x]['vote_average']);
-        $date = "2020-10-10";
+           if(isset($data['results'][$x]['release_date']))
+           {
+               $date = $data['results'][$x]['release_date'];
+           }
+           elseif(isset($data['results'][$x]['first_air_date']))
+           {
+               $date = $data['results'][$x]['first_air_date'];
+
+           }
+       // $date = $data['results'][$x]['release_date'];
         $newdate = (\DateTime::createFromFormat('Y-m-d', $date));
         $result = $newdate->format('Y-m-d');
         $film->setDate(\DateTime::createFromFormat('Y-m-d', $result));
@@ -250,6 +445,105 @@ class FilmsController extends AbstractController
             ]);
 
 
+    }
+
+    public function addfromapi(Request $request,CategorieFilmRepository $categorieFilmRepository): Response{
+       /*
+        $ch=$request->get("search");
+        $curl=curl_init("https://api.themoviedb.org/3/search/multi?api_key=ba9007874ae1b197d4fa0574fabba170&language=en&query=".$ch."&page=1&include_adult=false&fbclid=IwAR08vpervb55VV8BsOuMpsIsfgxxkH_NJDGz1okpdkB20pvNg1vYdw82NVg");
+        curl_setopt($curl,CURLOPT_PROXY_SSL_VERIFYPEER,false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+
+
+        $data=curl_exec($curl);
+        var_dump($data);
+
+        if($data === false) {
+            var_dump(curl_error($curl));
+        }else {
+
+            $data = json_decode($data, true);
+        }
+
+
+        $films=array();
+
+        for($x = '1'; $x <5;$x++){
+       */
+
+
+
+        $film= new Films();
+        $film->setIdCategorie(5);
+        $film->setLanguage($request->get('lang'));
+        $film->setNomFilm($request->get('nomfilm'));
+        $film->setDureeFilm($request->get('duree'));
+        $image = ($request->get('image'));
+        echo($image."aaaa");
+        $imgurl = ("https://image.tmdb.org/t/p/w500" . $image);
+        $film->setImage($imgurl);
+
+        $film->setDescription($request->get('desc'));
+        $film->setUtube($request->get('utube'));
+        $film->setRated($request->get('rated'));
+        $newdate =  (\DateTime::createFromFormat('Y-m-d',$request->get('date') ));
+        $result = $newdate->format('Y-m-d');
+        $film->setDate(\DateTime::createFromFormat('Y-m-d', $result));
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($film);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('films_index');
+            /*
+        //var_dump($data['results'][$x]);
+            $film=new Films();
+            //  $name = ($data);
+            // curl_close($curl);
+            // create movie //////////////////////////////////////
+
+            $film->setIdCategorie('5');
+            $film->setLanguage($data['results'][$x]['original_language']);
+            $film->setNomFilm($data['results'][$x]['original_title']);
+            $film->setDureeFilm('5');
+            $image = ($data['results'][$x]['poster_path']);
+            echo($image."aaaa");
+            $imgurl = ("https://image.tmdb.org/t/p/w500" . $data['results'][$x]['poster_path']);
+            $film->setImage($imgurl);
+            //echo($imgurl);
+            $film->setDescription($data['results'][$x]['overview']);
+            $film->setUtube("rgfrger");
+            $film->setRated($data['results'][$x]['vote_average']);
+            $date = "2020-10-10";
+            $newdate = (\DateTime::createFromFormat('Y-m-d', $date));
+            $result = $newdate->format('Y-m-d');
+            $film->setDate(\DateTime::createFromFormat('Y-m-d', $result));
+
+            // print_r($film);
+            // curl_close($curl);
+
+
+            // add movie to data base
+            //    $entityManager = $this->getDoctrine()->getManager();
+            //  $entityManager->persist($film);
+            // $entityManager->flush();
+            // MOVIE CREATED //////////////////
+// add movies from database to films array
+
+            //$films[$x]=$film;
+
+               $films= $this->getDoctrine()
+                          ->getRepository(Films::class)
+                          ->findAll();
+
+
+
+        return $this->render('films/indexapi.html.twig', [
+            array('films'=> $films),
+            'films' => $films,
+            'CategorieFilms' => $categorieFilmRepository->findAll(),
+        ]);
+*/
     }
 
 
@@ -299,6 +593,8 @@ class FilmsController extends AbstractController
 
         ]);
     }
+
+
 
     /**
      * @Route("/{idFilm}", name="films_show", methods={"GET"})

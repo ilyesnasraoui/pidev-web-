@@ -1,8 +1,6 @@
-<html>
-<head>
+{% extends 'basefront.html.twig' %}
 
-</head>
-<body>
+{% block body %}
 <!-- Load Facebook SDK for JavaScript -->
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
@@ -14,11 +12,16 @@
     }(document, 'script', 'facebook-jssdk'));</script>
 
 <!-- Your share button code -->
+<div class="slider movie-items">
+    <div class="container">
        <div>  <label class="bd-hd"> Share {{ produits.nomProduit }} on FACEBOOK  </label></div>
 <div class="fb-share-button"
      
         <img src="{{ asset('images/produit/'~produits.image) }}" alt="">
 
 </div>
-</body>
-</html>
+</div>
+</div>
+
+{% endblock %}
+

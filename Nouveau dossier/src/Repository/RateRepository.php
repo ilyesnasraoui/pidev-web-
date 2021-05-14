@@ -22,19 +22,18 @@ class RateRepository extends ServiceEntityRepository
     // /**
     //  * @return Rate[] Returns an array of Rate objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findbyidfilm($value)
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
+            ->andWhere('r.idFilm= :val')
             ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
+
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
 
     public function findOneBySomeField($value): ?Rate

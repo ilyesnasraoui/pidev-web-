@@ -27,6 +27,7 @@
                         </div>
                         <div class="btn-transform transform-vertical">
                             <div><a href="#" class="item item-1 yellowbtn"> <i class="ion-card"></i> Qr Code </a></div>
+                            <a  href="{{ path('genpro', {'idProduit': produits.idProduit}) }}">  Qr code <i class="item item-2 redbtn fancybox-media hvr-grow"></i> </a>
                             <div><a href="#" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
                         </div>
                     </div>
@@ -41,7 +42,7 @@
                     <div class="social-btn">
                         <a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
                         <div class="hover-bnt">
-                            <a href="{{ path('sharepro', {'idProduit': produits.idProduit}) }}"><i class="ion-android-share-alt"></i>share</a>
+                            <a href="{{ path('sharepro', {'idProduit': produits.idProduit}) }}" class="parent-btn" ><i class="ion-android-share-alt"></i>Share</a>
                             <div class="hvr-item">
                                 <a href="#" class="hvr-grow"><i class="ion-social-twitter"></i></a>
                                 <a href="#" class="hvr-grow"><i class="ion-social-googleplus"></i></a>

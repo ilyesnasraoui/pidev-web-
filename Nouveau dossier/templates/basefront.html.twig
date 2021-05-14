@@ -270,12 +270,12 @@
 
                     <li class="dropdown first">
                         <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            {% trans %}news{% endtrans %} <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            Candidature <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu level1">
-                            <li><a href="bloglist.html">{% trans %}blog List{% endtrans %}</a></li>
-                            <li><a href="bloggrid.html">{% trans %}blog Grid{% endtrans %}</a></li>
-                            <li class="it-last"><a href="blogdetail.html">blog Detail</a></li>
+                            <li><a href="{{ path('listeoffer_index') }}">Liste Des Offres</a></li>
+                            <li><a href="{{ path('realisateuroffre_index') }}">My Offres</a></li>
+                            <li class="it-last"><a href="{{ path('suivi_index')}}">My Candidatures</a></li>
                         </ul>
                     </li>
                 </ul>

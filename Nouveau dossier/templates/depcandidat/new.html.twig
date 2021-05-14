@@ -1,0 +1,76 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}New Candidature{% endblock %}
+
+{% block body %}
+    <div class="hero user-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="hero-ct">
+                        <h1>Deposer Votre Candidature dans le casting</h1>
+                        <ul class="breadcumb">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-single">
+        <div class="container">
+            <div class="row ipad-width">
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <div class="user-information" style="margin-top: 0;display: none;">
+                        <div class="user-img">
+
+                        </div>
+                        <div class="user-fav">
+
+                        </div>
+                        <div class="user-fav">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-12 col-xs-12" style="width: 100%">
+                    <div class="form-style-1 user-pro" action="#">
+                            {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+
+                            <h4>01. Profile details</h4>
+                            <div class="row">
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-it">
+                                    {{ form_label(form.description) }}
+                                    {{ form_widget(form.description) }}
+                                </div>
+                                <div class="col-md-6 form-it">
+                                    {{ form_label(form.date) }}
+                                    {{ form_widget(form.date) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-it">
+                                    {{ form_label(form.cvpath) }}
+                                    {{ form_widget(form.cvpath) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <input class="submit" type="submit" value="save">
+                                </div>
+                            </div>
+
+                        {{ form_end(form) }}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

@@ -143,5 +143,11 @@
 >>>>>>> parent of fbf1fa0 (user services)
     </include_path>
   </component>
+<<<<<<< Updated upstream
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />
+=======
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.1">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
+  </component>
+>>>>>>> Stashed changes
 </project>

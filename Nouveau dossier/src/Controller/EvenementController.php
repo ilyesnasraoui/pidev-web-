@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Evenement;
 use App\Form\EvenementType;
+use App\Repository\EvenementRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -120,16 +121,50 @@ class EvenementController extends AbstractController
         $evenements=$paginator->paginate(
             $donnees,
             $request->query->getInt('page',1),
-            6);
+            4);
 
         return $this->render('evenement/eveenement.html.twig', [
             'evenements' => $evenements,
         ]);
     }
 
+    /**
+     * @Route("/stats", name="stats")
+     */
+
+     public function statistiques(CategorieEventRepository $CategorieEventRepository ,EvenementRepository $evenementRepository){
+
+       $categories=$CategorieEventRepository->findAll();
+       $evenements=$evenementRepository->findAll();
+          $catnom=[];
+          $catcount=[];
+          $i=0;
 
 
+         foreach($categories as $categorieEvent)
+         {
+             $catnom[]=$categorieEvent->getNomCategorieEv();
 
+             $i=0;
+
+             foreach($evenements as $evenement)
+             {
+                 if($evenement->getIdCatEvenement()==$catnom){
+                     $i=$i+1;
+                 }
+
+             }
+             $catcount[]=$i;
+
+         }
+
+
+         return $this->render('evenement/stats.html.twig',[
+             "evenement" => $evenements,
+             "categories" => $categories,'nom'=>json_encode($catnom),'count'=>json_encode($catcount)
+
+         ]);
+     }
 
 
 

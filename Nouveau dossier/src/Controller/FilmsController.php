@@ -130,12 +130,12 @@ class FilmsController extends AbstractController
             ->getRepository(Films::class)
             ->findAll();
 
-<<<<<<< Updated upstream
+
         return $this->render('films/test2.html.twig', [
             'films' => $films,]);
-=======
+
         return $this->redirectToRoute('showmov');
->>>>>>> Stashed changes
+
 
     }
 
@@ -252,10 +252,10 @@ array('films'=> $films),
 
      {
 
-<<<<<<< Updated upstream
-         return $this->render('films/singlemovie.html.twig', [
-             "film" => $film,
-=======
+
+        // return $this->render('films/singlemovie.html.twig', [
+          //   "film" => $film,
+
          $rate= $this->getDoctrine()
              ->getRepository(Rate::class)
              ->findbyidfilm($film->getIdFilm());
@@ -339,7 +339,7 @@ array('films'=> $films),
              "rate"=> ($total/$nbr)*2,
              "suggestions"=>$suggestions,
 
->>>>>>> Stashed changes
+
 
 
          ]);

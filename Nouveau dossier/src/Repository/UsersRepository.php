@@ -40,6 +40,16 @@ class UsersRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByRole($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.role = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
 
     public function findOneUsername($value): ?Users

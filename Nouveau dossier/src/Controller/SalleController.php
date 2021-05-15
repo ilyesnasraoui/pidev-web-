@@ -7,11 +7,14 @@ use App\Form\SalleType;
 use App\Repository\FilmsRepository;
 use App\Repository\SalleRepository;
 use App\Repository\UsersRepository;
+use App\Repository\UsersdataRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/salle")
@@ -19,6 +22,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class SalleController extends AbstractController
 {
 
+    // mobile services start here
+    /**
+     * @Route("/allsallesmobile", name="allsallesmobile", methods={"GET"})
+     */
+    public function allsallesmobile(UsersRepository $ur ,UsersdataRepository $udr ,SalleRepository $sr , SerializerInterface $serializer){
+        $users=$ur->findByRole("salle");
+
+         foreach ($users as $user)
+         {
+             $user->setLname(($sr->findOneBySomeField($user->getIdSalle()))->getGovernorate());
+             $user->setIdCard(($sr->findOneBySomeField($user->getIdSalle()))->getAdress());
+             $user->setFname(($sr->findOneBySomeField($user->getIdSalle()))->getName());
+             $user->setUsername(($udr->findOneByUserId($user->getIdUser()))->getImage());
+
+         }
+        $json=$serializer->normalize($users);
+        return new JsonResponse($json);
+
+    }
     /**
      * @Route("/salleplanning", name="salleplanning", methods={"GET","POST"})
      */

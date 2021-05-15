@@ -19,7 +19,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+
+
 
 
 /**
@@ -51,19 +56,19 @@ class UsersController extends AbstractController
                     $json = $serializer->normalize($users);
                     return new JsonResponse($json,200);
                 }
-                else return new Response("auth error");
+                else return new JsonResponse("auth error");
             }
             else
-                return new Response("account blocked");
+                return new JsonResponse("account blocked");
         }
         else
-            return new Response("this account does not exist");
+            return new JsonResponse("this account does not exist");
     }
 
     /**
      * @Route("/addusermobile", name="users_new_mobile", methods={"GET"})
      */
-    public function newusermobile(Request $request,SerializerInterface $serializer,UsersRepository $u): Response
+    public function newusermobile(Request $request,SerializerInterface $serializer,UsersRepository $u,NormalizerInterface $Normalizer): Response
     {    $user= new Users();
         $user->setBlocked(0);
         $user->setRole("client");
@@ -89,7 +94,8 @@ class UsersController extends AbstractController
         $entityManager->persist($userdata);
         $entityManager->flush();
         $json=$serializer->normalize($user);
-        return new JsonResponse($json);
+        $jsonContent=$Normalizer->normalize($user,'json',['groups'=>'post:read']);
+        return new Response("user added successfully".json_encode($jsonContent,JSON_UNESCAPED_UNICODE));
 
 
     }

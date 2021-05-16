@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * CategorieProduit
@@ -20,6 +21,7 @@ class CategorieProduit
      * @ORM\Column(name="id_categorie", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idCategorie;
 
@@ -30,6 +32,7 @@ class CategorieProduit
      * @Assert\Unique(message="Category Already Existes")
      * @Assert\Length(min="3",max="12")
      * @Assert\NotBlank(message="this fiels is required")
+     * @Groups("post:read")
      */
     private $nomCategorie;
 

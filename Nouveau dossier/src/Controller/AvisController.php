@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * @Route("/avis")
@@ -28,6 +29,22 @@ class AvisController extends AbstractController
         return $this->render('avis/index.html.twig', [
             'avis' => $avis,
         ]);
+    }
+    /**
+     * @Route("/addAvisJSON", name="addAvisJSON")
+     */
+    public function addAvisJSON(Request $request,NormalizerInterface $Normalizer): Response
+    {
+
+        $avis=new Avis();
+
+        $avis->setIdProduit($request->get('id_produit'));
+        $avis->setTypeAvis($request->get('type_avis'));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($avis);
+        $entityManager->flush();
+        $jsonContent=$Normalizer->normalize($avis,'json',['groups'=>'post:read']);
+        return new Response("Candidature added successfully".json_encode($jsonContent,JSON_UNESCAPED_UNICODE));
     }
 
     /**

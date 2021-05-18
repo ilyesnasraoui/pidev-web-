@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Avis
@@ -25,6 +26,7 @@ class Avis
      * @var int
      *
      * @ORM\Column(name="id_produit", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $idProduit;
 
@@ -32,12 +34,19 @@ class Avis
      * @var string
      *
      * @ORM\Column(name="type_avis", type="string", length=11, nullable=false)
+     * @Groups("post:read")
      */
     private $typeAvis;
 
     public function getIdAvis(): ?int
     {
         return $this->idAvis;
+    }
+    public function setIdAvis(int $idAvis): self
+    {
+        $this->idAvis = $idAvis;
+
+        return $this;
     }
 
     public function getIdProduit(): ?int

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Produit
@@ -20,6 +21,7 @@ class Produit
      * @ORM\Column(name="id_produit", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idProduit;
 
@@ -27,6 +29,7 @@ class Produit
      * @var int
      *
      * @ORM\Column(name="id_categorie", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $idCategorie;
 
@@ -34,6 +37,7 @@ class Produit
      * @var string
      *
      * @ORM\Column(name="couleur", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $couleur;
 
@@ -49,6 +53,7 @@ class Produit
      *      allowEmptyString = false
      * )
      * @Assert\NotBlank(message="this fiels is required")
+     * @Groups("post:read")
      */
     private $nomProduit;
 
@@ -58,6 +63,7 @@ class Produit
      * @ORM\Column(name="prix", type="integer", nullable=false)
      * @Assert\NotBlank(message="this fiels is required")
      * @Assert\Positive(message="Price could not be negative")
+     * @Groups("post:read")
      */
     private $prix;
 
@@ -65,6 +71,7 @@ class Produit
      * @var string
      *
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
+     * @Groups("post:read")
 
      */
     private $image;
@@ -74,6 +81,7 @@ class Produit
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      * @Assert\NotBlank(message="this fiels is required")
+     * @Groups("post:read")
 
      */
     private $description;

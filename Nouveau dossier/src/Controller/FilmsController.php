@@ -253,7 +253,8 @@ array('films'=> $films),
      {
 
 
-
+        // return $this->render('films/singlemovie.html.twig', [
+          //   "film" => $film,
 
          $rate= $this->getDoctrine()
              ->getRepository(Rate::class)

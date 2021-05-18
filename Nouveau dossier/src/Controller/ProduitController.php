@@ -7,12 +7,17 @@ use App\Entity\Produit;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
-use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Paginator
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Serializer\Serializer;
+
+// Nous appelons le bundle KNP Paginator
 
 /**
  * @Route("/produit")
@@ -111,7 +116,20 @@ class ProduitController extends AbstractController
             'produits' => $produits,
         ]);
     }
+    /**
+     * @Route("/displayProduct", name="displayProduct", methods={"GET"})
+     */
+    public function getAll()
+    {
+        $produit = $produit = $this->getDoctrine()
+            ->getRepository(Produit::class)
+            ->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($produit);
 
+        return new JsonResponse($formatted);
+
+    }
     /**
      * @Route("/new", name="produit_new", methods={"GET","POST"})
      */

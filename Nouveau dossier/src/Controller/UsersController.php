@@ -41,6 +41,7 @@ class UsersController extends AbstractController
         $json=$serializer->normalize($users);
         return new JsonResponse($json);
 
+
     }
     /**
      * @Route("/authmobile", name="authmobile", methods={"GET"})
@@ -104,21 +105,37 @@ class UsersController extends AbstractController
      */
     public function changepasswordmobile(Request $request,SerializerInterface $serializer,UsersRepository $ur): Response
     {   $user = $ur->findOneUsername($request->get('username'));
-        if ($user->getPassword()==$request->get('oldpwd')) {
-            if($request->get('newpwd')==$request->get('confirmpwd'))
-            {
-                // password confirmed & oldpassword true
-                $user->setPassword($request->get('newpwd'));
+
+
+
+                $user->setPassword($request->get('password'));
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();
                 $json = $serializer->normalize($user);
                 return new JsonResponse($json);
-            }
-            // confirmation ghalta mte3 lpassword
-            return new JsonResponse("password confirmation error");
-        }
-        return new JsonResponse("old password error");
+
+
+
+    }
+
+
+    /**
+     * @Route("/sendmail", name="sendmailmobile", methods={"GET"})
+     */
+    public function sendmailmobile(Request $request,SerializerInterface $serializer,UsersRepository $ur,\Swift_Mailer $mailer): Response
+    {   $user= $ur->findOneUsername($request->get('username'));
+        $message = (new \Swift_Message('Filmouk Reset Password'))
+        ->setFrom('send@example.com')
+        ->setTo($user->getEmail())
+        ->setBody("Welcome ".$user->getUsername()." Your reset password code is: ".$request->get('code'),
+            'text/plain'
+        );
+
+        $mailer->send($message);
+        return new Response("tawa");
+
+
 
     }
 

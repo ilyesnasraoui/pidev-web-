@@ -77,7 +77,7 @@ class CandidatureController extends AbstractController
         $candidature=new Candidature();
         $candidature->setIdUser($request->get('idUser'));
         $candidature->setIdOffre($request->get('idOffre'));
-        $candidature->setCvpath($request->get('offreimgpath'));
+        $candidature->setCvpath($request->get('cvpath'));
         $candidature->setDate($date);
         $candidature->setDescription($request->get('description'));
         $candidature->setEtatcandidat($eta);

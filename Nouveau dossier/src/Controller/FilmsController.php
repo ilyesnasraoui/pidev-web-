@@ -46,12 +46,118 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FilmsController extends AbstractController
 {
+
+
+
+    /**
+     * @Route("/searchmobile", name="films_ssearch_mob", methods={"POST","GET"})
+     */
+    public function searchmob(Request $request,SerializerInterface $serializer)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $ch=$request->get("search");
+
+
+
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Films p
+            WHERE (p.nomFilm LIKE :data )'
+
+        )
+            ->setParameters(array('data'=> "%".$ch."%"));
+
+
+        $json = $serializer->normalize($query->getResult());
+        return new JsonResponse($json);
+    }
+
+
+    /**
+     * @Route("/suggest", name="showsuggested", methods={"GET","POST"})
+     */
+    public function showsuggested(Request $request,SerializerInterface $serializer): Response
+
+    {
+
+        //$ch=168530;
+        $ch=$request->get('idFilm');
+        $curl=curl_init("https://api.themoviedb.org/3/movie/".$ch."/similar?api_key=ba9007874ae1b197d4fa0574fabba170&language=fr&query=justice&page=1&include_adult=false&fbclid=IwAR1wn0SzcqYGtmcmrT5r-ZvQOqRhpGVDkRVOxyqVGujBuhEvX3eQtvDBio4");
+        curl_setopt($curl,CURLOPT_PROXY_SSL_VERIFYPEER,false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+
+
+        $data=curl_exec($curl);
+        //var_dump($data);
+
+        if($data === false) {
+            var_dump(curl_error($curl));
+        }else {
+
+            $data = json_decode($data, true);
+        }
+
+
+
+
+        for($x = '0'; $x <6;$x++) {
+            //var_dump($data['results'][$x]);
+            $suggestion = new Films();
+
+            //  $name = ($data);
+            // curl_close($curl);
+            // create movie //////////////////////////////////////
+            $suggestion->setIdFilm($data['results'][$x]['id']);
+            $suggestion->setIdCategorie('5');
+            if (isset($data['results'][$x]['original_title'])) {
+                $suggestion->setNomFilm($data['results'][$x]['original_title']);
+            } elseif (isset($data['results'][$x]['original_name'])) {
+                $suggestion->setNomFilm($data['results'][$x]['original_name']);
+            } elseif (isset($data['results'][$x]['name'])) {
+                $suggestion->setNomFilm($data['results'][$x]['name']);
+            }
+            $suggestion->setLanguage($data['results'][$x]['original_language']);
+
+            //  $film->setNomFilm($data['results'][$x]['original_title']);
+
+            $suggestion->setDureeFilm('5');
+            $image = ($data['results'][$x]['poster_path']);
+            $imgurl = ("https://image.tmdb.org/t/p/w500" . $image);
+            $suggestion->setImage($imgurl);
+            //echo($imgurl);
+            $suggestion->setDescription($data['results'][$x]['overview']);
+            $suggestion->setUtube("rgfrger");
+            $suggestion->setRated($data['results'][$x]['vote_average']);
+            if (isset($data['results'][$x]['release_date'])) {
+                $date = $data['results'][$x]['release_date'];
+            } elseif (isset($data['results'][$x]['first_air_date'])) {
+                $date = $data['results'][$x]['first_air_date'];
+
+            }
+
+            $newdate = (\DateTime::createFromFormat('Y-m-d', $date));
+            $result = $newdate->format('Y-m-d');
+            $suggestion->setDate(\DateTime::createFromFormat('Y-m-d', $result));
+
+            $suggestions[$x]=$suggestion;
+        }
+        $json = $serializer->normalize($suggestions);
+        return new JsonResponse($json);
+
+
+    }
+
+
     /**
      * @Route("/showmobile", name="show_mob", methods={"GET","POST"})
      * @param $CategorieFilmRepository
      * @return JsonResponse
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
+
+
+
     public function showmob(SerializerInterface $serializer): JsonResponse
     {
 
@@ -93,6 +199,65 @@ class FilmsController extends AbstractController
         $id = $user->getIdUser();
         $ch = $request->get("note");
        // var_dump($ch);
+        $idm = $request->get("idm");
+        //var_dump($request->get("idm"));
+        $ratez = $this->getDoctrine()
+            ->getRepository(Rate::class)
+            ->findAll();
+        $var = "You already rated this movie";
+        $varr = "done";
+
+        foreach ($ratez as $rate) {
+            if ($rate->getIdFilm() == $idm and $rate->getIdUser() == $id) {
+                $rate->setNote($ch);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($rate);
+                $entityManager->flush();
+
+                $films = $this->getDoctrine()
+                    ->getRepository(Films::class)
+                    ->findAll();
+                return $this->redirectToRoute('showmov');
+            }
+        }
+
+        $rate = new Rate();
+        echo($varr);
+
+        $rate->setIdUser($id);
+        $rate->setNote($ch);
+        $rate->setIdFilm($idm);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($rate);
+        $entityManager->flush();
+
+        $films = $this->getDoctrine()
+            ->getRepository(Films::class)
+            ->findAll();
+
+
+        return $this->render('films/test2.html.twig', [
+            'films' => $films,]);
+
+        return $this->redirectToRoute('showmov');
+
+
+    }
+
+
+    /**
+     * @Route("/saveratemob", name="save_mob", methods={"GET"})
+     */
+    public function saveratemobile(Request $request,CategorieFilmRepository $categorieFilmRepository)
+    {
+
+        //$user = $this->get('security.token_storage')->getToken()->getUser();
+
+        //$id = $user->getIdUser();
+        $id = $request->get("id");
+        $ch = $request->get("note");
+        // var_dump($ch);
         $idm = $request->get("idm");
         //var_dump($request->get("idm"));
         $ratez = $this->getDoctrine()
@@ -344,6 +509,8 @@ array('films'=> $films),
 
          ]);
     }
+
+
 
     /**
      * @Route("/testapii", name="test_api")

@@ -14,6 +14,12 @@ use App\Repository\UsersRepository;
 use App\Entity\CategorieEvent;
 use App\Repository\CategorieEventRepository;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
 class EvenementController extends AbstractController
 {
     /**
@@ -34,6 +40,113 @@ class EvenementController extends AbstractController
             'evenements' => $evenements,
         ]);
     }
+
+    /**
+     * @Route("/evenementttjs", name="evenementttjs", methods={"GET"})
+     */
+    public function getAll()
+    {
+        $evenement = $evenement = $this->getDoctrine()
+            ->getRepository(Evenement::class)
+            ->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($evenement);
+
+        return new JsonResponse($formatted);
+
+    }
+
+
+
+    /**
+     * @Route("/deletesEventt/{id}", name="deletesEventt")
+     */
+    public function deleteEv(int $id) {
+        $em = $this->getDoctrine()->getManager();
+        $evenement =  $this->getDoctrine()
+            ->getRepository(Evenement::class)
+            ->find($id);
+        if($evenement!=null ) {
+            $em->remove($evenement);
+            $em->flush();
+
+            $serialize = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize("event a ete supprimee avec success.");
+            return new JsonResponse($formatted);
+
+        }
+        return new JsonResponse("Id event invalide.");
+
+
+    }
+
+
+    /**
+     * @Route("/editEvenementJSON", name="editEvenementJSON")
+     */
+    public function editEvenementJSON(Request $request,NormalizerInterface $Normalizer): Response
+    {
+
+        $evenement = $this->getDoctrine()
+            ->getRepository(Evenement::class)
+            ->find($request->get('idEvenement'));
+
+        $evenement ->setIdCatEvenement($request->get('idCatEvenement'));
+        $evenement ->setIdUser($request->get('idUser'));
+        $evenement ->setNomEvenement($request->get('nomEvenement'));
+        $evenement ->setDateEvenement($request->get('dateEvenement'));
+        $evenement ->setDureeEvenement($request->get('dureeEvenement'));
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($evenement );
+        $entityManager->flush();
+
+        $jsonContent=$Normalizer->normalize($evenement ,'json',['groups'=>'post:read']);
+        return new Response("Event edited successfully".json_encode($jsonContent,JSON_UNESCAPED_UNICODE));
+    }
+
+
+
+
+    /**
+     * @Route("/addevenementJSON", name="addevenementJSON")
+     */
+    public function addEventJSON(Request $request,NormalizerInterface $Normalizer): Response
+    {
+
+        $evenement =new Evenement();
+
+        $evenement ->setIdCatEvenement($request->get('idCatEvenement'));
+        $evenement ->setIdUser($request->get('idUser'));
+        $evenement ->setNomEvenement($request->get('nomEvenement'));
+        $evenement ->setDateEvenement($request->get('dateEvenement'));
+        $evenement ->setDureeEvenement($request->get('dureeEvenement'));
+        $evenement ->setImageEvnement($request->get('imageEvenement'));
+        $evenement ->setDescription($request->get('description'));
+        $evenement ->setValidate($request->get('validate'));
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($evenement);
+        $entityManager->flush();
+
+        $jsonContent=$Normalizer->normalize($evenement,'json',['groups'=>'post:read']);
+        return new Response("Article added successfully".json_encode($jsonContent,JSON_UNESCAPED_UNICODE));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * @Route("evenement/new", name="evenement_new", methods={"GET","POST"})
@@ -86,15 +199,15 @@ class EvenementController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('evenement_index');
-        }
 
-        return $this->render('evenement/edit.html.twig', [
-            'evenement' => $evenement,
-            'users' => $UsersRepository->findAll(),
-            'categorieevent'=> $CategorieEventRepository->findAll(),
-            'form' => $form->createView(),
-        ]);
-    }
+
+            return $this->render('evenement/edit.html.twig', [
+                'evenement' => $evenement,
+                'users' => $UsersRepository->findAll(),
+                'categorieevent'=> $CategorieEventRepository->findAll(),
+                'form' => $form->createView(),
+            ]);
+        }}
 
     /**
      * @Route("/evenement/{idEvenement}", name="evenement_delete", methods={"POST"})
@@ -132,39 +245,39 @@ class EvenementController extends AbstractController
      * @Route("/stats", name="stats")
      */
 
-     public function statistiques(CategorieEventRepository $CategorieEventRepository ,EvenementRepository $evenementRepository){
+    public function statistiques(CategorieEventRepository $CategorieEventRepository ,EvenementRepository $evenementRepository){
 
-       $categories=$CategorieEventRepository->findAll();
-       $evenements=$evenementRepository->findAll();
-          $catnom=[];
-          $catcount=[];
-          $i=0;
-
-
-         foreach($categories as $categorieEvent)
-         {
-             $catnom[]=$categorieEvent->getNomCategorieEv();
-
-             $i=0;
-
-             foreach($evenements as $evenement)
-             {
-                 if($evenement->getIdCatEvenement()==$catnom){
-                     $i=$i+1;
-                 }
-
-             }
-             $catcount[]=$i;
-
-         }
+        $categories=$CategorieEventRepository->findAll();
+        $evenements=$evenementRepository->findAll();
+        $catnom=[];
+        $catcount=[];
+        $i=0;
 
 
-         return $this->render('evenement/stats.html.twig',[
-             "evenement" => $evenements,
-             "categories" => $categories,'nom'=>json_encode($catnom),'count'=>json_encode($catcount)
+        foreach($categories as $categorieEvent)
+        {
+            $catnom[]=$categorieEvent->getNomCategorieEv();
 
-         ]);
-     }
+            $i=0;
+
+            foreach($evenements as $evenement)
+            {
+                if($evenement->getIdCatEvenement()==$catnom){
+                    $i=$i+1;
+                }
+
+            }
+            $catcount[]=$i;
+
+        }
+
+
+        return $this->render('evenement/stats.html.twig',[
+            "evenement" => $evenements,
+            "categories" => $categories,'nom'=>json_encode($catnom),'count'=>json_encode($catcount)
+
+        ]);
+    }
 
 
 

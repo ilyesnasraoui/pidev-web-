@@ -6,18 +6,24 @@ use App\Entity\Article;
 use App\Entity\CategorieEvent;
 use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\PropertySearch;
 use App\Form\PropertySearchType;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Entity\Evenement;
 use App\Repository\EvenementRepository;
 
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ArticleController extends AbstractController
 {
+
+
 
 
     /**
@@ -47,6 +53,104 @@ class ArticleController extends AbstractController
     }
 
 
+
+    /**
+     * @Route("/articleee", name="articleee", methods={"GET"})
+     */
+    public function getAll()
+    {
+        $article = $article = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($article);
+
+        return new JsonResponse($formatted);
+
+    }
+
+
+    /**
+     * @Route("/deletesArticle/{id}", name="deletesArticlee")
+     */
+    public function deleteAr(int $id) {
+        $em = $this->getDoctrine()->getManager();
+        $article =  $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->find($id);
+        if($article!=null ) {
+            $em->remove($article);
+            $em->flush();
+
+            $serialize = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize("article a ete supprimee avec success.");
+            return new JsonResponse($formatted);
+
+        }
+        return new JsonResponse("Id article invalide.");
+
+
+    }
+
+
+
+    /**
+     * @Route("/editArticleJSON", name="editArticleJSON")
+     */
+    public function editArticleJSON(Request $request,NormalizerInterface $Normalizer): Response
+    {
+
+        $article = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->find($request->get('idArticle'));
+
+        $article->setIdEvenement($request->get('idEvenement'));
+        $article->setTitre($request->get('titre'));
+        $article->setContenu($request->get('contenu'));
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($article);
+        $entityManager->flush();
+
+        $jsonContent=$Normalizer->normalize($article,'json',['groups'=>'post:read']);
+        return new Response("Article edited successfully".json_encode($jsonContent,JSON_UNESCAPED_UNICODE));
+    }
+
+
+
+
+
+
+
+
+
+
+    /**
+     * @Route("/addarticleJSON", name="addarticleJSON")
+     */
+    public function addArticleJSON(Request $request,NormalizerInterface $Normalizer): Response
+    {
+
+        $article =new Article();
+
+        $article->setIdEvenement($request->get('idEvenement'));
+        $article->setTitre($request->get('titre'));
+        $article->setContenu($request->get('contenu'));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($article);
+        $entityManager->flush();
+
+        $jsonContent=$Normalizer->normalize($article,'json',['groups'=>'post:read']);
+        return new Response("Article added successfully".json_encode($jsonContent,JSON_UNESCAPED_UNICODE));
+    }
+
+
+
+
+
+
+
     /**
      * @Route("article/new", name="article_new", methods={"GET","POST"})
      */
@@ -72,6 +176,11 @@ class ArticleController extends AbstractController
         ]);
     }
 
+
+
+
+
+
     /**
      * @Route("/article/{idArticle}", name="article_show", methods={"GET"})
      */
@@ -81,6 +190,9 @@ class ArticleController extends AbstractController
             'article' => $article,
         ]);
     }
+
+
+
 
     /**
      * @Route("/article/{idArticle}/edit", name="article_edit", methods={"GET","POST"})

@@ -30,22 +30,8 @@ class AvisController extends AbstractController
             'avis' => $avis,
         ]);
     }
+
     /**
-     * @Route("/addAvisJSON", name="addAvisJSON")
-     */
-    public function addAvisJSON(Request $request,NormalizerInterface $Normalizer): Response
-    {
-
-        $avis=new Avis();
-
-        $avis->setIdProduit($request->get('id_produit'));
-        $avis->setTypeAvis($request->get('type_avis'));
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($avis);
-        $entityManager->flush();
-        $jsonContent=$Normalizer->normalize($avis,'json',['groups'=>'post:read']);
-        return new Response("Candidature added successfully".json_encode($jsonContent,JSON_UNESCAPED_UNICODE));
-    }
 
     /**
      * @Route("/new", name="avis_new", methods={"GET","POST"})
@@ -69,6 +55,39 @@ class AvisController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    /**
+     * @Route("/addAvisLikeJSON", name="addAvisLikeJSON")
+     */
+    public function addAvisLikeJSON(Request $request,NormalizerInterface $Normalizer): Response
+    {
+
+        $avis=new Avis();
+
+        $avis->setIdProduit($request->get('id_produit'));
+        //$avis->setTypeAvis($request->get('type_avis'));
+        $avis->setTypeAvis('like');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($avis);
+        $entityManager->flush();
+        $jsonContent=$Normalizer->normalize($avis,'json',['groups'=>'post:read']);
+        return new Response("added successfully".json_encode($jsonContent,JSON_UNESCAPED_UNICODE));
+    }
+    /**
+     * @Route("/addAvisdisLikeJSON/", name="addAvisdisLikeJSON")
+     */
+    public function addAvisdisLikeJSON(Request $request,NormalizerInterface $Normalizer): Response
+    {
+
+        $avis=new Avis();
+        $avis->setIdProduit($request->get('id_produit'));
+        //$avis->setTypeAvis($request->get('type_avis'));
+        $avis->setTypeAvis('dislike');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($avis);
+        $entityManager->flush();
+        $jsonContent=$Normalizer->normalize($avis,'json',['groups'=>'post:read']);
+        return new Response(" added successfully".json_encode($jsonContent,JSON_UNESCAPED_UNICODE));
+    }
 
     /**
      * @Route("/{idProduit}/new", name="avis_new_like", methods={"GET","POST"})
@@ -79,9 +98,7 @@ class AvisController extends AbstractController
         $form = $this->createForm(AvisType::class, $avi);
         $form->handleRequest($request);
 
-
          $id=$produit->getIdProduit();
-
 
             $avi->setIdProduit($id);
             $avi->setTypeAvis('like');
@@ -97,6 +114,8 @@ class AvisController extends AbstractController
             "produits" => $produit,  'like' => $nblikes, 'dislike' => $nbdislikes
         ]);
     }
+
+
     /**
      * @Route("/{idProduit}/neww", name="avis_new_dislike", methods={"GET","POST"})
      */
@@ -124,7 +143,6 @@ class AvisController extends AbstractController
             "produits" => $produit,  'like' => $nblikes, 'dislike' => $nbdislikes
         ]);
     }
-
 
     /**
      * @Route("/{idAvis}", name="avis_show", methods={"GET"})

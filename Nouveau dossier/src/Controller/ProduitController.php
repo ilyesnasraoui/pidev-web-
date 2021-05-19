@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 // Nous appelons le bundle KNP Paginator
 
@@ -116,8 +117,11 @@ class ProduitController extends AbstractController
             'produits' => $produits,
         ]);
     }
+
     /**
      * @Route("/displayProduct", name="displayProduct", methods={"GET"})
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function getAll()
     {

@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * Article
  *
@@ -19,6 +21,7 @@ class Article
      * @ORM\Column(name="id_article", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idArticle;
 
@@ -26,6 +29,7 @@ class Article
      * @var int
      *
      * @ORM\Column(name="id_evenement", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $idEvenement;
 
@@ -38,6 +42,7 @@ class Article
      *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
      * )
      * @ORM\Column(name="titre", type="string", length=100, nullable=false)
+     * @Groups("post:read")
      */
     private $titre;
 
@@ -45,6 +50,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="contenu", type="string", length=100, nullable=false)
+     * @Groups("post:read")
      */
     private $contenu;
 
